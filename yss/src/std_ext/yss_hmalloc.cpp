@@ -30,8 +30,6 @@
 
 static uint32_t gWaitNum, gCurrentNum;
 #if defined(ST_CUBE_IDE)
-extern uint32_t _Min_Heap_Size;
-static uint32_t gFreeSpace = _Min_Heap_Size;
 #else
 static uint32_t gFreeSpace = __HEAP_SIZE__;
 #endif
@@ -63,6 +61,7 @@ void unlockHmalloc(void)
 void *hmalloc(uint32_t size)
 {
 	void* addr = malloc(size);
+#if !defined(ST_CUBE_IDE)
 	if((uint32_t)addr > 0)
 	{
 #pragma GCC diagnostic push
@@ -71,19 +70,26 @@ void *hmalloc(uint32_t size)
 		gFreeSpace -= *size;	
 #pragma GCC diagnostic pop
 	}
+#endif
 	return addr;
 }
 
 void hfree(void *addr)
 {
+#if !defined(ST_CUBE_IDE)
 	uint32_t *size = &((uint32_t*)addr)[-1];
 	gFreeSpace += *size;	
+#endif
 	free(addr);
 }
 
 uint32_t getHeapRemainingCapacity(void)
 {
+#if !defined(ST_CUBE_IDE)
 	return gFreeSpace;
+#else
+	return 0;
+#endif
 }
 
 void *operator new[](unsigned int size)
@@ -92,11 +98,13 @@ void *operator new[](unsigned int size)
 	
 	lockHmalloc();
 	addr = malloc(size);
+#if !defined(ST_CUBE_IDE)
 	if((uint32_t)addr > 0)
 	{
-		uint32_t *size = &((uint32_t*)addr)[-1];
-		gFreeSpace -= *size;	
+		uint32_t *msize = &((uint32_t*)addr)[-1];
+		gFreeSpace -= *msize;
 	}
+#endif
 	unlockHmalloc();
 
 	return addr;
@@ -108,11 +116,13 @@ void *operator new(unsigned int size)
 
 	lockHmalloc();
 	addr = malloc(size);
+#if !defined(ST_CUBE_IDE)
 	if((uint32_t)addr > 0)
 	{
 		uint32_t *size = &((uint32_t*)addr)[-1];
 		gFreeSpace -= *size;	
 	}
+#endif
 	unlockHmalloc();
 
 	return addr;
@@ -121,9 +131,10 @@ void *operator new(unsigned int size)
 void operator delete(void *pt)
 {
 	lockHmalloc();
+#if !defined(ST_CUBE_IDE)
 	uint32_t *size = &((uint32_t*)pt)[-1];
 	gFreeSpace += *size;	
-
+#endif
 	free(pt);
 	unlockHmalloc();
 }
