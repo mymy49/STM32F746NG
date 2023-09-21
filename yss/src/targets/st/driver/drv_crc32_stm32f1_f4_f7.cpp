@@ -25,33 +25,58 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4_N)
+#if defined(GD32F1) || defined(STM32F4_N) || defined(STM32F7_N)
 
-#include <yss/instance.h>
-#include <config.h>
+#include <drv/peripheral.h>
+#include <drv/Crc32.h>
 
-#if defined(STM32F446xx)
+#if defined(GD32F10X_MD)
+#include <targets/st/bitfield_stm32f103xx.h>
+#elif defined(STM32F446xx)
 #include <targets/st/bitfield_stm32f446xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
-#if defined(CRC) && CRC32_ENABLE
-static void setClockEn(bool en)
+Crc32::Crc32(YSS_CRC32_Dev *peri, const Drv::Config drvConfig) : Drv(drvConfig)
 {
-	clock.lock();
-	clock.enableAhb1Clock(RCC_AHB1ENR_CRCEN_Pos);
-	clock.unlock();
+	mPeri = peri;
+	reset();
 }
 
-static const Drv::Config gDrvConfig
+void Crc32::resetCrc32Value(void)
 {
-	setClockEn,	//void (*clockFunc)(bool en);
-	0,			//void (*nvicFunc)(bool en);
-	0,			//void (*resetFunc)(void);
-	0			//uint32_t (*getClockFunc)(void);
-};
+	mPeri->CR |= CRC_CR_RESET_Msk;
+}
 
-Crc32 crc32((YSS_CRC32_Dev*)CRC, gDrvConfig);
+void Crc32::calculateInLittleEndian(void *src, uint32_t size)
+{
+	uint32_t *src32 = (uint32_t*)src;
+	while(size--)
+	{
+		mPeri->DR = *src32++;
+	}
+}
+
+void Crc32::calculateInBigEndian(void *src, uint32_t size)
+{
+	uint32_t bigendian;
+	uint32_t *src32 = (uint32_t*)src;
+
+	while(size--)
+	{
+		bigendian = *src32 >> 24;
+		bigendian |= (*src32 >> 8) & 0xFF00;
+		bigendian |= (*src32 << 8) & 0xFF0000;
+		bigendian |= (*src32++ << 24) & 0xFF000000;
+		
+		mPeri->DR = bigendian;
+	}
+}
+
+uint32_t Crc32::getCrc32Value(void)
+{
+	return mPeri->DR;
+}
+
 #endif
-
-#endif
-

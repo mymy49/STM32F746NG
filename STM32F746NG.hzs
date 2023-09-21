@@ -85,11 +85,11 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="71" y="18" useTextEdit="1" path="app/src/main.cpp" left="0" selected="1" top="1" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="36" useTextEdit="1" path="app/src/main.cpp" left="0" selected="1" top="14" codecName="UTF-8"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="13" y="193" useTextEdit="1" path="/usr/share/crossworks_for_arm_4.10/source/thumb_crt0.s" left="0" top="179" codecName="UTF-8"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="26" y="123" useTextEdit="1" openedFrom="/home/mymy49/library/yss_MCU_Support/STM32F746NG/yss/src/targets/st/instace/instance_timer_stm32.cpp" path="app/inc/config.h" left="0" top="110" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="19" y="123" useTextEdit="1" path="yss/config/config_stm32f746xx .h" left="0" top="114" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="10" y="394" useTextEdit="1" path="yss/src/targets/st/instace/instance_timer_stm32.cpp" left="0" top="371" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="30" y="135" useTextEdit="1" openedFrom="/home/mymy49/library/yss_MCU_Support/STM32F746NG/yss/src/targets/st/instace/instance_timer_stm32.cpp" path="app/inc/config.h" left="0" top="106" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="19" y="123" useTextEdit="1" path="yss/config/config_stm32f746xx .h" left="0" top="114" codecName="UTF-8"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="10" y="394" useTextEdit="1" path="yss/src/targets/st/instace/instance_timer_stm32.cpp" left="0" top="374" codecName="UTF-8"/>
  </Files>
- <ARMCrossStudioWindow activeProject="STM32F746NG" fileDialogDefaultFilter="*.c" autoConnectTarget="SEGGER J-Link" buildConfiguration="THUMB Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="3711"/>
+ <ARMCrossStudioWindow activeProject="STM32F746NG" fileDialogDefaultFilter="*.c" autoConnectTarget="ST-LINK/V2" buildConfiguration="THUMB Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="" debugSearchPath="" autoConnectCapabilities="266111"/>
 </session>

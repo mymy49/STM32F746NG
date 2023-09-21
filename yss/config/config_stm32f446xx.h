@@ -57,16 +57,12 @@
 // 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화 한다.
 //
 // 주의 
-// 1. TIMER와 PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
+// 1. TIMER, PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
 
 // ADC 활성화
 #define ADC1_ENABLE			false
 #define ADC2_ENABLE			false
 #define ADC3_ENABLE			false
-
-// CAN 활성화
-#define CAN1_ENABLE			false
-#define CAN2_ENABLE			false
 
 // CRC32 활성화
 #define CRC32_ENABLE		false

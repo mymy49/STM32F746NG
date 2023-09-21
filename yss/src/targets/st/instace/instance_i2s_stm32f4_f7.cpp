@@ -23,17 +23,17 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <drv/mcu.h>
-
-#if defined(STM32F4_N)
-
 #include <yss/instance.h>
+
+#if defined(STM32F4_N) || defined(STM32F7_N)
+
 #include <config.h>
 #include <yss.h>
 
 #if defined(STM32F446xx)
-#include <targets/st/stm32f446xx.h>
 #include <targets/st/bitfield_stm32f446xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
 #if I2S2_ENABLE && defined(I2S2)

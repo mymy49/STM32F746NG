@@ -25,7 +25,7 @@
 
 #include <yss/instance.h>
 
-#if defined(STM32F4_N)
+#if defined(STM32F4_N) || defined(STM32F7_N)
 
 #include <yss.h>
 
@@ -33,6 +33,8 @@
 #include <targets/st/bitfield_stm32f446xx.h>
 #elif defined(STM32F429xx)
 #include <targets/st/bitfield_stm32f429xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
 #if defined(DAC1) && DAC1_ENABLE

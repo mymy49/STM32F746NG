@@ -27,9 +27,12 @@
 #define YSS_INSTANCE__H_
 
 #include <drv/peripheral.h>
+
+#include <drv/Nvic.h>
+
 #include <drv/Adc.h>
-#include <drv/Sai.h>
 #include <drv/Can.h>
+#include <drv/Sai.h>
 #include <drv/Capture.h>
 #include <drv/Clock.h>
 #include <drv/Dac.h>
@@ -40,7 +43,6 @@
 #include <drv/Ltdc.h>
 #include <drv/Pwm.h>
 #include <drv/Quadspi.h>
-#include <drv/Nvic.h>
 #include <drv/Gpio.h>
 #include <drv/I2c.h>
 #include <drv/Rtc.h>
@@ -52,7 +54,6 @@
 #include <drv/Usart.h>
 #include <drv/Usbd.h>
 #include <drv/Wdog.h>
-#include <drv/Crc32.h>
 #include <drv/I2s.h>
 #include <drv/Radio.h>
 #include <drv/Pdm.h>

@@ -23,48 +23,36 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <drv/peripheral.h>
+#include <drv/mcu.h>
 
-#if defined(DAC1)
+#if defined(STM32F4_N) || defined(STM32F7_N)
 
-#if defined(STM32F4_N)
-
-#include <drv/Dac.h>
-#include <yss/reg.h>
+#include <yss/instance.h>
+#include <config.h>
 
 #if defined(STM32F446xx)
 #include <targets/st/bitfield_stm32f446xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
-Dac::Dac(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
+#if defined(CRC) && CRC32_ENABLE
+static void setClockEn(bool en)
 {
-	mDev = setup.dev;
+	clock.lock();
+	clock.enableAhb1Clock(RCC_AHB1ENR_CRCEN_Pos);
+	clock.unlock();
 }
 
-void Dac::initialize(void)
+static const Drv::Config gDrvConfig
 {
+	setClockEn,	//void (*clockFunc)(bool en);
+	0,			//void (*nvicFunc)(bool en);
+	0,			//void (*resetFunc)(void);
+	0			//uint32_t (*getClockFunc)(void);
+};
 
-}
-
-void Dac::enableChannel1(bool en)
-{
-	setBitData(mDev->CR, en, DAC_CR_EN1_Pos);	// DAC Enable
-}
-
-void Dac::enableChannel2(bool en)
-{
-	setBitData(mDev->CR, en, DAC_CR_EN2_Pos);	// DAC Enable
-}
-
-void Dac::setOutputChannel1(uint16_t value)
-{
-	mDev->DHR12R1 = value;
-}
-
-void Dac::setOutputChannel2(uint16_t value)
-{
-	mDev->DHR12R2 = value;
-}
+Crc32 crc32((YSS_CRC32_Dev*)CRC, gDrvConfig);
 #endif
 
 #endif

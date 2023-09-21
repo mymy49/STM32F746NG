@@ -23,58 +23,51 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <drv/mcu.h>
-
-#if defined(GD32F1) || defined(STM32F4_N)
-
 #include <drv/peripheral.h>
-#include <drv/Crc32.h>
 
-#if defined(GD32F10X_MD)
-#include <targets/st/bitfield_stm32f103xx.h>
-#elif defined(STM32F446xx)
+#if defined(DAC1)
+
+#if defined(STM32F4_N) || defined(STM32F7_N)
+
+#include <drv/Dac.h>
+#include <yss/reg.h>
+
+#if defined(STM32F446xx)
 #include <targets/st/bitfield_stm32f446xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
-Crc32::Crc32(YSS_CRC32_Dev *peri, const Drv::Config drvConfig) : Drv(drvConfig)
+Dac::Dac(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 {
-	mPeri = peri;
-	reset();
+	mDev = setup.dev;
 }
 
-void Crc32::resetCrc32Value(void)
+void Dac::initialize(void)
 {
-	mPeri->CR |= CRC_CR_RESET_Msk;
+
 }
 
-void Crc32::calculateInLittleEndian(void *src, uint32_t size)
+void Dac::enableChannel1(bool en)
 {
-	uint32_t *src32 = (uint32_t*)src;
-	while(size--)
-	{
-		mPeri->DR = *src32++;
-	}
+	setBitData(mDev->CR, en, DAC_CR_EN1_Pos);	// DAC Enable
 }
 
-void Crc32::calculateInBigEndian(void *src, uint32_t size)
+void Dac::enableChannel2(bool en)
 {
-	uint32_t bigendian;
-	uint32_t *src32 = (uint32_t*)src;
-
-	while(size--)
-	{
-		bigendian = *src32 >> 24;
-		bigendian |= (*src32 >> 8) & 0xFF00;
-		bigendian |= (*src32 << 8) & 0xFF0000;
-		bigendian |= (*src32++ << 24) & 0xFF000000;
-		
-		mPeri->DR = bigendian;
-	}
+	setBitData(mDev->CR, en, DAC_CR_EN2_Pos);	// DAC Enable
 }
 
-uint32_t Crc32::getCrc32Value(void)
+void Dac::setOutputChannel1(uint16_t value)
 {
-	return mPeri->DR;
+	mDev->DHR12R1 = value;
 }
+
+void Dac::setOutputChannel2(uint16_t value)
+{
+	mDev->DHR12R2 = value;
+}
+#endif
 
 #endif
+

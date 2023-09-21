@@ -52,7 +52,7 @@ static uint32_t getApb1ClockFrequency(void)
 }
 #endif
 
-#if SPI1_ENABLE || SPI4_ENABLE || SPI5_ENABLE
+#if SPI1_ENABLE || SPI4_ENABLE || SPI5_ENABLE || SPI6_ENABLE
 static uint32_t getApb2ClockFrequency(void)
 {
 	return clock.getApb2ClockFrequency();

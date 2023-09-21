@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4_N)
+#if defined(STM32F4_N) || defined(STM32F7_N)
 
 #include <yss/instance.h>
 #include <config.h>
@@ -33,9 +33,11 @@
 
 #if defined(STM32F446xx)
 #include <targets/st/bitfield_stm32f446xx.h>
+#elif defined(STM32F746xx)
+#include <targets/st/bitfield_stm32f746xx.h>
 #endif
 
-#if defined(SAI1_ENABLE) && defined(SAI1)
+#if SAI1_ENABLE && defined(SAI1)
 static uint32_t getSai1ClockFrequency(void)
 {
 	return clock.getSai1ClockFrequency();
