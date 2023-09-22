@@ -103,9 +103,13 @@ static uint32_t gI2sCkinFreq __attribute__((section(".non_init")));
 #define HSE_MIN_FREQ			1000000
 #define HSE_MAX_FREQ			50000000
 
-#define AHB_MAX_FREQ			216000000
-#define APB1_MAX_FREQ			54000000
-#define APB2_MAX_FREQ			108000000
+// AHB
+#define AHB_MAX_FREQ_SCALE1		216000000
+#define AHB_MAX_FREQ_SCALE1_OVR	180000000
+#define AHB_MAX_FREQ_SCALE2		180000000
+#define AHB_MAX_FREQ_SCALE2_OVR	168000000
+#define AHB_MAX_FREQ_SCALE3		144000000
+#define AHB_MAX_FREQ_SCALE3_OVR	144000000
 
 // Main PLL
 #define PLL_VCO_MIN_FREQ		100000000
@@ -344,8 +348,8 @@ uint32_t Clock::getApb2ClockFrequency(void)
 
 bool Clock::setSysclk(uint8_t sysclkSrc, uint8_t ahb, uint8_t apb1, uint8_t apb2, uint8_t vcc)
 {
-	int32_t  clk, ahbClk, apb1Clk, apb2Clk, adcClk;
-	int8_t buf;
+	int32_t  clk, ahbClk, apb1Clk, apb2Clk, ahbMax, ahbOvr, apb1Max, apb2Max;
+	bool ovrFlag = false;
 
 	using namespace define::clock::sysclk::src;
 	switch (sysclkSrc)
@@ -369,17 +373,60 @@ bool Clock::setSysclk(uint8_t sysclkSrc, uint8_t ahb, uint8_t apb1, uint8_t apb2
 		return false;
 	}
 
+	switch(getPowerScale())
+	{
+	default :
+	case define::clock::powerScale::SCALE1_MODE :
+		ahbOvr = AHB_MAX_FREQ_SCALE1_OVR;
+		ahbMax = AHB_MAX_FREQ_SCALE1;
+		break;
+
+	case define::clock::powerScale::SCALE2_MODE :
+		ahbOvr = AHB_MAX_FREQ_SCALE2_OVR;
+		ahbMax = AHB_MAX_FREQ_SCALE2;
+		break;
+
+	case define::clock::powerScale::SCALE3_MODE :
+		ahbOvr = AHB_MAX_FREQ_SCALE3_OVR;
+		ahbMax = AHB_MAX_FREQ_SCALE3;
+		break;
+	}
+
 	ahbClk = clk / gHpreDiv[ahb];
-	if (ahbClk > AHB_MAX_FREQ)
+	if(ahbClk > ahbOvr)
+	{
+		ovrFlag = true;
+		apb1Max = ahbMax / 4;
+		apb2Max = ahbMax / 2;
+	}
+	else
+	{
+		ovrFlag = false;
+		ahbMax = ahbOvr;
+		apb1Max = ahbOvr / 4;
+		apb2Max = ahbOvr / 2;
+	}
+
+	if (ahbClk > ahbMax)
 		return false;
 
 	apb1Clk = ahbClk / gPpreDiv[apb1];
-	if (apb1Clk > APB1_MAX_FREQ)
+	if (apb1Clk > apb1Max)
 		return false;
 
 	apb2Clk = ahbClk / gPpreDiv[apb2];
-	if (apb2Clk > APB2_MAX_FREQ)
+	if (apb2Clk > apb2Max)
 		return false;
+
+	if(ovrFlag)
+	{
+		setBitData(PWR->CR1, true, PWR_CR1_ODEN_Pos);
+		while(!getBitData(PWR->CSR1, PWR_CSR1_ODRDY_Pos))
+			;		
+		setBitData(PWR->CR1, true, PWR_CR1_ODSWEN_Pos);
+		while(!getBitData(PWR->CSR1, PWR_CSR1_ODSWRDY_Pos))
+			;		
+	}
 
 	// 버스 클럭 프리스케일러 설정
 	setThreeFieldData(RCC->CFGR, RCC_CFGR_PPRE2_Msk, apb2, RCC_CFGR_PPRE2_Pos, RCC_CFGR_PPRE1_Msk, apb1, RCC_CFGR_PPRE1_Pos, RCC_CFGR_HPRE_Msk, ahb, RCC_CFGR_HPRE_Pos);
@@ -388,6 +435,11 @@ bool Clock::setSysclk(uint8_t sysclkSrc, uint8_t ahb, uint8_t apb1, uint8_t apb2
 	setFieldData(RCC->CFGR, RCC_CFGR_SW_Msk, sysclkSrc, RCC_CFGR_SW_Pos);
 
 	return true;
+}
+
+uint8_t Clock::getPowerScale(void)
+{
+	return getFieldData(PWR->CR1, PWR_CR1_VOS_Msk, PWR_CR1_VOS_Pos);
 }
 
 void Clock::enableAhb1Clock(uint32_t position, bool en)

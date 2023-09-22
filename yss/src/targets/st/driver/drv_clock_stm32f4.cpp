@@ -52,6 +52,7 @@ static uint32_t gI2sCkinFreq __attribute__((section(".non_init")));
 #define HSE_MIN_FREQ			1000000
 #define HSE_MAX_FREQ			50000000
 
+// AHB
 #define AHB_MAX_FREQ_SCALE1		180000000
 #define AHB_MAX_FREQ_SCALE1_OVR	168000000
 #define AHB_MAX_FREQ_SCALE2		168000000
