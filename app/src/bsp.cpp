@@ -23,16 +23,40 @@
 
 #include <bsp.h>
 #include <yss.h>
+#include <yss/event.h>
 
 #include <mod/rgb_tft_lcd/RK043FN48H.h>
 #include <mod/sdram/MT48LC4M32B2B5_6A.h>
+#include <mod/ctouch/FT5336.h>
 
 void initializeLcd(void);
 
 RK043FN48H lcd;
+FT5336 touch;
 
 void initializeBoard(void)
 {
+	using namespace define::gpio;
+
+	// I2C3 초기화
+	gpioH.setAsAltFunc(7, altfunc::PH7_I2C3_SCL, ospeed::MID, otype::OPEN_DRAIN);
+	gpioH.setAsAltFunc(8, altfunc::PH8_I2C3_SDA, ospeed::MID, otype::OPEN_DRAIN);
+
+	i2c3.enableClock();
+	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
+	i2c3.enableInterrupt();
+
+	// 터치 초기화
+	const FT5336::Config touchConfig = 
+	{
+		i2c3,			//I2c &peri;
+		{&gpioI, 13},	//Gpio::Pin isrPin;
+		{0, 0}			//Gpio::Pin resetPin;
+	};
+
+	touch.initialize(touchConfig);
+	event::setPointerDevice(touch);
+
 	// TFT LCD 초기화
 	initializeLcd();
 }

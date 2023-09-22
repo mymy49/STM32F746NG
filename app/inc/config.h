@@ -62,7 +62,7 @@
 #define USE_GUI							true
 
 // Touch Event Enable (true, false)
-#define USE_EVENT						false
+#define USE_EVENT						true
 
 // Stack Size of Touch Event handler (Byte)
 #define TOUCH_EVENT_HANDLER_STACK_SIZE	4096
@@ -103,7 +103,7 @@
 // I2C 활성화
 #define I2C1_ENABLE			false
 #define I2C2_ENABLE			false
-#define I2C3_ENABLE			false
+#define I2C3_ENABLE			true
 #define I2C4_ENABLE			false
 
 // I2S 활성화
