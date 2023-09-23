@@ -36,13 +36,16 @@
 static void enableClock(bool en)
 {
 	clock.lock();
-	clock.enableAhb3Clock(RCC_AHB3ENR_FMCEN_Pos);
+	clock.enableAhb3Clock(RCC_AHB3ENR_FMCEN_Pos, en);
 	clock.unlock();
 }
 
 static const Drv::Config gDrvConfig
 {
 	enableClock,		//void (*clockFunc)(bool en);
+	0,					//void (*nvicFunc)(bool en);
+	0,					//void (*resetFunc)(void);
+	0					//uint32_t (*getClockFunc)(void);
 };
 
 Sdram sdram(gDrvConfig);

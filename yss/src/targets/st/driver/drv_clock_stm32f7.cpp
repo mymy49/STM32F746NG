@@ -180,7 +180,25 @@ bool Clock::enableHse(uint32_t hseHz, bool useOsc)
 
 bool Clock::enableMainPll(uint8_t src, uint8_t m, uint16_t n, uint8_t pDiv, uint8_t qDiv, uint8_t rDiv)
 {
-	uint32_t vco, p, q, r, buf;
+	uint32_t vco, buf;
+
+#if defined(PLL_P_USE)
+	uint32_t p;
+#else
+	(void)pDiv;
+#endif
+
+#if defined(PLL_Q_USE)
+	uint32_t q;
+#else
+	(void)qDiv;
+#endif
+
+#if defined(PLL_R_USE)
+	uint32_t r;
+#else
+	(void)rDiv;
+#endif
 
 	// 현재 SysClk 소스가 PLL인이 확인
 	if (getFieldData(RCC->CFGR, RCC_CFGR_SWS_Msk, RCC_CFGR_SWS_Pos) == RCC_CFGR_SWS_PLL)
@@ -304,9 +322,8 @@ uint32_t Clock::getMainPllRFrequency(void)
 
 uint32_t Clock::getSystemClockFrequency(void)
 {
-	uint32_t clk;
-
 	using namespace define::clock::sysclk;
+
 	switch((RCC->CFGR & RCC_CFGR_SWS_Msk) >> RCC_CFGR_SWS_Pos)
 	{
 	case src::HSI :
@@ -348,6 +365,8 @@ uint32_t Clock::getApb2ClockFrequency(void)
 
 bool Clock::setSysclk(uint8_t sysclkSrc, uint8_t ahb, uint8_t apb1, uint8_t apb2, uint8_t vcc)
 {
+	(void)vcc;
+
 	int32_t  clk, ahbClk, apb1Clk, apb2Clk, ahbMax, ahbOvr, apb1Max, apb2Max;
 	bool ovrFlag = false;
 
@@ -500,7 +519,7 @@ void Clock::resetApb2(uint32_t position)
 
 void Clock::enableSdram(bool en)
 {
-	enableAhb3Clock(RCC_AHB3ENR_FMCEN_Pos);
+	enableAhb3Clock(RCC_AHB3ENR_FMCEN_Pos, en);
 }
 
 #if defined(GD32F4) || defined(STM32F429xx) || defined(STM32F7)
@@ -525,7 +544,7 @@ uint32_t Clock::getLtdcClockFrequency(void)
 #if defined(SAIPLL_USE)
 bool Clock::enableSaiPll(uint16_t n, uint8_t pDiv, uint8_t qDiv, uint8_t rDiv)
 {
-	uint32_t vco, p, q, r, buf, m;
+	uint32_t vco, p, q, r, buf;
 
 	if (~RCC->CR & RCC_CR_PLLRDY_Msk)
 		goto error;
@@ -624,6 +643,8 @@ uint32_t Clock::getI2sClockFrequency(void)
 	{
 #if defined(STM32F429xx)
 		setFieldData(RCC->DCKCFGR, RCC_DCKCFGR_SAI1ASRC_Msk, src, RCC_DCKCFGR_SAI1ASRC_Pos);
+#else
+		(void)src;
 #endif
 	}
 
@@ -635,6 +656,8 @@ uint32_t Clock::getI2sClockFrequency(void)
 	{
 #if defined(STM32F429xx)
 		setFieldData(RCC->DCKCFGR, RCC_DCKCFGR_SAI1BSRC_Msk, src, RCC_DCKCFGR_SAI1BSRC_Pos);
+#else
+		(void)src;
 #endif
 	}
 	uint32_t getSai1BClockFrequency(void);

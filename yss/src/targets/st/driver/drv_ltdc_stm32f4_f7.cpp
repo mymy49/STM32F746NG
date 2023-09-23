@@ -76,7 +76,7 @@ error Ltdc::initialize(const Ltdc::Specification *spec)
 	LTDC_Layer1->WVPCR = ((spec->vsyncWidth + spec->vbp + spec->height- 1) & 0xFFF) << 16 | ((spec->vsyncWidth + spec->vbp) & 0xFFF);
 	LTDC_Layer1->PFCR = pixelFormat & 0x7;
 	LTDC_Layer1->BFCR = 4 << LTDC_LxBFCR_BF1_Pos | 5 << LTDC_LxBFCR_BF2_Pos;
-	LTDC_Layer1->CFBLR = pitch << 16 | pitch + 3;
+	LTDC_Layer1->CFBLR = (pitch << 16) | (pitch + 3);
 
 	LTDC_Layer1->CFBLNR = spec->height;
 	LTDC->SRCR |= LTDC_SRCR_IMR_Msk;	// reload
