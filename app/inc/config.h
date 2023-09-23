@@ -29,7 +29,7 @@
 
 // ####################### lmalloc 설정 #######################
 // SDRAM을 이용한 동적할당 메모리의 사용 여부(true, false)
-#define YSS_L_HEAP_USE			false
+#define YSS_L_HEAP_USE			true
 
 // SDRAM의 시작 주소 설정
 // STM32F7 (Bank1 - 0x60000000, Bank2 - 0x70000000)
@@ -71,10 +71,10 @@
 #define TOUCH_EVENT_MEMORY_DEPTH		128
 
 // Frame Buffer of LCD output (Rgb565, Rgb888, Argb1555)
-#define YSS_FRAME_BUFFER				Rgb565
+#define YSS_FRAME_BUFFER				Rgb888
 
 // Frame Buffer of GUI Frame (Rgb565, Rgb888, Argb1555)
-#define YSS_GUI_FRAME_BUFFER			Rgb565
+#define YSS_GUI_FRAME_BUFFER			Rgb888
 
 // ####################### KEY 설정 #######################
 // 최대 KEY 생성 가능 갯수 설정 (0 ~ ), 0일 경우 기능 꺼짐
