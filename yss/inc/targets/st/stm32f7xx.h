@@ -118,6 +118,7 @@
   #include "stm32f756xx.h"
 #elif defined(STM32F746xx)
 	#include "stm32f746xx.h"
+	#include "define_stm32f7.h"
 	#include "define_stm32f746xx.h"
 #elif defined(STM32F745xx)
   #include "stm32f745xx.h"

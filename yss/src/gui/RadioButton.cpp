@@ -63,7 +63,7 @@ void RadioButton::paint(void)
 
 	mFrameBuffer->clear();
 	
-	int16_t width = size.width, height = size.height;
+	int16_t height = size.height;
 	int16_t half = height / 2;
 	Position pos = Position{half, half};
 	mFrameBuffer->drawCircle(pos, half - 2);

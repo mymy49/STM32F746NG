@@ -84,28 +84,33 @@ void fill(Rgb888 &obj, Color color)
 
 void fillRectangle(Rgb888 &obj, Position sp, Position ep, Color color)
 {
-	uint8_t *desAddr;
+	(void)obj;
+	(void)sp;
+	(void)ep;
+	(void)color;
 
-	swapStartPosition(sp.x, ep.x);
-	swapStartPosition(sp.y, ep.y);
+	//uint8_t *desAddr;
 
-	Size desSize = obj.getSize();
+	//swapStartPosition(sp.x, ep.x);
+	//swapStartPosition(sp.y, ep.y);
 
-	if (sp.x >= desSize.width || sp.y >= desSize.height)
-		return;
+	//Size desSize = obj.getSize();
 
-	if (desSize.width <= ep.x)
-		ep.x = desSize.width;
-	if (desSize.height <= ep.y)
-		ep.y = desSize.height;
+	//if (sp.x >= desSize.width || sp.y >= desSize.height)
+	//	return;
 
-	Size srcSize = {(uint16_t)(ep.x - sp.x), (uint16_t)(ep.y - sp.y)};
+	//if (desSize.width <= ep.x)
+	//	ep.x = desSize.width;
+	//if (desSize.height <= ep.y)
+	//	ep.y = desSize.height;
 
-	desAddr = (uint8_t *)obj.getFrameBuffer();
-	if (desAddr == 0)
-		return;
+	//Size srcSize = {(uint16_t)(ep.x - sp.x), (uint16_t)(ep.y - sp.y)};
 
-	desAddr = &desAddr[desSize.width * sp.y * 3 + sp.x * 3];
+	//desAddr = (uint8_t *)obj.getFrameBuffer();
+	//if (desAddr == 0)
+	//	return;
+
+	//desAddr = &desAddr[desSize.width * sp.y * 3 + sp.x * 3];
 
 	//mMutex.lock();
 	//setDma2dMode(define::dma2d::mode::REG_TO_MEM);
@@ -367,38 +372,42 @@ void drawArea(Rgb888 &des, Position areaPos, Size areaSize, Rgb888 &src, Positio
 
 void draw(Rgb888 &des, const Bmp888 *bmp, Position pos)
 {
-	uint16_t desOffset, srcOffset, buf;
-	uint8_t *desAddr, *srcAddr;
-	Size desSize, srcSize;
+	(void)des;
+	(void)bmp;
+	(void)pos;
 
-	desSize = des.getSize();
-	srcSize = Size{bmp->width, bmp->height};
+	//uint16_t desOffset, srcOffset, buf;
+	//uint8_t *desAddr, *srcAddr;
+	//Size desSize, srcSize;
 
-	if (pos.x >= desSize.width || pos.y >= desSize.height)
-		return;
+	//desSize = des.getSize();
+	//srcSize = Size{bmp->width, bmp->height};
 
-	if (pos.x + srcSize.width > desSize.width)
-	{
-		buf = srcSize.width;
-		srcSize.width = desSize.width - pos.x;
-		srcOffset = buf - srcSize.width;
-	}
-	else
-		srcOffset = 0;
+	//if (pos.x >= desSize.width || pos.y >= desSize.height)
+	//	return;
 
-	if (pos.y + srcSize.height > desSize.height)
-		srcSize.height = desSize.height - pos.y;
+	//if (pos.x + srcSize.width > desSize.width)
+	//{
+	//	buf = srcSize.width;
+	//	srcSize.width = desSize.width - pos.x;
+	//	srcOffset = buf - srcSize.width;
+	//}
+	//else
+	//	srcOffset = 0;
 
-	desOffset = desSize.width - srcSize.width;
+	//if (pos.y + srcSize.height > desSize.height)
+	//	srcSize.height = desSize.height - pos.y;
 
-	desAddr = (uint8_t *)des.getFrameBuffer();
-	if (desAddr == 0)
-		return;
-	desAddr = &desAddr[pos.y * desSize.width * 3 + pos.x * 3];
+	//desOffset = desSize.width - srcSize.width;
 
-	srcAddr = (uint8_t *)bmp->data;
-	if (srcAddr == 0)
-		return;
+	//desAddr = (uint8_t *)des.getFrameBuffer();
+	//if (desAddr == 0)
+	//	return;
+	//desAddr = &desAddr[pos.y * desSize.width * 3 + pos.x * 3];
+
+	//srcAddr = (uint8_t *)bmp->data;
+	//if (srcAddr == 0)
+	//	return;
 
 	//mMutex.lock();
 	//setDma2dFgmar(srcAddr);
@@ -430,7 +439,7 @@ void draw(Rgb888 &des, const Bmp565 *bmp, Position pos)
 {
 	uint16_t desOffset, srcOffset, buf;
 	uint8_t *desAddr;
-	uint16_t *srcAddr, width, height;
+	uint16_t *srcAddr;
 	Size desSize, srcSize;
 
 	desSize = des.getSize();

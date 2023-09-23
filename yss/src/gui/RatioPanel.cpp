@@ -99,12 +99,12 @@ void RadioPanel::setText(const char *text)
 
 void RadioPanel::add(Object &obj)
 {
-
+	(void)obj;
 }
 
 void RadioPanel::add(Object *obj)
 {
-
+	(void)obj;
 }
 
 void RadioPanel::add(RadioButton &obj)
@@ -139,8 +139,6 @@ Object* RadioPanel::handlerPush(Position pos)
 {
 	Position objPos;
 	Size objSize;
-	Position calculatedPos;
-	Object *rt;
 	RadioButton *rb;
 
 	for(int16_t i=mNumOfObj-1;i>=0;i--)
