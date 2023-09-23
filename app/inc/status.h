@@ -21,12 +21,13 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <memory.h>
+#ifndef STATUS__H_
+#define STATUS__H_
 
-namespace Memory
+namespace Status
 {
-	void initilize(void)
-	{
-		
-	}
-}
+	
+};
+
+#endif
+
