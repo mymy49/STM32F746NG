@@ -21,14 +21,44 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
+#include <task.h>
+#include <yss.h>
+#include <bsp.h>
+#include <task.h>
 
-#include <util/FunctionQueue.h>
+#define ITEM_COUNT	2
 
-void initializeBoard(void);
+namespace Task
+{
+	static Frame *gFrame;
 
-extern FunctionQueue fq;
+	void thread_handleMainPage(void)
+	{
+		gFrame->setBackgroundColor(0xFF, 0x00, 0x00);
 
-#endif
+		while(1)
+		{
+			thread::yield();
+		}
+	}
+
+	error handleMainPage(FunctionQueue *obj)
+	{
+		(void)obj;
+
+		lock();	// unlock()을 만날 때까지 외부에서 이 함수를 강제 종료 시키지 못한다.
+		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
+
+		gFrame = new Frame;
+		setSystemFrame(gFrame);
+
+		addThread(thread_handleMainPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
+												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
+
+		unlock();	// 외부에서 강제로 종료가 가능하다.
+
+		return error::ERROR_NONE;
+	}
+}
+
 

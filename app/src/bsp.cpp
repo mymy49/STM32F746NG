@@ -32,6 +32,8 @@
 
 void initializeLcd(void);
 
+FunctionQueue fq(16);
+
 RK043FN48H lcd;
 FT5336 touch;
 

@@ -38,6 +38,12 @@ namespace Task
 	void addThread(void (*func)(void), uint32_t stackSize);
 	void clearTask(void);
 	void setFrame(Frame *obj);
+
+	// task_displayLogo.cpp
+	error displayLogo(FunctionQueue *obj);
+
+	// task_hadleMainPage.cpp
+	error handleMainPage(FunctionQueue *obj);
 }
 
 #endif

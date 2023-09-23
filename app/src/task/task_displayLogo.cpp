@@ -21,14 +21,31 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
+#include <task.h>
+#include <yss.h>
+#include <bsp.h>
 
-#include <util/FunctionQueue.h>
+namespace Task
+{
+	error displayLogo(FunctionQueue *obj)
+	{
+		(void)obj;
 
-void initializeBoard(void);
+		Frame *frame = new Frame;
 
-extern FunctionQueue fq;
+		lock();	// unlock()을 만날 때까지 외부에서 이 함수를 강제 종료 시키지 못한다.
+		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
+		
+		frame->setBackgroundColor(0x00, 0x00, 0xFF);
+		setSystemFrame(frame);
 
-#endif
+		// 5초간 로고 화면에서 대기한다.
+		thread::delay(5000);
+		
+		unlock();
+
+		return error::ERROR_NONE;
+	}
+}
+
 

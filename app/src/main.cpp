@@ -24,6 +24,7 @@
 #include <yss.h>
 #include <bsp.h>
 #include "memory.h"
+#include "task.h"
 
 int main(void)
 {
@@ -35,6 +36,11 @@ int main(void)
 
 	// 설정 저장용 메모리 초기화
 	Memory::initilize();
+
+	// Function Queue 기능을 활용하여 순차 처리를 한다.
+	fq.start();
+	fq.add(Task::displayLogo);		// 로고 출력
+	fq.add(Task::handleMainPage);	// 메인 페이지 처리
 
 	while(1)
 	{
