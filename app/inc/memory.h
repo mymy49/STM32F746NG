@@ -21,24 +21,13 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <yss.h>
-#include <bsp.h>
-#include "memory.h"
+#ifndef MEMORY__H_
+#define MEMORY__H_
 
-int main(void)
+namespace Memory
 {
-	// 운영체체 초기화
-	initializeYss();
-	
-	// 보드 초기화
-	initializeBoard();
+	void initilize(void);
+};
 
-	// 설정 저장용 메모리 초기화
-	Memory::initilize();
-
-	while(1)
-	{
-		thread::yield();
-	}
-}
+#endif
 
