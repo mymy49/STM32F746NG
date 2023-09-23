@@ -79,8 +79,11 @@ namespace Task
 		}
 
 #if USE_GUI && YSS_L_HEAP_USE
-		delete gFrame;
-		gFrame = 0;
+		if(gFrame)
+		{
+			delete gFrame;
+			gFrame = 0;
+		}
 #endif
 
 		gThreadCnt = 0;

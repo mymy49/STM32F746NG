@@ -59,7 +59,7 @@ protected:
 
 public:
 	Object(void);
-	~Object(void);
+	virtual ~Object(void);
 
 	virtual void destroy(void);
 

@@ -41,6 +41,8 @@ CheckBox::CheckBox(void)
 
 Object *CheckBox::handlerPush(Position pos)
 {
+	(void)pos;
+
 	mState = !mState;
 	paint();
 	update();

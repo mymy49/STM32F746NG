@@ -40,7 +40,7 @@ class Frame : public Container
 
   public:
 	Frame(void);
-	~Frame(void);
+	virtual ~Frame(void);
 	void setPosition(Position pos);
 	void setPosition(int16_t x, int16_t y);
 	void setSerialFrameBuffer(SerialFrameBuffer *parent);

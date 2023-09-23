@@ -37,7 +37,7 @@ namespace Task
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
 		
 		frame->setBackgroundColor(0x00, 0x00, 0xFF);
-		setSystemFrame(frame);
+		setFrame(frame);
 
 		// 5초간 로고 화면에서 대기한다.
 		thread::delay(5000);

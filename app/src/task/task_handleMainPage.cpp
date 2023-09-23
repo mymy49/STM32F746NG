@@ -50,7 +50,7 @@ namespace Task
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
 
 		gFrame = new Frame;
-		setSystemFrame(gFrame);
+		setFrame(gFrame);
 
 		addThread(thread_handleMainPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
 												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
