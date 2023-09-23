@@ -139,11 +139,13 @@ void Object::setFrame(Frame *frame)
 
 Object *Object::handlerPush(Position pos)
 {
+	(void)pos;
 	return this;
 }
 
 Object *Object::handlerDrag(Position pos)
 {
+	(void)pos;
 	return this;
 }
 
@@ -172,7 +174,7 @@ YssSysFrameBuffer* Object::getFrameBuffer(void)
 
 void Object::eventSizeChanged(Size size)
 {
-
+	(void)size;
 }
 
 #endif

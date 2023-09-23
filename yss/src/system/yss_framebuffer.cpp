@@ -81,8 +81,6 @@ void setSystemFrame(Frame *obj)
 void setEvent(Position pos, uint8_t event)
 {
 	static Position lastPos;
-	int16_t buf;
-	bool flag = false;
 
 	switch (event)
 	{

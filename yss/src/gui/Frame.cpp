@@ -47,22 +47,28 @@ Frame::~Frame(void)
 
 void Frame::setPosition(Position pos)
 {
-	// Frame 위치 조정 못하게 막을 목적으로 생성
+	// Frame의 위치 조정 못하게 막을 목적으로 생성
+	(void)pos;
 }
 
 void Frame::setPosition(int16_t x, int16_t y)
 {
-	// Frame 위치 조정 못하게 막을 목적으로 생성
+	// Frame의 위치 조정 못하게 막을 목적으로 생성
+	(void)x;
+	(void)y;
 }
 
 void Frame::setSize(int16_t width, int16_t height)
 {
-	// Frame 사이즈 조정 못하게 막을 목적으로 생성
+	// Frame의 사이즈 조정 못하게 막을 목적으로 생성
+	(void)width;
+	(void)height;
 }
 
 void Frame::setSize(Size size)
 {
-	// Frame 사이즈 조정 못하게 막을 목적으로 생성
+	// Frame의 사이즈 조정 못하게 막을 목적으로 생성
+	(void)size;
 }
 
 void Frame::setSerialFrameBuffer(SerialFrameBuffer *parent)

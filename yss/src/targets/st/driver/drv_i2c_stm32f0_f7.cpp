@@ -103,6 +103,9 @@ error I2c::initializeAsMain(uint8_t speed)
 
 error I2c::initializeAsSub(void *rcvBuf, uint16_t rcvBufSize, uint8_t addr1, uint8_t addr2)
 {
+	(void)rcvBuf;
+	(void)rcvBufSize;
+
 	register uint32_t reg;
 
 	mDev->OAR1 &= ~I2C_OAR1_OA1EN_Msk;

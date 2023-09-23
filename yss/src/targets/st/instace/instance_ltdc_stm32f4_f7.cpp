@@ -56,7 +56,8 @@ static const Drv::Config gDrvSpi1Config
 {
 	enableClock,	//void (*clockFunc)(bool en);
 	0,				//void (*nvicFunc)(bool en);
-	reset			//void (*resetFunc)(void);
+	reset,			//void (*resetFunc)(void);
+	0				//uint32_t (*getClockFunc)(void);
 };
 
 Ltdc ltdc(gDrvSpi1Config);

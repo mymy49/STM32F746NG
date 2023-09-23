@@ -23,13 +23,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <sac/SerialMemory.h>
+#include <sac/Memory.h>
 
 namespace sac
 {
-bool SerialMemory::write(uint32_t addr, uint8_t src)
+error Memory::write(uint32_t addr, uint8_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint8_t))
 	{
@@ -37,15 +37,15 @@ bool SerialMemory::write(uint32_t addr, uint8_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, int8_t src)
+error Memory::write(uint32_t addr, int8_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int8_t))
 	{
@@ -53,15 +53,15 @@ bool SerialMemory::write(uint32_t addr, int8_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, uint16_t src)
+error Memory::write(uint32_t addr, uint16_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint16_t))
 	{
@@ -69,15 +69,15 @@ bool SerialMemory::write(uint32_t addr, uint16_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, int16_t src)
+error Memory::write(uint32_t addr, int16_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int16_t))
 	{
@@ -85,15 +85,15 @@ bool SerialMemory::write(uint32_t addr, int16_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, uint32_t src)
+error Memory::write(uint32_t addr, uint32_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint32_t))
 	{
@@ -101,15 +101,15 @@ bool SerialMemory::write(uint32_t addr, uint32_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, int32_t src)
+error Memory::write(uint32_t addr, int32_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int32_t))
 	{
@@ -117,15 +117,15 @@ bool SerialMemory::write(uint32_t addr, int32_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, float src)
+error Memory::write(uint32_t addr, float src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(float))
 	{
@@ -133,15 +133,15 @@ bool SerialMemory::write(uint32_t addr, float src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, double src)
+error Memory::write(uint32_t addr, double src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(double))
 	{
@@ -149,15 +149,15 @@ bool SerialMemory::write(uint32_t addr, double src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, uint64_t src)
+error Memory::write(uint32_t addr, uint64_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint64_t))
 	{
@@ -165,15 +165,15 @@ bool SerialMemory::write(uint32_t addr, uint64_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::write(uint32_t addr, int64_t src)
+error Memory::write(uint32_t addr, int64_t src)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int64_t))
 	{
@@ -181,15 +181,15 @@ bool SerialMemory::write(uint32_t addr, int64_t src)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, uint8_t &des)
+error Memory::read(uint32_t addr, uint8_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint8_t))
 	{
@@ -197,15 +197,15 @@ bool SerialMemory::read(uint32_t addr, uint8_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, int8_t &des)
+error Memory::read(uint32_t addr, int8_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int8_t))
 	{
@@ -213,15 +213,15 @@ bool SerialMemory::read(uint32_t addr, int8_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, uint16_t &des)
+error Memory::read(uint32_t addr, uint16_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint16_t))
 	{
@@ -229,15 +229,15 @@ bool SerialMemory::read(uint32_t addr, uint16_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, int16_t &des)
+error Memory::read(uint32_t addr, int16_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int16_t))
 	{
@@ -245,15 +245,15 @@ bool SerialMemory::read(uint32_t addr, int16_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, uint32_t &des)
+error Memory::read(uint32_t addr, uint32_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint32_t))
 	{
@@ -261,15 +261,15 @@ bool SerialMemory::read(uint32_t addr, uint32_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, int32_t &des)
+error Memory::read(uint32_t addr, int32_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int32_t))
 	{
@@ -277,15 +277,16 @@ bool SerialMemory::read(uint32_t addr, int32_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
+
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, float &des)
+error Memory::read(uint32_t addr, float &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(float))
 	{
@@ -293,15 +294,16 @@ bool SerialMemory::read(uint32_t addr, float &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
+
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, double &des)
+error Memory::read(uint32_t addr, double &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(double))
 	{
@@ -309,15 +311,16 @@ bool SerialMemory::read(uint32_t addr, double &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
+
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, uint64_t &des)
+error Memory::read(uint32_t addr, uint64_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(uint64_t))
 	{
@@ -325,15 +328,16 @@ bool SerialMemory::read(uint32_t addr, uint64_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
+
 	}
 
 	return rt;
 }
 
-bool SerialMemory::read(uint32_t addr, int64_t &des)
+error Memory::read(uint32_t addr, int64_t &des)
 {
-	bool rt;
+	error rt;
 
 	if (getSize() > addr + sizeof(int64_t))
 	{
@@ -341,7 +345,8 @@ bool SerialMemory::read(uint32_t addr, int64_t &des)
 	}
 	else
 	{
-		return false;
+		return error::OUT_OF_RANGE;
+
 	}
 
 	return rt;

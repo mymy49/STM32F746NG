@@ -27,39 +27,41 @@
 #define YSS_SAC_SERIAL_MEMORY__H_
 
 #include <stdint.h>
+#include <yss/error.h>
 
 namespace sac
 {
-class SerialMemory
+class Memory
 {
-  protected:
+public:
+	error write(uint32_t addr, uint8_t src);
+	error write(uint32_t addr, int8_t src);
+	error write(uint32_t addr, uint16_t src);
+	error write(uint32_t addr, int16_t src);
+	error write(uint32_t addr, uint32_t src);
+	error write(uint32_t addr, int32_t src);
+	error write(uint32_t addr, float src);
+	error write(uint32_t addr, double src);
+	error write(uint32_t addr, uint64_t src);
+	error write(uint32_t addr, int64_t src);
+
+	error read(uint32_t addr, uint8_t &des);
+	error read(uint32_t addr, int8_t &des);
+	error read(uint32_t addr, uint16_t &des);
+	error read(uint32_t addr, int16_t &des);
+	error read(uint32_t addr, uint32_t &des);
+	error read(uint32_t addr, int32_t &des);
+	error read(uint32_t addr, float &des);
+	error read(uint32_t addr, double &des);
+	error read(uint32_t addr, uint64_t &des);
+	error read(uint32_t addr, int64_t &des);
+
+	virtual error writeBytes(uint32_t addr, void *src, uint32_t size) = 0;
+	virtual error readBytes(uint32_t addr, void *des, uint32_t size) = 0;
+
+protected:
 	virtual uint32_t getSize(void) = 0;
 
-  public:
-	virtual bool writeBytes(uint32_t addr, void *src, uint32_t size) = 0;
-	virtual bool readBytes(uint32_t addr, void *des, uint32_t size) = 0;
-
-	bool write(uint32_t addr, uint8_t src);
-	bool write(uint32_t addr, int8_t src);
-	bool write(uint32_t addr, uint16_t src);
-	bool write(uint32_t addr, int16_t src);
-	bool write(uint32_t addr, uint32_t src);
-	bool write(uint32_t addr, int32_t src);
-	bool write(uint32_t addr, float src);
-	bool write(uint32_t addr, double src);
-	bool write(uint32_t addr, uint64_t src);
-	bool write(uint32_t addr, int64_t src);
-
-	bool read(uint32_t addr, uint8_t &des);
-	bool read(uint32_t addr, int8_t &des);
-	bool read(uint32_t addr, uint16_t &des);
-	bool read(uint32_t addr, int16_t &des);
-	bool read(uint32_t addr, uint32_t &des);
-	bool read(uint32_t addr, int32_t &des);
-	bool read(uint32_t addr, float &des);
-	bool read(uint32_t addr, double &des);
-	bool read(uint32_t addr, uint64_t &des);
-	bool read(uint32_t addr, int64_t &des);
 };
 }
 

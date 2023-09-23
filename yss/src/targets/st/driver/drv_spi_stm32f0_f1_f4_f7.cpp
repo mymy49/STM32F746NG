@@ -61,7 +61,7 @@ Spi::Spi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 
 error Spi::setSpecification(const Specification &spec)
 {
-	uint32_t reg, buf;
+	uint32_t reg;
 
 	if (mLastSpec == &spec)
 		return error::ERROR_NONE;

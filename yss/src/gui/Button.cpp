@@ -128,6 +128,8 @@ void Button::setText(const char *text)
 
 Object *Button::handlerPush(Position pos)
 {
+	(void)pos;
+
 	mState = true;
 	paint();
 	update();

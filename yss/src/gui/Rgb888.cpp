@@ -124,10 +124,13 @@ void Rgb888::setBackgroundColor(uint8_t red, uint8_t green, uint8_t blue)
 
 void Rgb888::setColorLevel(uint8_t level)
 {
+	(void)level;
 }
 
 void Rgb888::drawBmp565(Position pos, const Bmp565 *image)
 {
+	(void)pos;
+	(void)image;
 	//if (mFrameBuffer)
 	//	Painter::draw(*this, image, pos);
 }

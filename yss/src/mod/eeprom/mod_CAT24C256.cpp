@@ -66,11 +66,11 @@ bool CAT24C256::init(const Config config)
 	return mInitFlag;
 }
 
-bool CAT24C256::writeBytes(uint32_t addr, void *src, uint32_t size)
+error CAT24C256::writeBytes(uint32_t addr, void *src, uint32_t size)
 {
 	volatile uint8_t i, k, num;
 	uint8_t *cSrc = (uint8_t *)src, buf[66];
-	bool rt;
+	error rt;
 
 	while (size)
 	{
@@ -117,9 +117,9 @@ bool CAT24C256::writeBytes(uint32_t addr, void *src, uint32_t size)
 					break;
 			}
 
-			if (rt == false)
+			if (rt != error::ERROR_NONE)
 			{
-				return false;
+				return rt;
 			}
 
 			num -= k;
@@ -156,20 +156,20 @@ bool CAT24C256::writeBytes(uint32_t addr, void *src, uint32_t size)
 
 		addr += num;
 
-		if (rt == false)
+		if (rt != error::ERROR_NONE)
 		{
-			return false;
+			return rt;
 		}
 	}
 
-	return true;
+	return error::ERROR_NONE;
 }
 
-bool CAT24C256::readBytes(uint32_t addr, void *des, uint32_t size)
+error CAT24C256::readBytes(uint32_t addr, void *des, uint32_t size)
 {
 	int8_t buf[2];
 	int8_t *pAddr = (int8_t *)&addr;
-	bool rt = false;
+	error rt = error::ERROR_NONE;
 
 	mThisTime = runtime::getMsec();
 	while (mThisTime < mLastWritingTime + 5)
@@ -179,7 +179,7 @@ bool CAT24C256::readBytes(uint32_t addr, void *des, uint32_t size)
 	}
 
 	if (addr + size > getSize())
-		return false;
+		return error::OUT_OF_RANGE;
 
 	buf[0] = pAddr[1];
 	buf[1] = pAddr[0];
