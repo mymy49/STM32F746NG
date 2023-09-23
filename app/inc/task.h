@@ -21,24 +21,24 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include <yss.h>
-#include <bsp.h>
-#include "memory.h"
+#ifndef TASK__H_
+#define TASK__H_
 
-int main(void)
+#include <util/FunctionQueue.h>
+
+class Frame;
+
+// FunctionQueue에 의해 순차 수행되는 task의 함수 프로토타입 선언부이다.
+namespace Task
 {
-	// 운영체체 초기화
-	initializeYss();
-	
-	// 보드 초기화
-	initializeBoard();
-
-	// 설정 저장용 메모리 초기화
-	Memory::initilize();
-
-	while(1)
-	{
-		thread::yield();
-	}
+	// task.cpp
+	void setFunctionQueue(FunctionQueue &obj);
+	void lock(void);
+	void unlock(void);
+	void addThread(void (*func)(void), uint32_t stackSize);
+	void clearTask(void);
+	void setFrame(Frame *obj);
 }
+
+#endif
 
