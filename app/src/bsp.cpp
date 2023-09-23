@@ -162,7 +162,7 @@ void initializeSdram(void)
 	gpioA.setPackageAsAltFunc(sdramPort, 38, define::gpio::ospeed::FAST, define::gpio::otype::PUSH_PULL);
 
 	clock.enableSdram();
-	sdram.initialize(define::sdram::bank::BANK1, MT48LC4M32B2B5_6A, 180000000);
+	sdram.initialize(define::sdram::bank::BANK1, MT48LC4M32B2B5_6A, 216000000);
 }
 
 void initializeSystem(void)
