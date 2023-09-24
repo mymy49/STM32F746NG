@@ -25,8 +25,9 @@
 
 namespace Memory
 {
-	void initilize(void)
+	void initialize(void)
 	{
 		
 	}
 }
+

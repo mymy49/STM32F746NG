@@ -35,7 +35,7 @@ int main(void)
 	initializeBoard();
 
 	// 설정 저장용 메모리 초기화
-	Memory::initilize();
+	Memory::initialize();
 
 	// Function Queue 기능을 활용하여 순차 처리를 한다.
 	fq.start();
