@@ -34,7 +34,7 @@ namespace Task
 
 	void thread_handleMainPage(void)
 	{
-		gFrame->setBackgroundColor(0xFF, 0x00, 0x00);
+		gFrame->setBackgroundColor(0x00, 0xFF, 0x00);
 
 		while(1)
 		{

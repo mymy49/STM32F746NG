@@ -24,19 +24,42 @@
 #include <task.h>
 #include <yss.h>
 #include <bsp.h>
+#include <yss/gui.h>
+#include <../bmp/logo.h>
+
+class Logo : public Object
+{
+public :
+	Logo(void)
+	{
+		setSize(logo.width, logo.height);
+	}
+
+private :
+	virtual void paint(void)
+	{
+		mFrameBuffer->drawBmp({0, 0}, logo);
+	}	
+};
 
 namespace Task
 {
 	error displayLogo(FunctionQueue *obj)
 	{
 		(void)obj;
-
-		Frame *frame = new Frame;
-
+		
 		lock();	// unlock()을 만날 때까지 외부에서 이 함수를 강제 종료 시키지 못한다.
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
+
+		Logo *logo = new Logo;
+		Frame *frame = new Frame;
+		Size size = frame->getSize();
 		
-		frame->setBackgroundColor(0x00, 0x00, 0xFF);
+		logo->setPosition({0, (int16_t)((size.height - logo->getSize().height) / 2)});
+				
+		frame->setBackgroundColor(0xFF, 0xFF, 0xFF);
+		frame->add(logo);
+
 		setFrame(frame);
 
 		// 5초간 로고 화면에서 대기한다.

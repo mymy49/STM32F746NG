@@ -61,8 +61,6 @@ public:
 	Object(void);
 	virtual ~Object(void);
 
-	virtual void destroy(void);
-
 	void setPosition(Position pos);
 	void setPosition(int16_t x, int16_t y);
 

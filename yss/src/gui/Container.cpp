@@ -51,7 +51,6 @@ Container::~Container()
 
 	for(int32_t  i=0;i<mNumOfObj;i++)
 	{
-		mObjArr[i]->destroy();
 		delete mObjArr[i];
 	}
 

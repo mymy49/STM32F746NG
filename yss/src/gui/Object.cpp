@@ -40,15 +40,12 @@ Object::Object(void)
 	mFrame = 0;
 	mVisibleFlag = true;
 	mResizeAble = true;
-	mFrameBuffer = new YssSysFrameBuffer();
+	mFrameBuffer = new YssSysFrameBuffer;
 }
 
 Object::~Object(void)
 {
-}
-
-void Object::destroy(void)
-{
+	delete mFrameBuffer;
 }
 
 void Object::update(Position pos, Size size)

@@ -30,7 +30,7 @@ class Container : public Object
 
   public:
 	Container(void);
-	~Container(void);
+	virtual ~Container(void);
 
 	void paint(void);
 	void increaseObjArr(void);

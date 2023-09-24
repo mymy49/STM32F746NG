@@ -41,6 +41,11 @@ Button::Button(void)
 	mFrameBuffer->setBackgroundColor(128, 128, 128);
 }
 
+Button::~Button(void)
+{
+
+}
+
 void Button::paint(void)
 {
 	Size size = mFrameBuffer->getSize();

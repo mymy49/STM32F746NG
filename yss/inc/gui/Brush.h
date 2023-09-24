@@ -120,10 +120,6 @@ public:
 
 	virtual uint8_t drawChar(Position pos, uint32_t utf8) = 0;
 	
-	virtual void drawBmp(Position pos, const Bmp1555 *image);
-	
-	virtual void drawBmp(Position pos, const Bmp1555 &image);
-
 	virtual void fill(void);
 	
 	virtual void fillCircle(Position p1, uint16_t r);

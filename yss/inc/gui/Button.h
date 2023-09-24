@@ -30,16 +30,12 @@
 
 class Button : public Object
 {
-	void (*mPushHandler)(void);
-	void (*mUpHandler)(void);
-	bool mState;
-	const char *mText;
-
-  protected:
-  public:
+public:
 	void setPushEventHandler(void (*handler)(void));
 	void setUpEventHandler(void (*handler)(void));
 	Button(void);
+	virtual ~Button(void);
+
 	void paint(void);
 	void setText(const char *text);
 	void setFont(Font font);
@@ -48,6 +44,12 @@ class Button : public Object
 
 	Object *handlerPush(Position pos);
 	Object *handlerUp(void);
+
+private :
+	void (*mPushHandler)(void);
+	void (*mUpHandler)(void);
+	bool mState;
+	const char *mText;
 };
 
 #endif

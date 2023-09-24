@@ -35,6 +35,7 @@ class Rgb888 : public FrameBuffer
 
   public:
 	Rgb888(void);
+	virtual ~Rgb888(void);
 
 	uint8_t drawChar(Position pos, uint32_t utf8);
 
@@ -50,6 +51,8 @@ class Rgb888 : public FrameBuffer
 	virtual void drawDot(int16_t x, int16_t y); // virtual 0
 
 	virtual void drawDot(int16_t x, int16_t y, Color color); // virtual 0
+
+	virtual void drawDot(int16_t x, int16_t y, uint32_t color); // virtual 0
 
 	virtual void eraseDot(Position pos);
 

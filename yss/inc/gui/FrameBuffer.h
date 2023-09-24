@@ -28,8 +28,17 @@
 
 #include "Brush.h"
 #include "util.h"
+#include <config.h>
 
-class FrameBuffer : public Brush
+#if YSS_GUI_FRAME_BUFFER == Rgb888
+#include "BrushRgb888.h"
+
+class FrameBuffer : public BrushRgb888
+#elif YSS_GUI_FRAME_BUFFER == Rgb555
+#include "BrushRgb565.h"
+
+class FrameBuffer : public BrushRgb565
+#endif
 {
   protected:
 	Size mSize;
