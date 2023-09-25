@@ -21,24 +21,44 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <stdio.h>
 #include <task.h>
 #include <yss.h>
 #include <bsp.h>
+#include <memory.h>
 #include <yss/gui.h>
 #include <../bmp/logo.h>
+#include <../font/Noto_Sans_CJK_HK_14.h>
 
 class Logo : public Object
 {
 public :
 	Logo(void)
 	{
-		setSize(logo.width, logo.height);
+		setSize(logo.width, logo.height + 20);
 	}
 
 private :
 	virtual void paint(void)
 	{
-		mFrameBuffer->drawBmp({0, 0}, logo);
+		char str[32];
+		Font font(Font_Noto_Sans_CJK_HK_14);
+		Position pos = {0, 0};
+		
+		font.setSpaceWidth(5);
+
+		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF);
+		mFrameBuffer->clear();
+		mFrameBuffer->drawBmp({0, 19}, logo);
+		mFrameBuffer->setFont(font);
+		mFrameBuffer->setFontColor(0x00, 0x00, 0x00);
+		
+		sprintf(str, "Version %d.%d.%d build %05d", VER_MAJOR, VER_MINOR, VER_PATCH, VER_BUILD);
+		pos.x = 479 - font.getStringWidth(str) - 10;
+		if(pos.x < 0)
+			pos.x = 0;
+
+		mFrameBuffer->drawString(pos, str);
 	}	
 };
 

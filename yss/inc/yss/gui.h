@@ -32,6 +32,7 @@
 #include "gui/Argb1555.h"
 #include "gui/Object.h"
 #include "gui/Frame.h"
+#include "gui/Font.h"
 #include "gui/Panel.h"
 #include "gui/Container.h"
 #include "gui/SerialFrameBuffer.h"

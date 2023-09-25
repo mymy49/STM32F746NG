@@ -24,6 +24,12 @@
 #ifndef MEMORY__H_
 #define MEMORY__H_
 
+#define VER_MAJOR	0
+#define VER_MINOR	0
+#define VER_PATCH	0
+
+#define VER_BUILD	0
+
 namespace Memory
 {
 	void initialize(void);
