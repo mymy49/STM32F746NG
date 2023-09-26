@@ -28,7 +28,7 @@
 #define VER_MINOR	0
 #define VER_PATCH	0
 
-#define VER_BUILD	0
+#define VER_BUILD	1
 
 namespace Memory
 {

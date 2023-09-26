@@ -141,20 +141,24 @@ void Rgb888::setColorLevel(uint8_t level)
 	(void)level;
 }
 
-void Rgb888::drawBmp565(Position pos, const Bmp565 *image)
-{
-	(void)pos;
-	(void)image;
-	//if (mFrameBuffer)
-	//	Painter::draw(*this, image, pos);
-}
-
 uint8_t Rgb888::drawChar(Position pos, uint32_t utf8)
 {
 	if (mFrameBuffer)
 		return Painter::drawChar(*this, &mFont, utf8, pos, mFontColor);
 	else
 		return 0;
+}
+
+void Rgb888::drawBmp(Position pos, const Bmp565 *image)
+{
+	if (mFrameBuffer)
+		Painter::draw(*this, image, pos);
+}
+
+void Rgb888::drawBmp(Position pos, const Bmp565 &image)
+{
+	if (mFrameBuffer)
+		Painter::draw(*this, &image, pos);
 }
 
 void Rgb888::updateFontColor(void)

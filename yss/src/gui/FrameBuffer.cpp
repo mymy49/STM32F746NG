@@ -30,6 +30,7 @@
 #include <yss/instance.h>
 #include <yss/gui.h>
 #include <std_ext/malloc.h>
+#include <gui/painter.h>
 
 FrameBuffer::FrameBuffer(void)
 {

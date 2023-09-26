@@ -41,8 +41,6 @@ class Rgb888 : public FrameBuffer
 
 	void setColorLevel(uint8_t level);
 
-	void drawBmp565(Position pos, const Bmp565 *image);
-
 	void clearRectangle(Position pos, Size size);
 
 	// Brush
@@ -65,6 +63,10 @@ class Rgb888 : public FrameBuffer
 	virtual void setBackgroundColor(Color color);
 	
 	virtual void setBackgroundColor(uint8_t red, uint8_t green, uint8_t blue);
+
+	virtual void drawBmp(Position pos, const Bmp565 *image);
+	
+	virtual void drawBmp(Position pos, const Bmp565 &image);
 };
 
 #endif

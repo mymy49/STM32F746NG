@@ -6,14 +6,14 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-// RGB888 (Big Endian) 설정으로 출력된 파일입니다.
+// RGB565 (Little Endian) 설정으로 출력된 파일입니다.
 
 #ifndef YSS_LOGO_BMP__H_
 #define YSS_LOGO_BMP__H_
 
-#include <gui/Bmp888.h>
+#include <gui/Bmp565.h>
 
-extern const struct Bmp888 logo;
+extern const struct Bmp565 logo;
 
 #endif
 
