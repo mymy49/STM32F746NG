@@ -11,9 +11,9 @@
 #ifndef YSS_LOGO_BMP__H_
 #define YSS_LOGO_BMP__H_
 
-#include <gui/Bmp565.h>
+#include <gui/Bitmap.h>
 
-extern const struct Bmp565 logo;
+extern const Bitmap_t logo;
 
 #endif
 

@@ -25,8 +25,7 @@
 #include <yss.h>
 #include <bsp.h>
 #include <task.h>
-
-#define ITEM_COUNT	2
+#include <../bmp/mainBackground.h>
 
 namespace Task
 {
@@ -34,8 +33,6 @@ namespace Task
 
 	void thread_handleMainPage(void)
 	{
-		gFrame->setBackgroundColor(0x00, 0xFF, 0x00);
-
 		while(1)
 		{
 			thread::yield();
@@ -50,6 +47,11 @@ namespace Task
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
 
 		gFrame = new Frame;
+		Bitmap *bmp = new Bitmap;
+
+		bmp->setBmp(mainBackground);
+		gFrame->add(bmp);
+
 		setFrame(gFrame);
 
 		addThread(thread_handleMainPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.

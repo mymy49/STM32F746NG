@@ -96,7 +96,7 @@ inline uint32_t getOcr(float vcc)
 	return ocr;
 }
 
-inline int32_t  extractAuSize(void *src)
+inline int32_t extractAuSize(void *src)
 {
 	uint8_t *cSrc = (uint8_t*)src;
 	int32_t  loop = cSrc[10] >> 4 & 0xF, auSize = 16 * 1024;
@@ -109,7 +109,7 @@ inline int32_t  extractAuSize(void *src)
 	return auSize;
 }
 
-inline int32_t  extractReadBlLen(void *src)
+inline int32_t extractReadBlLen(void *src)
 {
 	uint8_t *cSrc = (uint8_t *)src;
 	uint8_t buf = cSrc[5] & 0xF;
@@ -127,13 +127,13 @@ inline int32_t  extractReadBlLen(void *src)
 	}
 }
 
-inline int32_t  extractCSizeVersion2(void *src)
+inline int32_t extractCSizeVersion2(void *src)
 {
 	uint8_t *buf = (uint8_t *)src;
 	return (uint32_t)buf[9] | (uint32_t)buf[8] << 8 | (uint32_t)(buf[7] & 0x3F) << 16;
 }
 
-inline int32_t  extractMaxBlockLength(void *src)
+inline int32_t extractMaxBlockLength(void *src)
 {
 	uint8_t *buf = (uint8_t *)src;
 
@@ -149,17 +149,18 @@ inline int32_t  extractMaxBlockLength(void *src)
 	}
 }
 
-inline int32_t  extractReadBlockLength(void *src)
+inline int32_t extractReadBlockLength(void *src)
 {
 	uint8_t *buf = (uint8_t *)src;
 
 	switch(*buf >> 6)
 	{
 	case 0 : // version 1.0
-		
 		return 0;
+
 	case 1 : // version 2.0
 		return 512;
+
 	default :
 		return 0;
 	}
@@ -167,11 +168,10 @@ inline int32_t  extractReadBlockLength(void *src)
 
 error SdMemory::connect(void)
 {
-	uint32_t ocr, capacity, temp, mult;
-	CardStatus sts;
+	uint32_t ocr, capacity, temp;
+	CardStatus_t sts;
 	error result;
 	uint8_t *cbuf = new uint8_t[64];
-	uint32_t *ibuf = (uint32_t*)cbuf;
 
 	memset(cbuf, 0, 64);
 
@@ -182,8 +182,12 @@ error SdMemory::connect(void)
 
 	mRca = 0x00000000;
 
+	thread::delay(100);
+
 	// CMD0 (SD메모리 리셋)
 	result = sendCmd(0, 0, RESPONSE_NONE);
+
+	thread::delay(100);
 
 	// CMD8 (SD메모리가 SD ver 2.0을 지원하는지 확인)
 	result = sendCmd(8, 0x000001AA, RESPONSE_SHORT);
@@ -257,7 +261,7 @@ error SdMemory::connect(void)
 	mReadBlockLen = extractReadBlockLength(cbuf);
 	
 	result = select(true);
-	if(result != ERROR_NONE)
+	if(result != error::ERROR_NONE)
 		goto error;
 
 	temp = mReadBlockLen;
@@ -298,7 +302,7 @@ error SdMemory::sendAcmd(uint8_t cmd, uint32_t arg, uint8_t responseType)
 {
 	error result;
 
-	SdMemory::CardStatus status;
+	SdMemory::CardStatus_t status;
 
 	// CMD55 - 다음 명령을 ACMD로 인식 하도록 사전에 보냄
 	result = sendCmd(55, mRca, RESPONSE_SHORT);
@@ -331,12 +335,12 @@ error SdMemory::select(bool en)
 	return result;
 }
 
-SdMemory::CardStatus SdMemory::getCardStatus(void)
+SdMemory::CardStatus_t SdMemory::getCardStatus(void)
 {
-	CardStatus sts;
+	CardStatus_t sts;
 	uint32_t *buf = (uint32_t*)&sts;
 
-	if (sendCmd(13, mRca, RESPONSE_SHORT) == ERROR_NONE)
+	if (sendCmd(13, mRca, RESPONSE_SHORT) == error::ERROR_NONE)
 		*buf = getShortResponse();
 	else
 		*buf = 0xFFFFFFFF;
@@ -348,45 +352,6 @@ uint32_t SdMemory::getNumOfBlock(void)
 {
 	return mMaxBlockAddr;
 }
-
-//void SdMemory::isrDetection(void)
-//{
-//	sdmmc.lock();
-
-//	thread::delay(500);
-
-//	if (mDetectPin.port->getData(mDetectPin.pin) == false && mConnectedFlag == false)
-//	{
-//		setPower(true);
-//		if(sdmmc.connect() == error::ERROR_NONE)
-//		{
-//			mConnectedFlag = true;
-//			sdmmc.unlock();
-
-//			if(mCallbackConnected)
-//				mCallbackConnected(true);
-//		}
-//		else
-//		{
-//			mConnectedFlag = false;
-//			setPower(false);
-//			sdmmc.unlock();
-//		}
-//	}
-//	else if(mDetectPin.port->getData(mDetectPin.pin) == true && mConnectedFlag == true)
-//	{
-//		mConnectedFlag = false;
-//		setPower(false);
-//		sdmmc.unlock();
-
-//		if(mCallbackConnected)
-//			mCallbackConnected(false);
-//	}
-//	else
-//	{
-//		sdmmc.unlock();
-//	}
-//}
 
 uint32_t SdMemory::getBlockSize(void)
 {

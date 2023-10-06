@@ -29,6 +29,8 @@
 #include <yss/gui.h>
 #include <../bmp/logo.h>
 #include <../font/Noto_Sans_CJK_HK_14.h>
+#include <yss/debug.h>
+#include <gui/FrameBufferRgb888.h>
 
 class Logo : public Object
 {
@@ -43,13 +45,13 @@ private :
 	{
 		char str[32];
 		Font font(Font_Noto_Sans_CJK_HK_14);
-		Position pos = {0, 0};
+		Position_t pos = {0, 0};
 		
 		font.setSpaceWidth(5);
 
 		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF);
 		mFrameBuffer->clear();
-		mFrameBuffer->drawBmp({0, 19}, logo);
+		mFrameBuffer->drawBitmap({0, 19}, logo);
 		mFrameBuffer->setFont(font);
 		mFrameBuffer->setFontColor(0x00, 0x00, 0x00);
 		
@@ -58,7 +60,7 @@ private :
 		if(pos.x < 0)
 			pos.x = 0;
 
-		mFrameBuffer->drawString(pos, str);
+//		mFrameBuffer->drawString(pos, str);
 	}	
 };
 
@@ -73,11 +75,11 @@ namespace Task
 
 		Logo *logo = new Logo;
 		Frame *frame = new Frame;
-		Size size = frame->getSize();
-		
+		Size_t size = frame->getSize();
+
 		logo->setPosition({0, (int16_t)((size.height - logo->getSize().height) / 2)});
 				
-		frame->setBackgroundColor(0xFF, 0xFF, 0xFF);
+		frame->setBackgroundColor(0xFF, 0xFF, 0xFF, 0xFF);
 		frame->add(logo);
 
 		setFrame(frame);

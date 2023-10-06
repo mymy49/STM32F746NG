@@ -28,7 +28,7 @@
 
 #include "mcu.h"
 
-#if false
+#if defined(STM32F7_N)
 
 typedef SDMMC_TypeDef	YSS_SDMMC_Peri;
 
@@ -51,6 +51,25 @@ typedef volatile uint32_t	YSS_SDMMC_Peri;
 
 class Sdmmc : public Drv, public sac::SdMemory
 {
+public :
+	struct Config
+	{
+		YSS_SDMMC_Peri *peri;
+		Dma &txDma;
+		Dma::DmaInfo txDmaInfo;
+		Dma &rxDma;
+		Dma::DmaInfo rxDmaInfo;
+	};
+
+	Sdmmc(const Drv::Config &drvConfig, const Config &config);
+
+	error initialize(void);
+
+	void lock(void);
+
+	void unlock(void);
+
+private :
 	YSS_SDMMC_Peri *mPeri;
 	Dma *mTxDma, *mRxDma;
 	Dma::DmaInfo mTxDmaInfo, mRxDmaInfo;
@@ -73,24 +92,6 @@ class Sdmmc : public Drv, public sac::SdMemory
 	bool setBusWidth(uint8_t width);
 	void unlockRead(void);
 	void unlockWrite(void);
-
-  public:
-	struct Config
-	{
-		YSS_SDMMC_Peri *peri;
-		Dma &txDma;
-		Dma::DmaInfo txDmaInfo;
-		Dma &rxDma;
-		Dma::DmaInfo rxDmaInfo;
-	};
-
-	Sdmmc(const Drv::Config &drvConfig, const Config &config);
-
-	bool init(void);
-
-	void lock(void);
-	void unlock(void);
-
 };
 
 #endif

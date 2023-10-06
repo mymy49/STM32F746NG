@@ -82,19 +82,18 @@ void ILI9488_with_Brush_RGB888::drawFontDot(int16_t x, int16_t y, uint8_t color)
 	(void)color;
 }
 
-void ILI9488_with_Brush_RGB888::eraseDot(Position pos)
+void ILI9488_with_Brush_RGB888::eraseDot(Position_t pos)
 {
-	uint32_t color = mBgColor.getRgb888Code();
 	if (pos.y < mSize.height && pos.x < mSize.width)
 	{
 		enable();
 		setWindows(pos.x, pos.y);
-		sendCmd(MEMORY_WRITE, &color, 3);
+		sendCmd(MEMORY_WRITE, &mBgColor, 3);
 		disable();
 	}
 }
 
-void ILI9488_with_Brush_RGB888::drawBmp(Position pos, const Bmp888 *image)
+void ILI9488_with_Brush_RGB888::drawBmp(Position_t pos, const Bmp888 *image)
 {
 	// RGB888이 아니면 리턴
 	if (image->type != 1)
@@ -140,24 +139,24 @@ void ILI9488_with_Brush_RGB888::clear(void)
 	}
 	
 	mBmp888Brush->setSize(width, height);
-	mBmp888Brush->setBackgroundColor(mBgColor);
+	mBmp888Brush->setBackgroundColor(mFontBgColor);
 	mBmp888Brush->clear();
 	
 	for(uint32_t i=0;i<loop;i++)
 	{
-		drawBmp(Position{0, (int16_t)(height * i)}, mBmp888Brush->getBmp888());
+		drawBmp(Position_t{0, (int16_t)(height * i)}, mBmp888Brush->getBmp888());
 	}
 
 	if(lastPos)
-		drawBmp(Position{0, (int16_t)lastPos}, mBmp888Brush->getBmp888());
+		drawBmp(Position_t{0, (int16_t)lastPos}, mBmp888Brush->getBmp888());
 }
 
-void ILI9488_with_Brush_RGB888::fillRect(Position p1, Position p2)
+void ILI9488_with_Brush_RGB888::fillRect(Position_t p1, Position_t p2)
 {
 	if(!mBmp888Brush)
 		return;
 	uint32_t width, height, loop, bufHeight;
-	Position pos;
+	Position_t pos;
 
 	if(p1.x < p2.x)
 	{
@@ -191,9 +190,9 @@ void ILI9488_with_Brush_RGB888::fillRect(Position p1, Position p2)
 		mBmp888Brush->setSize(width, bufHeight);
 	else
 		mBmp888Brush->setSize(width, height);
-
-	mBmp888Brush->setBackgroundColor(mBrushColor);
-	mBmp888Brush->clear();
+#warning "업데이트 필요"
+	//mBmp888Brush->setBackgroundColor(mBrushColor);
+	//mBmp888Brush->clear();
 	
 	for(uint32_t  i=0;i<loop;i++)
 	{
@@ -205,13 +204,13 @@ void ILI9488_with_Brush_RGB888::fillRect(Position p1, Position p2)
 	if(height)
 	{
 		mBmp888Brush->setSize(width, height);
-		drawBmp(Position{pos.x, pos.y}, mBmp888Brush->getBmp888());
+		drawBmp(Position_t{pos.x, pos.y}, mBmp888Brush->getBmp888());
 	}
 }
 
-void ILI9488_with_Brush_RGB888::fillRect(Position pos, Size size)
+void ILI9488_with_Brush_RGB888::fillRect(Position_t pos, Size_t size)
 {
-	fillRect(pos, Position{(int16_t)(pos.x + size.width), (int16_t)(pos.y + size.height)});
+	fillRect(pos, Position_t{(int16_t)(pos.x + size.width), (int16_t)(pos.y + size.height)});
 }
 
 #endif

@@ -73,7 +73,7 @@ namespace  sac
 		return (uint16_t)y;
 	}
 
-	Position Rtouch::calculate(int32_t x, int32_t y)
+	Position_t Rtouch::calculate(int32_t x, int32_t y)
 	{
 		int32_t width = mCalibrationData->width - mCalibrationData->xOffset * 2;
 		int32_t height = mCalibrationData->height - mCalibrationData->yOffset * 2;
@@ -88,7 +88,7 @@ namespace  sac
 			y = 0;
 		else if(y > mCalibrationData->height)
 			y = mCalibrationData->height;
-		return Position {(int16_t)x, (int16_t)y};
+		return Position_t {(int16_t)x, (int16_t)y};
 	}
 }
 

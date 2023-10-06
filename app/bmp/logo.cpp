@@ -7693,7 +7693,7 @@ static const unsigned char data[76800] = // 75.0 kB
 	
 };
 
-const struct Bmp565 logo = 
+const Bitmap_t logo = 
 {
 	480,	// width
 	80,	// height

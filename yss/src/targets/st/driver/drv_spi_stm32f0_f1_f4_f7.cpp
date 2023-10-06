@@ -61,7 +61,11 @@ Spi::Spi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 
 error Spi::setSpecification(const Specification &spec)
 {
+#if defined(STM32F4_N) ||  defined(GD32F1) || defined(STM32F1_N)
+	uint32_t reg, buf;
+#elif defined(STM32F0_N) || defined(STM32F7_N)
 	uint32_t reg;
+#endif
 
 	if (mLastSpec == &spec)
 		return error::ERROR_NONE;
