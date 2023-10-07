@@ -70,7 +70,6 @@ void setActiveFrame(Frame *obj)
 
 void clearActiveFrame(void)
 {
-	gFrameBuf = 0;
 	gLastSelectedObj = 0;
 }
 
