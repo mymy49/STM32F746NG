@@ -8,12 +8,12 @@
 
 // ARGB1555 (Little Endian) 설정으로 출력된 파일입니다.
 
-#ifndef YSS_mainBackground_BMP__H_
-#define YSS_mainBackground_BMP__H_
+#ifndef YSS_infoButton_BMP__H_
+#define YSS_infoButton_BMP__H_
 
 #include <gui/util.h>
 
-extern const Bitmap_t mainBackground;
+extern const Bitmap_t infoButton;
 
 #endif
 

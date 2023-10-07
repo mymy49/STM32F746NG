@@ -44,6 +44,9 @@ namespace Task
 
 	// task_hadleMainPage.cpp
 	error handleMainPage(FunctionQueue *obj);
+
+	// task_handleInfoPage.cpp
+	error handleInfoPage(FunctionQueue *obj);
 }
 
 #endif

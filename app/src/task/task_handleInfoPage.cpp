@@ -25,21 +25,67 @@
 #include <yss.h>
 #include <bsp.h>
 #include <task.h>
-#include <../bmp/mainBackground.h>
-#include <../bmp/infoButton.h>
+#include <../bmp/infoBackground.h>
+#include <../bmp/xButton.h>
+#include <../font/Noto_Sans_CJK_HK_14.h>
 
-class InfoButton : public Button
+class XButton : public Button
 {
 public :
-	InfoButton(void)
+	XButton(void)
 	{
-		setSize(infoButton.width, infoButton.height);
+		setSize(xButton.width, xButton.height);
 		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF, 0x00);
 		mFrameBuffer->clear();
-		mFrameBuffer->drawBitmap({0, 0}, infoButton);
+		mFrameBuffer->drawBitmap({0, 0}, xButton);
 	}
 
-	virtual ~InfoButton(void)
+	virtual ~XButton(void)
+	{
+		
+	}
+
+private :
+	virtual void paint(void)
+	{
+
+	}
+};
+
+class Info : public Object
+{
+public :
+	Info(void)
+	{
+		Position_t textPos = {70, 70};
+		int16_t lineOffset = 30;
+		Font font(Font_Noto_Sans_CJK_HK_14);
+
+		// 객체 크기 설정
+		setSize(infoBackground.width, infoBackground.height);
+		
+		// 배경 이미지 그리기
+		mFrameBuffer->drawBitmap({0, 0}, infoBackground);
+		
+		// 본문 쓰기
+		font.setSpaceWidth(6);
+		mFrameBuffer->setFont(font);
+		mFrameBuffer->setFontColor(0x00, 0x00, 0x00);
+
+		mFrameBuffer->drawString(textPos, "본 소프트웨어는 이순신 OS를 위한 예제 프로젝트입니다.");
+		textPos.y += lineOffset;
+		mFrameBuffer->drawString(textPos, "전자 앨범과 탁상 시계 기능을 구현 할 예정입니다.");
+		textPos.y += lineOffset;
+		mFrameBuffer->drawString(textPos, "이순신 OS에서 권장하는 프로그래밍 패턴을");
+		textPos.y += lineOffset;
+		mFrameBuffer->drawString(textPos, "제공하기 위해 진행합니다.");
+		textPos.y += lineOffset;
+
+		
+
+	}
+
+	virtual ~Info(void)
 	{
 		
 	}
@@ -55,7 +101,7 @@ namespace Task
 {
 	static Frame *gFrame;
 
-	void thread_handleMainPage(void)
+	void thread_handleInfoPage(void)
 	{
 		while(1)
 		{
@@ -63,14 +109,14 @@ namespace Task
 		}
 	}
 
-	void handler_infoBt(void)
+	void handler_xBt(void)
 	{
 		fq.lock();
-		fq.add(handleInfoPage);
+		fq.add(handleMainPage);
 		fq.unlock();
 	}
 
-	error handleMainPage(FunctionQueue *obj)
+	error handleInfoPage(FunctionQueue *obj)
 	{
 		(void)obj;
 
@@ -78,19 +124,18 @@ namespace Task
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
 
 		gFrame = new Frame;
-		Bitmap *bmp = new Bitmap;
-		InfoButton *infoBt = new InfoButton;
+		Info *info = new Info;
+		XButton *xBt = new XButton;
 
-		infoBt->setPushEventHandler(handler_infoBt);
-		infoBt->setPosition(30, 30);
+		xBt->setPushEventHandler(handler_xBt);
+		xBt->setPosition(480 - 35 - 10, 10);
 
-		bmp->setBmp(mainBackground);
-		gFrame->add(bmp);
-		gFrame->add(infoBt);
+		gFrame->add(info);
+		gFrame->add(xBt);
 
 		setFrame(gFrame);
 
-		addThread(thread_handleMainPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
+		addThread(thread_handleInfoPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
 												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.

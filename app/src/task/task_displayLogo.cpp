@@ -48,7 +48,7 @@ private :
 		Position_t pos = {0, 0};
 		
 		font.setSpaceWidth(5);
-
+		
 		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF);
 		mFrameBuffer->clear();
 		mFrameBuffer->drawBitmap({0, 19}, logo);
@@ -60,7 +60,7 @@ private :
 		if(pos.x < 0)
 			pos.x = 0;
 
-//		mFrameBuffer->drawString(pos, str);
+		mFrameBuffer->drawString(pos, str);
 	}	
 };
 
