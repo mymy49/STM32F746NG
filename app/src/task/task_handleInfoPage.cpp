@@ -29,29 +29,6 @@
 #include <../bmp/xButton.h>
 #include <../font/Noto_Sans_CJK_HK_14.h>
 
-class XButton : public Button
-{
-public :
-	XButton(void)
-	{
-		setSize(xButton.width, xButton.height);
-		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF, 0x00);
-		mFrameBuffer->clear();
-		mFrameBuffer->drawBitmap({0, 0}, xButton);
-	}
-
-	virtual ~XButton(void)
-	{
-		
-	}
-
-private :
-	virtual void paint(void)
-	{
-
-	}
-};
-
 class Info : public Object
 {
 public :
@@ -80,9 +57,6 @@ public :
 		textPos.y += lineOffset;
 		mFrameBuffer->drawString(textPos, "제공하기 위해 진행합니다.");
 		textPos.y += lineOffset;
-
-		
-
 	}
 
 	virtual ~Info(void)
@@ -101,14 +75,6 @@ namespace Task
 {
 	static Frame *gFrame;
 
-	void thread_handleInfoPage(void)
-	{
-		while(1)
-		{
-			thread::yield();
-		}
-	}
-
 	void handler_xBt(void)
 	{
 		fq.lock();
@@ -125,7 +91,7 @@ namespace Task
 
 		gFrame = new Frame;
 		Info *info = new Info;
-		XButton *xBt = new XButton;
+		ImageButton *xBt = new ImageButton(&xButton);
 
 		xBt->setPushEventHandler(handler_xBt);
 		xBt->setPosition(480 - 35 - 10, 10);
@@ -134,9 +100,6 @@ namespace Task
 		gFrame->add(xBt);
 
 		setFrame(gFrame);
-
-		addThread(thread_handleInfoPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
-												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.
 

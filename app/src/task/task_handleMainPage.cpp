@@ -28,40 +28,9 @@
 #include <../bmp/mainBackground.h>
 #include <../bmp/infoButton.h>
 
-class InfoButton : public Button
-{
-public :
-	InfoButton(void)
-	{
-		setSize(infoButton.width, infoButton.height);
-		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF, 0x00);
-		mFrameBuffer->clear();
-		mFrameBuffer->drawBitmap({0, 0}, infoButton);
-	}
-
-	virtual ~InfoButton(void)
-	{
-		
-	}
-
-private :
-	virtual void paint(void)
-	{
-
-	}
-};
-
 namespace Task
 {
 	static Frame *gFrame;
-
-	void thread_handleMainPage(void)
-	{
-		while(1)
-		{
-			thread::yield();
-		}
-	}
 
 	void handler_infoBt(void)
 	{
@@ -79,7 +48,7 @@ namespace Task
 
 		gFrame = new Frame;
 		Bitmap *bmp = new Bitmap;
-		InfoButton *infoBt = new InfoButton;
+		ImageButton *infoBt = new ImageButton(&infoButton);
 
 		infoBt->setPushEventHandler(handler_infoBt);
 		infoBt->setPosition(30, 30);
@@ -89,9 +58,6 @@ namespace Task
 		gFrame->add(infoBt);
 
 		setFrame(gFrame);
-
-		addThread(thread_handleMainPage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
-												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.
 

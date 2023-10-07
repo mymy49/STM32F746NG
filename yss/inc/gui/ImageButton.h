@@ -23,30 +23,35 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef YSS_GUI__H_
-#define YSS_GUI__H_
+#ifndef YSS_GUI_IMAGE_BUTTON__H_
+#define YSS_GUI_IMAGE_BUTTON__H_
 
-#include "gui/FrameBuffer.h"
-#include "gui/FrameBufferRgb888.h"
-#include "gui/Rgb565.h"
-#include "gui/Rgb888.h"
-#include "gui/Argb1555.h"
-#include "gui/Object.h"
-#include "gui/Frame.h"
-#include "gui/Font.h"
-#include "gui/Panel.h"
-#include "gui/Container.h"
-#include "gui/OutputFrameBuffer.h"
-#include "gui/Button.h"
-#include "gui/Label.h"
-#include "gui/CheckBox.h"
-#include "gui/RadioPanel.h"
-#include "gui/RadioButton.h"
-#include "gui/HSlider.h"
-#include "gui/VSlider.h"
-#include "gui/Segment.h"
-#include "gui/Bitmap.h"
-#include "gui/ImageButton.h"
+#include "Button.h"
+#include "util.h"
+
+class ImageButton : public Object
+{
+public:
+	ImageButton(const Bitmap_t *normal = 0, const Bitmap_t *push = 0);
+
+	virtual ~ImageButton(void);
+
+	virtual void paint(void);
+
+	void setPushEventHandler(void (*handler)(void));
+
+	void setUpEventHandler(void (*handler)(void));
+
+	virtual Object *handlerPush(Position_t pos);
+
+	virtual Object *handlerUp(void);
+
+private :
+	const Bitmap_t *mNormalImage, *mPushImage;
+	bool mState;
+	void (*mPushHandler)(void);
+	void (*mUpHandler)(void);
+};
 
 #endif
 
