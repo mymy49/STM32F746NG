@@ -86,7 +86,7 @@ void ImageButton::paint(void)
 		{
 			pos.x = (size.width - mPushImage->width) / 2;
 			pos.y = (size.height - mPushImage->height) / 2;
-
+			
 			mFrameBuffer->clear();
 			mFrameBuffer->drawBitmap(pos, mPushImage);
 		}

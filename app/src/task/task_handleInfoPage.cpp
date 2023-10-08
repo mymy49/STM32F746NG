@@ -37,6 +37,8 @@ public :
 		Position_t textPos = {70, 70};
 		int16_t lineOffset = 30;
 		Font font(Font_Noto_Sans_CJK_HK_14);
+		
+		mEditLocker.lock();
 
 		// 객체 크기 설정
 		setSize(infoBackground.width, infoBackground.height);
@@ -57,6 +59,8 @@ public :
 		textPos.y += lineOffset;
 		mFrameBuffer->drawString(textPos, "제공하기 위해 진행합니다.");
 		textPos.y += lineOffset;
+
+		mEditLocker.unlock();
 	}
 
 	virtual ~Info(void)

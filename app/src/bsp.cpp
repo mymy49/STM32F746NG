@@ -75,6 +75,9 @@ void initializeBoard(void)
 	sdmmc.initialize();
 	sdmmc.setVcc(3.3);
 	sdmmc.enableInterrupt();
+
+	// setDetectPin() 함수를 가장 마지막에 호출해야 함
+	sdmmc.setDetectPin({&gpioC, 13});
 }
 
 void initializeLcd(void)

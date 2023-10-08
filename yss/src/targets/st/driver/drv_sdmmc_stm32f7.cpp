@@ -87,7 +87,7 @@ void Sdmmc::unlock(void)
 
 error Sdmmc::sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType)
 {
-	uint32_t reg = cmd | SDMMC_CMD_CPSMEN_Msk, status, statusChkFlag;
+	uint32_t reg = cmd | SDMMC_CMD_CPSMEN_Msk, status;
 	const int8_t response[3] = {0, 1, 3};
 	
 	mPeri->ARG = arg;			// 아규먼트 세팅
@@ -132,7 +132,7 @@ error_handler:
 }
 
 
-void Sdmmc::setPower(bool en)
+void Sdmmc::enablePower(bool en)
 {
 	if(en)
 		setFieldData(mPeri->POWER, SDMMC_POWER_PWRCTRL_Msk, POWER_ON, SDMMC_POWER_PWRCTRL_Pos);

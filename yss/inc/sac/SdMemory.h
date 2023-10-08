@@ -29,6 +29,8 @@
 #include "MassStorage.h"
 #include <util/ElapsedTime.h>
 #include <yss/error.h>
+#include <yss/thread.h>
+#include <drv/Gpio.h>
 
 namespace sac
 {
@@ -71,14 +73,18 @@ public:
 	};
 
 	SdMemory(void);
+
+	// 소멸자를 호출할 일이 없으므로 소멸자는 생략
 	
 	error connect(void);
 
-	void disconnect(void);
+	error disconnect(void);
 
 	void setVcc(float vcc);
 
 	bool isConnected(void);
+
+	bool isDetected(void);
 
 	uint32_t getBlockSize(void);
 
@@ -87,6 +93,8 @@ public:
 	error write(uint32_t block, void *src);
 
 	error read(uint32_t block, void *des);
+
+	void setDetectPin(Gpio::Pin pin, bool autoConnect = false, bool detectPolarity = false);
 
 private :
 	typedef struct
@@ -164,7 +172,7 @@ private :
 
 	virtual void setSdioClockEn(bool en) = 0;
 
-	virtual void setPower(bool en) = 0;
+	virtual void enablePower(bool en = true) = 0;
 
 	virtual void readyRead(void *des, uint16_t length) = 0;
 
@@ -181,6 +189,11 @@ private :
 	virtual void unlockRead(void) = 0;
 
 	virtual void unlockWrite(void) = 0;
+
+private :
+	triggerId mTriggerId;
+	Gpio::Pin mDetectPin;
+	bool mDetectPolarity;
 };
 }
 

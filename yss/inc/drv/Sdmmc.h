@@ -76,22 +76,36 @@ private :
 	bool mAcmdFlag;
 	uint8_t mBlockSize;
 
-  protected:
-	error sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
-	uint32_t getShortResponse(void);
-	void getLongResponse(void *des);
-	void setSdioClockBypass(bool en);
-	void setSdioClockEn(bool en);
-	void setClockFrequency(int32_t  frequency);
-	void setPower(bool en);
-	void readyRead(void *des, uint16_t length);
-	void readyWrite(void *des, uint16_t length);
-	void setDataBlockSize(uint8_t blockSize);
-	error waitUntilReadComplete(void);
-	error waitUntilWriteComplete(void);
-	bool setBusWidth(uint8_t width);
-	void unlockRead(void);
-	void unlockWrite(void);
+protected:
+	virtual error sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
+
+	virtual uint32_t getShortResponse(void);
+
+	virtual void getLongResponse(void *des);
+
+	virtual void setSdioClockBypass(bool en);
+
+	virtual void setSdioClockEn(bool en);
+
+	virtual void setClockFrequency(int32_t  frequency);
+
+	virtual void enablePower(bool en = true);
+
+	virtual void readyRead(void *des, uint16_t length);
+
+	virtual void readyWrite(void *des, uint16_t length);
+
+	virtual void setDataBlockSize(uint8_t blockSize);
+
+	virtual error waitUntilReadComplete(void);
+
+	virtual error waitUntilWriteComplete(void);
+
+	virtual bool setBusWidth(uint8_t width);
+
+	virtual void unlockRead(void);
+
+	virtual void unlockWrite(void);
 };
 
 #endif
