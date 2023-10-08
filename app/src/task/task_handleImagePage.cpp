@@ -25,29 +25,25 @@
 #include <yss.h>
 #include <bsp.h>
 #include <task.h>
-#include <../bmp/mainBackground.h>
-#include <../bmp/infoButton.h>
-#include <../bmp/imageButton.h>
+#include <../bmp/infoBackground.h>
+#include <../bmp/xButton.h>
+#include <../font/Noto_Sans_CJK_HK_14.h>
 
 namespace Task
 {
+	void handler_xBt(void);
+
 	static Frame *gFrame;
 
-	void handler_infoBt(void)
+	void thread_handleImagePage(void)
 	{
-		fq.lock();
-		fq.add(handleInfoPage);
-		fq.unlock();
+		while(1)
+		{
+			thread::yield();
+		}
 	}
 
-	void handler_imageBt(void)
-	{
-		fq.lock();
-		fq.add(handleImagePage);
-		fq.unlock();
-	}
-
-	error handleMainPage(FunctionQueue *obj)
+	error handleImagePage(FunctionQueue *obj)
 	{
 		(void)obj;
 
@@ -55,22 +51,17 @@ namespace Task
 		clearTask();	// 이전에 등록된 쓰레드 등을 전부 제거한다.
 
 		gFrame = new Frame;
-		Bitmap *bmp = new Bitmap;
-		ImageButton *infoBt = new ImageButton(&infoButton);
-		ImageButton *imageBt = new ImageButton(&imageButton);
+		ImageButton *xBt = new ImageButton(&xButton);
 
-		infoBt->setPushEventHandler(handler_infoBt);
-		infoBt->setPosition(30, 30);
+		xBt->setPushEventHandler(handler_xBt);
+		xBt->setPosition(480 - 35 - 10, 10);
 
-		imageBt->setPushEventHandler(handler_imageBt);
-		imageBt->setPosition(120, 30);
-
-		bmp->setBmp(mainBackground);
-		gFrame->add(bmp);
-		gFrame->add(infoBt);
-		gFrame->add(imageBt);
+		gFrame->add(xBt);
 
 		setFrame(gFrame);
+
+		addThread(thread_handleImagePage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
+												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.
 
