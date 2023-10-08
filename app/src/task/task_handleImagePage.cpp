@@ -59,7 +59,7 @@ public :
 	}
 
 private :
-	uint32_t mLastFileCnt, mLastDirCnt, drawCnt = 0;
+	uint32_t mLastFileCnt, mLastDirCnt;
 
 	virtual void paint(void)
 	{
@@ -75,7 +75,8 @@ private :
 			dir.initialize();
 		
 			uint32_t fileCnt = dir.getFileCount(), dirCnt = dir.getDirectoryCount();
-		
+			uint32_t drawCnt = 0;
+
 			mFrameBuffer->clear();
 			
 			drawCnt++;
@@ -176,8 +177,8 @@ namespace Task
 
 		setFrame(gFrame);
 
-		addThread(thread_handleImagePage, 512);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
-												// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
+		addThread(thread_handleImagePage, 1024);	// thread_handleMainPage() 함수를 스케줄러에 등록한다.
+													// addThread() 함수를 통해 등록된 쓰레드는 clearTask() 함수 호출시 종료 된다.
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.
 
