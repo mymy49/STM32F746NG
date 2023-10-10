@@ -523,6 +523,9 @@ bool Fat32DirectoryEntry::comapreTargetName(const char *utf8)
 					return true;
 			}
 		}
+
+		if(*csrc == 0)
+			return false;
 	}
 
 extractShortName :
@@ -534,11 +537,11 @@ extractShortName :
 		if(*cmp++ != *csrc++)
 			return true;
 	}
-
-	if(*cmp != *csrc)
-		return true;
-	else
+	
+	if(*csrc == 0 && *cmp == ' ' || *cmp == *csrc)
 		return false;
+	else
+		return true;
 }
 
 int32_t  Fat32DirectoryEntry::strlen(const char *src)

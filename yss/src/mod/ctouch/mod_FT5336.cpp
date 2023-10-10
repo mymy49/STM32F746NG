@@ -46,7 +46,7 @@ error FT5336::initialize(const Config config)
 		thread::delay(10);
 		config.resetPin.port->setOutput(config.resetPin.pin, true);
 	}
-	thread::delay(100);
+	thread::delay(200);
 
 	if(getByte(0xa8) != 0x51)
 		return error::FAIL;

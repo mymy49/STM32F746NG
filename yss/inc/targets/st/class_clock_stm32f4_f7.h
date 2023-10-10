@@ -222,6 +222,14 @@ public:
 	uint32_t getLtdcClockFrequency(void);
 #endif
 
+	uint32_t getSdmmcClockFrequency(void);
+
+#if defined(STM32F7_N)
+	uint32_t getPll48ClkClockFrequency(void);
+
+	void setSdmmcClockSrouce(bool src);
+#endif
+
 	// Clock
 	virtual uint32_t getCoreClockFrequency(void); // virtual 0
 

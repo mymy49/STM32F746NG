@@ -29,7 +29,7 @@
 
 #include <drv/Pwm.h>
 #include <yss/reg.h>
-#if defined(GD32F1)
+#if defined(GD32F1) || defined(STM32F1_N)
 #include <targets/st/bitfield_stm32f103xx.h>
 #elif defined(STM32F767xx)
 #include <targets/st/bitfield_stm32f767xx.h>

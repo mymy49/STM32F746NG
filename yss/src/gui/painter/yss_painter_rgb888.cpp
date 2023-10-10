@@ -35,8 +35,9 @@
 #include <gui/Rgb888.h>
 #include <gui/Bmp888.h>
 #include <gui/Bmp565.h>
+#include <gui/Bmp1555.h>
 #include <yss/thread.h>
-
+/*
 namespace Painter
 {
 inline void swapStartPosition(int16_t &startPos, int16_t &endPos)
@@ -80,54 +81,6 @@ void fill(Rgb888 &obj, Color color)
 	dma2d.fill(config);
 	dma2d.waitUntilComplete();
 	dma2d.unlock();
-}
-
-void fillRectangle(Rgb888 &obj, Position sp, Position ep, Color color)
-{
-	(void)obj;
-	(void)sp;
-	(void)ep;
-	(void)color;
-
-	//uint8_t *desAddr;
-
-	//swapStartPosition(sp.x, ep.x);
-	//swapStartPosition(sp.y, ep.y);
-
-	//Size desSize = obj.getSize();
-
-	//if (sp.x >= desSize.width || sp.y >= desSize.height)
-	//	return;
-
-	//if (desSize.width <= ep.x)
-	//	ep.x = desSize.width;
-	//if (desSize.height <= ep.y)
-	//	ep.y = desSize.height;
-
-	//Size srcSize = {(uint16_t)(ep.x - sp.x), (uint16_t)(ep.y - sp.y)};
-
-	//desAddr = (uint8_t *)obj.getFrameBuffer();
-	//if (desAddr == 0)
-	//	return;
-
-	//desAddr = &desAddr[desSize.width * sp.y * 3 + sp.x * 3];
-
-	//mMutex.lock();
-	//setDma2dMode(define::dma2d::mode::REG_TO_MEM);
-	//setDma2dOutputColorMode(define::dma2d::colorMode::RGB565);
-	//setDma2dOutputColor(color.halfword);
-	//setDma2dOmar(desAddr);
-	//setDma2dNumOfLine(srcSize.height);
-	//setDma2dNumOfPixel(srcSize.width);
-	//setDma2dOutputLineOffset(desSize.width - srcSize.width);
-	//setDma2dStart();
-
-	//while (getDma2dTcif() == false)
-	//	thread::yield();
-
-	//clrDma2dTcif();
-
-	//mMutex.unlock();
 }
 
 void fillRectangle(Rgb888 &obj, Position pos, Size size, Color color)
@@ -491,8 +444,63 @@ void draw(Rgb888 &des, const Bmp565 *bmp, Position pos)
 	dma2d.unlock();
 }
 
-}
+void draw(Rgb888 &des, const Bmp1555 *bmp, Position pos)
+{
+	uint16_t desOffset, srcOffset, buf;
+	uint8_t *desAddr;
+	uint16_t *srcAddr;
+	Size desSize, srcSize;
 
+	desSize = des.getSize();
+	srcSize = Size{bmp->width, bmp->height};
+
+	if (pos.x >= desSize.width || pos.y >= desSize.height)
+		return;
+
+	if (pos.x + srcSize.width > desSize.width)
+	{
+		buf = srcSize.width;
+		srcSize.width = desSize.width - pos.x;
+		srcOffset = buf - srcSize.width;
+	}
+	else
+		srcOffset = 0;
+
+	if (pos.y + srcSize.height > desSize.height)
+		srcSize.height = desSize.height - pos.y;
+
+	desOffset = desSize.width - srcSize.width;
+
+	desAddr = (uint8_t *)des.getFrameBuffer();
+	if (desAddr == 0)
+		return;
+	desAddr = &desAddr[pos.y * desSize.width * 3 + pos.x * 3];
+
+	srcAddr = (uint16_t *)bmp->data;
+	if (srcAddr == 0)
+		return;
+
+	using namespace define::dma2d;
+	Dma2d::BlendConfig config = 
+	{
+		(void*)srcAddr,			//void *sourceAddress;
+		(uint16_t)srcOffset,	//uint16_t sourceOffset;
+		colorMode::ARGB1555,	//uint8_t sourceColorMode;
+
+		(void*)desAddr,			//void *destinationAddress;
+		(uint16_t)desOffset,	//uint16_t destinationOffset;
+		colorMode::RGB888,		//uint8_t destinationColorMode;
+
+		srcSize	//Size size;
+	};
+	
+	dma2d.lock();
+	dma2d.blend(config);
+	dma2d.waitUntilComplete();
+	dma2d.unlock();
+}
+}
+*/
 #endif
 
 #endif

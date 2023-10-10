@@ -35,7 +35,7 @@
 // ####################### 스케줄러 설정 #######################
 
 // 내부 ms 를 만들 시계의 타이머 설정 (timer1 ~ timer14)
-#define YSS_TIMER			timer1
+#define YSS_TIMER			timer6
 
 // 쓰레드당 할당 받는 Systick Clock의 수
 #define THREAD_GIVEN_CLOCK	20000
@@ -55,41 +55,19 @@
 #define NUM_OF_YSS_KEY		4
 
 // ###################### 주변 장치 활성화 ######################
-// 활성화 시킬 장치에 대해 주석 처리를 해제 한다.
+// 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화 한다.
 //
 // 주의 
-// 1. TIMER와 PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
-
-// UART 활성화
-//#define UART1_ENABLE
-//#define UART2_ENABLE
-//#define UART3_ENABLE
-
-// PWM 활성화
-//#define PWM1_ENABLE
-//#define PWM2_ENABLE
-//#define PWM3_ENABLE
-//#define PWM4_ENABLE
+// 1. TIMER, PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
 
 // TIMER 활성화
-#define TIM1_ENABLE
-//#define TIM2_ENABLE
-//#define TIM3_ENABLE
-//#define TIM4_ENABLE
-
-// I2C 활성화
-//#define I2C1_ENABLE
-//#define I2C2_ENABLE
-
-// SPI 활성화
-//#define SPI1_ENABLE
-//#define SPI2_ENABLE
-
-// CAN 활성화
-//#define CAN1_ENABLE
-
-// ADC 활성화
-//#define ADC1_ENABLE
-//#define ADC2_ENABLE
+#define TIM1_ENABLE			false
+#define TIM2_ENABLE			false
+#define TIM3_ENABLE			false
+#define TIM4_ENABLE			false
+#define TIM5_ENABLE			false
+#define TIM6_ENABLE			true
+#define TIM7_ENABLE			false
+#define TIM8_ENABLE			false
 
 #endif

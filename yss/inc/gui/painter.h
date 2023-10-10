@@ -26,33 +26,41 @@
 #ifndef YSS_GUI_PAINTER__H_
 #define YSS_GUI_PAINTER__H_
 
-#include "util.h"
-#include "Object.h"
-#include "Color.h"
+//#include "util.h"
+//#include "Object.h"
+//#include "Color.h"
 
-namespace Painter
-{
-// yss_painter.cpp
-void drawArea(Object &des, Position areaPos, Size areaSize, Object &src);
-void draw(Object &des, Object &src);
+//class Bmp888;
 
-// yss_painter_rgb565.cpp
-void drawArea(Rgb565 &des, Position areaPos, Size areaSize, Rgb565 &src, Position srcPos);
-void draw(Rgb565 &des, Rgb565 &src, Position pos);
-void fill(Rgb565 &obj, Color color);
-void fillRectangle(Rgb565 &obj, Position pos, Size size, Color color);
-uint8_t drawChar(Rgb565 &des, Font *font, uint32_t utf8, Position pos, Color color);
-void draw(Rgb565 &des, const Bmp565 *bmp, Position pos);
+//namespace Painter
+//{
+//	// yss_painter.cpp
+//	void fill(FrameBuffer &obj, uint32_t color);
+//	void drawArea(Object &des, Position areaPos, Size areaSize, Object &src);
+//	void draw(Object &des, Object &src);
+//	void drawBitmap(Brush &des, const Bitmap *bmp, Position pos);
+//	uint8_t drawChar(FrameBuffer &des, Font *font, uint32_t utf8, Position pos, Color color);
 
-// yss_painter_rgb888.cpp
-void drawArea(Rgb888 &des, Position areaPos, Size areaSize, Rgb888 &src, Position srcPos);
-void draw(Rgb888 &des, Rgb888 &src, Position pos);
-void fill(Rgb888 &obj, Color color);
-void fillRectangle(Rgb888 &obj, Position pos, Size size, Color color);
-uint8_t drawChar(Rgb888 &des, Font *font, uint32_t utf8, Position pos, Color color);
-void draw(Rgb888 &des, const Bmp888 *bmp, Position pos);
-void draw(Rgb888 &des, const Bmp565 *bmp, Position pos);
-}
+//	// yss_painter_rgb565.cpp
+//	void drawArea(Rgb565 &des, Position areaPos, Size areaSize, Rgb565 &src, Position srcPos);
+//	void draw(Rgb565 &des, Rgb565 &src, Position pos);
+//	void fillRectangle(Rgb565 &obj, Position pos, Size size, Color color);
+//	void draw(Rgb565 &des, const Bmp565 *bmp, Position pos);
+
+//	// yss_painter_rgb888.cpp
+//	void drawArea(Rgb888 &des, Position areaPos, Size areaSize, Rgb888 &src, Position srcPos);
+//	void draw(Rgb888 &des, Rgb888 &src, Position pos);
+//	void fillRectangle(Rgb888 &obj, Position pos, Size size, Color color);
+//	void draw(Rgb888 &des, const Bmp888 *bmp, Position pos);
+//	void draw(Rgb888 &des, const Bmp565 *bmp, Position pos);
+//	void draw(Rgb888 &des, const Bmp1555 *bmp, Position pos);
+
+//	// yss_painter_argb1555.cpp
+//	void fillRectangle(Argb1555 &obj, Position pos, Size size, Color color);
+//	void draw(Argb1555 &des, Argb1555 &src, Position pos);
+//	void drawArea(Argb1555 &des, Position areaPos, Size areaSize, Argb1555 &src, Position srcPos);
+//	void draw(Argb1555 &des, const Bmp1555 *bmp, Position pos);
+//}
 
 #endif
 

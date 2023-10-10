@@ -431,6 +431,10 @@ extern Sai sai2A;
 extern Sai sai2B;
 #endif
 
+#if defined(SDMMC1)
+extern Sdmmc sdmmc;
+#endif
+
 #if defined(FMC_Bank5_6)
 extern Sdram sdram;
 #endif
