@@ -28,7 +28,7 @@
 
 #include "mcu.h"
 
-#if false
+#if defined(STM32F7_N)
 
 typedef SDMMC_TypeDef	YSS_SDMMC_Peri;
 
@@ -51,30 +51,7 @@ typedef volatile uint32_t	YSS_SDMMC_Peri;
 
 class Sdmmc : public Drv, public sac::SdMemory
 {
-	YSS_SDMMC_Peri *mPeri;
-	Dma *mTxDma, *mRxDma;
-	Dma::DmaInfo mTxDmaInfo, mRxDmaInfo;
-	bool mAcmdFlag;
-	uint8_t mBlockSize;
-
-  protected:
-	error sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
-	uint32_t getShortResponse(void);
-	void getLongResponse(void *des);
-	void setSdioClockBypass(bool en);
-	void setSdioClockEn(bool en);
-	void setClockFrequency(int32_t  frequency);
-	void setPower(bool en);
-	void readyRead(void *des, uint16_t length);
-	void readyWrite(void *des, uint16_t length);
-	void setDataBlockSize(uint8_t blockSize);
-	error waitUntilReadComplete(void);
-	error waitUntilWriteComplete(void);
-	bool setBusWidth(uint8_t width);
-	void unlockRead(void);
-	void unlockWrite(void);
-
-  public:
+public :
 	struct Config
 	{
 		YSS_SDMMC_Peri *peri;
@@ -86,11 +63,49 @@ class Sdmmc : public Drv, public sac::SdMemory
 
 	Sdmmc(const Drv::Config &drvConfig, const Config &config);
 
-	bool init(void);
+	error initialize(void);
 
 	void lock(void);
+
 	void unlock(void);
 
+private :
+	YSS_SDMMC_Peri *mPeri;
+	Dma *mTxDma, *mRxDma;
+	Dma::DmaInfo mTxDmaInfo, mRxDmaInfo;
+	bool mAcmdFlag;
+	uint8_t mBlockSize;
+
+protected:
+	virtual error sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
+
+	virtual uint32_t getShortResponse(void);
+
+	virtual void getLongResponse(void *des);
+
+	virtual void setSdioClockBypass(bool en);
+
+	virtual void setSdioClockEn(bool en);
+
+	virtual void setClockFrequency(int32_t  frequency);
+
+	virtual void enablePower(bool en = true);
+
+	virtual void readyRead(void *des, uint16_t length);
+
+	virtual void readyWrite(void *des, uint16_t length);
+
+	virtual void setDataBlockSize(uint8_t blockSize);
+
+	virtual error waitUntilReadComplete(void);
+
+	virtual error waitUntilWriteComplete(void);
+
+	virtual bool setBusWidth(uint8_t width);
+
+	virtual void unlockRead(void);
+
+	virtual void unlockWrite(void);
 };
 
 #endif

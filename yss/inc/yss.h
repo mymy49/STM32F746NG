@@ -45,12 +45,13 @@ void setSystemTftLcd(TftLcdDriver &lcd);
 TftLcdDriver* getSystemTftLcd(void);
 
 #if defined(DMA2D) && USE_EVENT == true
-void setEvent(Position pos, uint8_t event);
+void setEvent(Position_t pos, uint8_t event);
 #endif
 
 #if USE_GUI == true && YSS_L_HEAP_USE == true
-void setSystemFrame(Frame &obj);
-void setSystemFrame(Frame *obj);
+void setActiveFrame(Frame *obj);
+
+void clearActiveFrame(void);
 #endif
 
 #endif

@@ -301,6 +301,18 @@ namespace define
 				SCALE1_MODE,
 			};
 		}
+
+		namespace  sdmmc
+		{
+			namespace src
+			{
+				enum
+				{
+					USB_CLK = 0,
+					SYSCLK
+				};
+			}
+		}
 	}
 	
 	// DMA

@@ -260,7 +260,7 @@ static void resetUart4(void)
 	clock.unlock();
 }
 
-static const Drv::Config gDrvUart4Config
+static const Drv::Setup gDrvUart4Setup
 {
 	enableUart4Clock,		//void (*clockFunc)(bool en);
 	enableUart4Interrupt,	//void (*nvicFunc)(bool en);
@@ -278,19 +278,19 @@ static const Dma::DmaInfo gUart4TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-	0,													// uint32_t controlRegister2
-	0,													// uint32_t controlRegister3
-	(void*)&UART4[UART_REG::DR]							//void *dataRegister;
+	0,					// uint32_t controlRegister2
+	0,					// uint32_t controlRegister3
+	(void*)&UART4->DR	//void *dataRegister;
 };
 
-static const Uart::Config gUart4Config
+static const Uart::Setup gUart4Setup
 {
-	(YSS_USART_Peri*)UART4,	//YSS_SPI_Peri *peri;
-	dmaChannel12,			//Dma &txDma;
-	gUart4TxDmaInfo			//Dma::DmaInfo txDmaInfo;
+	UART4,			//YSS_SPI_Peri *peri;
+	dmaChannel12,	//Dma &txDma;
+	gUart4TxDmaInfo	//Dma::DmaInfo txDmaInfo;
 };
 
-Uart uart4(gDrvUart4Config, gUart4Config);
+Uart uart4(gDrvUart4Setup, gUart4Setup);
 
 extern "C"
 {

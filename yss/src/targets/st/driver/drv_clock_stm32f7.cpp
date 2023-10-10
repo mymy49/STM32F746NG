@@ -363,6 +363,27 @@ uint32_t Clock::getApb2ClockFrequency(void)
 	return getSystemClockFrequency() / gPpreDiv[((RCC->CFGR & RCC_CFGR_PPRE2_Msk) >> RCC_CFGR_PPRE2_Pos)];
 }
 
+void Clock::setSdmmcClockSrouce(bool src)
+{
+	setBitData(RCC->DCKCFGR2, src, RCC_DCKCFGR2_SDMMC1SEL_Pos);
+}
+
+uint32_t Clock::getPll48ClkClockFrequency(void)
+{
+	if(RCC->DCKCFGR2 & RCC_DCKCFGR2_CK48MSEL_Msk)
+		return getSaiPllPFrequency();
+	else
+		return getMainPllQFrequency();
+}
+
+uint32_t Clock::getSdmmcClockFrequency(void)
+{
+	if(RCC->DCKCFGR2 & RCC_DCKCFGR2_SDMMC1SEL_Msk)
+		return getSystemClockFrequency();
+	else
+		return getPll48ClkClockFrequency();
+}
+
 bool Clock::setSysclk(uint8_t sysclkSrc, uint8_t ahb, uint8_t apb1, uint8_t apb2, uint8_t vcc)
 {
 	(void)vcc;

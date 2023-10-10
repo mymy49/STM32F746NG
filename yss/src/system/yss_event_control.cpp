@@ -50,7 +50,7 @@ namespace event
 		while(gPointerEvent.getMessageCount())
 		{
 			data = gPointerEvent.pop();
-			setEvent(Position{(int16_t)data.x, (int16_t)data.y}, data.event);
+			setEvent(Position_t{(int16_t)data.x, (int16_t)data.y}, data.event);
 		}
 	}
 
