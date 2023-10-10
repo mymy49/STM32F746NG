@@ -24,7 +24,11 @@
 #ifndef BSP__H_
 #define BSP__H_
 
+#include <util/FunctionQueue.h>
+
 void initializeBoard(void);
+
+extern FunctionQueue fq;
 
 #endif
 
