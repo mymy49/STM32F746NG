@@ -44,7 +44,7 @@
 #include <targets/st/bitfield_stm32f767xx.h>
 #elif defined(STM32F746xx)
 #include <targets/st/bitfield_stm32f746xx.h>
-#elif defined(GD32F1) || defined(STM32F103xB)
+#elif defined(GD32F1) || defined(STM32F1_N)
 #include <targets/st/bitfield_stm32f103xx.h>
 #endif
 

@@ -15,7 +15,7 @@
 // Copyright 2023. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
-
+/*
 #include <drv/peripheral.h>
 
 #if defined(GD32F1) || defined(GD32F4) || defined(STM32F1)
@@ -352,4 +352,6 @@ bool Sdmmc::setBusWidth(uint8_t width)
 }
 
 #endif
+
+*/
 

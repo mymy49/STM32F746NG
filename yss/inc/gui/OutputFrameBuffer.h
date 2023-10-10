@@ -28,6 +28,8 @@
 
 #include <config.h>
 
+#ifdef YSS_OUTPUT_FRAME_BUFFER
+
 class Frame;
 
 class OutputFrameBuffer
@@ -53,6 +55,8 @@ private :
 	Frame *mFrame;
 	YSS_OUTPUT_FRAME_BUFFER *mFrameBuffer;
 };
+
+#endif
 
 #endif
 
