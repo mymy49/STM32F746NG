@@ -37,6 +37,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_LIST_COUNT		10
+
 class FileExplorer : public Object
 {
 public :
@@ -44,6 +46,11 @@ public :
 	{
 		setSize(480, 272);
 		mLastDirCnt = mLastFileCnt = 0;
+		mDisplayedFileCount = mDisplayedFolderCount = 0;
+		mPage = 0;
+
+		for(uint8_t i=0;i<MAX_LIST_COUNT;i++)
+			mList[i] = 0;
 	}
 
 	virtual ~FileExplorer(void)
@@ -60,11 +67,12 @@ public :
 	}
 
 private :
-	uint32_t mLastFileCnt, mLastDirCnt;
+	int32_t mLastFileCnt, mLastDirCnt, mList[10], mPage;
+	uint8_t mDisplayedFileCount, mDisplayedFolderCount;
 
 	virtual void paint(void)
 	{
-		uint32_t len;
+		int32_t len;
 		char *str = new char[256];
 		char *name = new char[256];
 		Position_t posIcon = {10, 10}, posName = {35, 12};
@@ -76,8 +84,8 @@ private :
 
 			dir.initialize();
 		
-			uint32_t fileCnt = dir.getFileCount(), dirCnt = dir.getDirectoryCount();
-			uint32_t drawCnt = 0;
+			int32_t fileCnt = dir.getFileCount(), dirCnt = dir.getDirectoryCount();
+			int32_t drawCnt = 0;
 
 			mFrameBuffer->setBackgroundColor(0x30, 0xFF, 0x30);
 			mFrameBuffer->clear();
@@ -90,7 +98,7 @@ private :
 			
 			for(uint32_t i=0;i<dirCnt;i++)
 			{
-				if(drawCnt >= 10)
+				if(drawCnt >= MAX_LIST_COUNT)
 					break;
 
 				dir.getDirectoryName(i, name, 256);
@@ -101,12 +109,14 @@ private :
 
 				posName.y += 24;
 				posIcon.y += 24;
+				mList[i] = ;
 				drawCnt++;
+				mDisplayedFolderCount = drawCnt;
 			}
 
-			for(uint32_t i=0;i<fileCnt;i++)
+			for(uint32_t i=0;i<fileCnt-(mPage*MAX_LIST_COUNT);i++)
 			{
-				if(drawCnt >= 10)
+				if(drawCnt >= MAX_LIST_COUNT)
 					break;
 
 				dir.getFileName(i, name, 256);
@@ -122,6 +132,7 @@ private :
 					posName.y += 24;
 					posIcon.y += 24;
 					drawCnt++;
+					mDisplayedFileCount = drawCnt - mDisplayedFolderCount;
 				}
 			}
 			Object::update();
@@ -135,6 +146,12 @@ private :
 
 		delete str;
 		delete name;
+	}
+
+	virtual Object *handlerPush(Position_t pos)
+	{
+		
+		return this;
 	}
 };
 
