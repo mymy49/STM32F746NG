@@ -28,6 +28,8 @@
 
 int main(void)
 {
+	bool mLastDetectFlag = false, flag;
+
 	// 운영체체 초기화
 	initializeYss();
 	
@@ -45,6 +47,17 @@ int main(void)
 
 	while(1)
 	{
+		flag = sdmmc.isDetected();
+
+		if(mLastDetectFlag != flag)
+		{
+			mLastDetectFlag = flag;
+
+			if(flag && !sdmmc.isConnected())
+				sdmmc.connect();
+			else if(!flag && sdmmc.isConnected())
+				sdmmc.disconnect();
+		}
 		thread::yield();
 	}
 }

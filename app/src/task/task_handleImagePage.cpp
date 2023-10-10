@@ -44,23 +44,48 @@ class FileExplorer : public Object
 public :
 	FileExplorer(void)
 	{
+		mFat32 = new Fat32(sdmmc);
+		mDir = new Directory(mFat32);
+
 		setSize(480, 272);
 		mLastDirCnt = mLastFileCnt = 0;
 		mDisplayedFileCount = mDisplayedFolderCount = 0;
 		mPage = 0;
+		mLastConnectFlag = false;
 
 		for(uint8_t i=0;i<MAX_LIST_COUNT;i++)
 			mList[i] = 0;
+
+		mFrameBuffer->setBackgroundColor(0x30, 0xFF, 0x30);
 	}
 
 	virtual ~FileExplorer(void)
 	{
-
+		delete mDir;
+		delete mFat32;
 	}
 	
 	void refresh(void)
 	{
+		bool flag = sdmmc.isConnected();
 		mEditLocker.lock();
+
+		if(flag && mLastConnectFlag == false)
+		{
+			mDir->initialize();
+			mLastConnectFlag = true;
+		}
+		else if(!flag)
+		{
+			for(int32_t i=0;i<MAX_LIST_COUNT;i++)
+				mList[i] = 0;
+
+			mLastDirCnt = mLastFileCnt = 0;
+			mDisplayedFileCount = mDisplayedFolderCount = 0;
+			mPage = 0;
+			mLastConnectFlag = false;
+		}
+
 		paint();
 		update();
 		mEditLocker.unlock();
@@ -69,25 +94,24 @@ public :
 private :
 	int32_t mLastFileCnt, mLastDirCnt, mList[10], mPage;
 	uint8_t mDisplayedFileCount, mDisplayedFolderCount;
+	const Position_t mListStartPos = {10, 10};
+	const Size_t mListSize = {460, 24};
+	bool mLastConnectFlag;
+	Fat32 *mFat32;
+	Directory *mDir;
 
 	virtual void paint(void)
 	{
 		int32_t len;
 		char *str = new char[256];
 		char *name = new char[256];
-		Position_t posIcon = {10, 10}, posName = {35, 12};
+		Position_t posIcon = mListStartPos, posName = {mListStartPos.x + 25, mListStartPos.y + 2};
 
 		if(sdmmc.isConnected())
 		{
-			Fat32 fat32(sdmmc);
-			Directory dir(fat32);
-
-			dir.initialize();
-		
-			int32_t fileCnt = dir.getFileCount(), dirCnt = dir.getDirectoryCount();
+			int32_t fileCnt = mDir->getFileCount(), dirCnt = mDir->getDirectoryCount();
 			int32_t drawCnt = 0;
 
-			mFrameBuffer->setBackgroundColor(0x30, 0xFF, 0x30);
 			mFrameBuffer->clear();
 
 			mFrameBuffer->setBrushColor(0x30, 0x80, 0x30);
@@ -96,12 +120,12 @@ private :
 			mFrameBuffer->setFontColor(0xFF, 0xFF, 0xFF);
 			mFrameBuffer->setFont(Font_Noto_Sans_CJK_HK_14);
 			
-			for(uint32_t i=0;i<dirCnt;i++)
+			for(int32_t i=mPage*MAX_LIST_COUNT;i<dirCnt;i++)
 			{
 				if(drawCnt >= MAX_LIST_COUNT)
 					break;
 
-				dir.getDirectoryName(i, name, 256);
+				mDir->getDirectoryName(i, name, 256);
 
 				sprintf(str, "%s", name);
 				mFrameBuffer->drawBitmap(posIcon, folder);
@@ -109,17 +133,16 @@ private :
 
 				posName.y += 24;
 				posIcon.y += 24;
-				mList[i] = ;
-				drawCnt++;
+				mList[drawCnt++] = i;
 				mDisplayedFolderCount = drawCnt;
 			}
 
-			for(uint32_t i=0;i<fileCnt-(mPage*MAX_LIST_COUNT);i++)
+			for(int32_t i=mPage*MAX_LIST_COUNT;i<fileCnt;i++)
 			{
 				if(drawCnt >= MAX_LIST_COUNT)
 					break;
 
-				dir.getFileName(i, name, 256);
+				mDir->getFileName(i, name, 256);
 				len = strlen(name);
 
 				if(	(name[len-4] == '.' && name[len-3] == 'b' && name[len-2] == 'm' && name[len-1] == 'p') ||
@@ -131,12 +154,16 @@ private :
 
 					posName.y += 24;
 					posIcon.y += 24;
-					drawCnt++;
+					mList[drawCnt++] = i;
 					mDisplayedFileCount = drawCnt - mDisplayedFolderCount;
 				}
 			}
 			Object::update();
 
+			for(int32_t i=drawCnt;i<MAX_LIST_COUNT;i++)
+			{
+				mList[drawCnt++] = 0;
+			}
 		}
 		else
 		{
@@ -150,7 +177,22 @@ private :
 
 	virtual Object *handlerPush(Position_t pos)
 	{
+		int32_t index;
+
+		pos.x -= mListStartPos.x;
+		pos.y -= mListStartPos.y;
+		index = pos.y / mListSize.height;
 		
+		if(pos.x < mListSize.width && index < MAX_LIST_COUNT)
+		{
+			if(index < mDisplayedFolderCount)
+			{
+				mDir->enterDirectory(mList[index]);
+				mPage = 0;
+				refresh();
+			}
+		}
+
 		return this;
 	}
 };
@@ -164,25 +206,18 @@ namespace Task
 
 	void thread_handleImagePage(void)
 	{
-		bool mLastDetectFlag = false, mLastConnectFlag = false, flag;
+		bool mLastConnectFlag = false, flag;
 		
+		gFileExplorer->refresh();
+
 		while(1)
 		{
-			flag = sdmmc.isDetected();
-			if(mLastDetectFlag != flag)
-			{
-				mLastDetectFlag = flag;
+			flag = sdmmc.isConnected();
 
-				if(flag && !sdmmc.isConnected())
-				{
-					sdmmc.connect();
-					gFileExplorer->refresh();
-				}
-				else if(!flag && sdmmc.isConnected())
-				{
-					sdmmc.disconnect();
-					gFileExplorer->refresh();
-				}
+			if(mLastConnectFlag != flag)
+			{
+				mLastConnectFlag = flag;
+				gFileExplorer->refresh();
 			}
 			thread::yield();
 		}
