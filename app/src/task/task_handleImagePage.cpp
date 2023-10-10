@@ -80,11 +80,11 @@ private :
 			mFrameBuffer->clear();
 			
 			drawCnt++;
-			sprintf(str, "File Count = %d", dirCnt);
+			sprintf(str, "File Count = %d", fileCnt);
 			mFrameBuffer->drawString(pos, str);
 
 			drawCnt++;
-			sprintf(str, "Directory Count = %d", fileCnt);
+			sprintf(str, "Directory Count = %d", dirCnt);
 			pos.y += 15;
 			mFrameBuffer->drawString(pos, str);
 			
