@@ -39,8 +39,9 @@ int main(void)
 
 	// Function Queue 기능을 활용하여 순차 처리를 한다.
 	fq.start();
-	fq.add(Task::displayLogo);		// 로고 출력
-	fq.add(Task::handleMainPage);	// 메인 페이지 처리
+	//fq.add(Task::displayLogo);		// 로고 출력
+	//fq.add(Task::handleMainPage);	// 메인 페이지 처리
+	fq.add(Task::handleImagePage);	// 메인 페이지 처리
 
 	while(1)
 	{

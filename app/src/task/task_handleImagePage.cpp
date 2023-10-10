@@ -27,12 +27,15 @@
 #include <task.h>
 #include <../bmp/infoBackground.h>
 #include <../bmp/xButton.h>
+#include <../bmp/folder.h>
+#include <../bmp/picture.h>
 #include <../font/Noto_Sans_CJK_HK_14.h>
 
 #include <yss/Directory.h>
 #include <yss/Fat32.h>
 #include <yss/File.h>
 #include <stdio.h>
+#include <string.h>
 
 class FileExplorer : public Object
 {
@@ -41,8 +44,6 @@ public :
 	{
 		setSize(480, 272);
 		mLastDirCnt = mLastFileCnt = 0;
-		mFrameBuffer->setBackgroundColor(0xFF, 0xFF, 0xFF);
-		mFrameBuffer->setFont(Font_Noto_Sans_CJK_HK_14);
 	}
 
 	virtual ~FileExplorer(void)
@@ -63,9 +64,10 @@ private :
 
 	virtual void paint(void)
 	{
+		uint32_t len;
 		char *str = new char[256];
 		char *name = new char[256];
-		Position_t pos = {5, 5};
+		Position_t posIcon = {10, 10}, posName = {35, 12};
 
 		if(sdmmc.isConnected())
 		{
@@ -77,39 +79,50 @@ private :
 			uint32_t fileCnt = dir.getFileCount(), dirCnt = dir.getDirectoryCount();
 			uint32_t drawCnt = 0;
 
+			mFrameBuffer->setBackgroundColor(0x30, 0xFF, 0x30);
 			mFrameBuffer->clear();
-			
-			drawCnt++;
-			sprintf(str, "File Count = %d", fileCnt);
-			mFrameBuffer->drawString(pos, str);
 
-			drawCnt++;
-			sprintf(str, "Directory Count = %d", dirCnt);
-			pos.y += 15;
-			mFrameBuffer->drawString(pos, str);
+			mFrameBuffer->setBrushColor(0x30, 0x80, 0x30);
+			mFrameBuffer->fillRect({5, 5}, Size_t{470, 262});
+
+			mFrameBuffer->setFontColor(0xFF, 0xFF, 0xFF);
+			mFrameBuffer->setFont(Font_Noto_Sans_CJK_HK_14);
 			
 			for(uint32_t i=0;i<dirCnt;i++)
 			{
-				if(drawCnt >= 17)
+				if(drawCnt >= 10)
 					break;
 
-				drawCnt++;
 				dir.getDirectoryName(i, name, 256);
-				sprintf(str, "D[%d]%s", i, name);
-				pos.y += 15;
-				mFrameBuffer->drawString(pos, str);
+
+				sprintf(str, "%s", name);
+				mFrameBuffer->drawBitmap(posIcon, folder);
+				mFrameBuffer->drawString(posName, str);
+
+				posName.y += 24;
+				posIcon.y += 24;
+				drawCnt++;
 			}
 
 			for(uint32_t i=0;i<fileCnt;i++)
 			{
-				if(drawCnt >= 17)
+				if(drawCnt >= 10)
 					break;
 
-				drawCnt++;
 				dir.getFileName(i, name, 256);
-				sprintf(str, "F[%d]%s", i, name);
-				pos.y += 15;
-				mFrameBuffer->drawString(pos, str);
+				len = strlen(name);
+
+				if(	(name[len-4] == '.' && name[len-3] == 'b' && name[len-2] == 'm' && name[len-1] == 'p') ||
+					(name[len-4] == '.' && name[len-3] == 'B' && name[len-2] == 'M' && name[len-1] == 'P'))
+				{
+					sprintf(str, "%s", name);
+					mFrameBuffer->drawBitmap(posIcon, picture);
+					mFrameBuffer->drawString(posName, str);
+
+					posName.y += 24;
+					posIcon.y += 24;
+					drawCnt++;
+				}
 			}
 			Object::update();
 
