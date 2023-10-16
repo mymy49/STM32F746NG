@@ -32,14 +32,8 @@ namespace Task
 {
 	uint32_t gThreadCnt;
 	threadId gThreadId[MAX_TASK_THREAD];
-	FunctionQueue *gFq;
 	Mutex gMutex;
 	Frame *gFrame;
-
-	void setFunctionQueue(FunctionQueue &obj)
-	{
-		gFq = &obj;
-	}
 
 	void lock(void)
 	{
