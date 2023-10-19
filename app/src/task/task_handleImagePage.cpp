@@ -39,6 +39,26 @@
 
 #define MAX_LIST_COUNT		10
 
+class BmpViewer :Object
+{
+public :
+	BmpViewer(void)
+	{
+
+	}
+
+	virtual ~BmpViewer(void)
+	{
+
+	}
+
+private :
+	virtual void paint(void)
+	{
+
+	}
+};
+
 class FileExplorer : public Object
 {
 public :
@@ -189,6 +209,11 @@ private :
 			{
 				mDir->enterDirectory(mList[index]);
 				mPage = 0;
+				refresh();
+			}
+			else if(index < mDisplayedFolderCount + mDisplayedFileCount)
+			{
+				setVisible(false);
 				refresh();
 			}
 		}
