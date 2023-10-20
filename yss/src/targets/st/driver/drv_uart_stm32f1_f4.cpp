@@ -31,14 +31,7 @@
 #include <drv/Uart.h>
 #include <yss/thread.h>
 #include <yss/reg.h>
-
-#if defined(STM32F446xx)
-#include <targets/st/bitfield_stm32f446xx.h>
-#elif defined(STM32F429xx)
-#include <targets/st/bitfield_stm32f429xx.h>
-#elif defined(STM32F103xB) || defined(STM32F103xE) || defined(GD32F10X_MD)
-#include <targets/st/bitfield_stm32f103xx.h>
-#endif
+#include <targets/st/bitfield.h>
 
 Uart::Uart(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 {
@@ -157,12 +150,21 @@ void Uart::isr(void)
 {
 	uint32_t sr = mDev->SR;
 
-	push(mDev->DR);
-
-	if (sr & (1 << 3))
+	if(sr & (USART_SR_FE_Msk | USART_SR_ORE_Msk | USART_SR_NE_Msk))
 	{
-		flush();
+		if(sr & USART_SR_FE_Msk && mIsrForFrameError)
+			mIsrForFrameError();
+
+		if(sr & USART_SR_ORE_Msk)
+			__NOP();
+
+		mDev->DR;
+		mDev->SR = USART_SR_FE_Msk | USART_SR_ORE_Msk | USART_SR_NE_Msk;
 	}
+	else if(mIsrForRxData)
+		mIsrForRxData(mDev->DR);
+	else
+		push(mDev->DR);
 }
 
 #endif
