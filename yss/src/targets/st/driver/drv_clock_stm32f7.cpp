@@ -29,12 +29,7 @@
 
 #include <drv/Clock.h>
 #include <yss/reg.h>
-
-#if defined(STM32F767xx)
-#include <targets/st/bitfield_stm32f767xx.h>
-#elif defined(STM32F746xx)
-#include <targets/st/bitfield_stm32f746xx.h>
-#endif
+#include <targets/st/bitfield.h>
 
 static uint32_t gHseFreq __attribute__((section(".non_init")));
 static const uint32_t gPpreDiv[8] = {1, 1, 1, 1, 2, 4, 8, 16};
@@ -50,9 +45,13 @@ static uint32_t gI2sCkinFreq __attribute__((section(".non_init")));
 #define HSE_MIN_FREQ			1000000
 #define HSE_MAX_FREQ			50000000
 
-#define AHB_MAX_FREQ			216000000
-#define APB1_MAX_FREQ			54000000
-#define APB2_MAX_FREQ			108000000
+// AHB
+#define AHB_MAX_FREQ_SCALE1		216000000
+#define AHB_MAX_FREQ_SCALE1_OVR	180000000
+#define AHB_MAX_FREQ_SCALE2		180000000
+#define AHB_MAX_FREQ_SCALE2_OVR	168000000
+#define AHB_MAX_FREQ_SCALE3		144000000
+#define AHB_MAX_FREQ_SCALE3_OVR	144000000
 
 // Main PLL
 #define PLL_VCO_MIN_FREQ		100000000
