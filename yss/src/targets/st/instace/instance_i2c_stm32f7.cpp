@@ -30,10 +30,7 @@
 #include <yss/instance.h>
 #include <config.h>
 #include <yss.h>
-
-#if defined(STM32F746xx)
-#include <targets/st/bitfield_stm32f746xx.h>
-#endif
+#include <targets/st/bitfield.h>
 
 #if defined(I2C1) && I2C1_ENABLE
 static uint32_t getI2c1Clock(void)
