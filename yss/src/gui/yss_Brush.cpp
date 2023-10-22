@@ -464,14 +464,14 @@ void Brush::fillCircle(Position_t pos, uint16_t radius)
 		y = pos.y + i + 1;
 		if(y < mSize.height)
 		{
-			for(uint32_t x=sx;x<=ex;x++)
+			for(int32_t x=sx;x<=ex;x++)
 				drawDot(x, y);
 		}
 		
 		y = pos.y - i;
 		if(y >= 0)
 		{
-			for(uint32_t x=sx;x<=ex;x++)
+			for(int32_t x=sx;x<=ex;x++)
 				drawDot(x, y);
 		}
 	}

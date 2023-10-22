@@ -29,7 +29,6 @@
 
 #include <std_ext/malloc.h>
 #include <gui/FrameBuffer.h>
-#include <gui/painter.h>
 
 FrameBuffer::FrameBuffer(void)
 {

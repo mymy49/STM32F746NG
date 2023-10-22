@@ -31,7 +31,6 @@
 
 #include <yss.h>
 #include <std_ext/malloc.h>
-#include <gui/painter.h>
 
 Frame::Frame()
 {
@@ -107,8 +106,8 @@ void Frame::update(Position_t beforePos, Size_t beforeSize, Position_t currentPo
 		obj = mObjArr[i];
 		if (obj->isVisible())
 		{
-			//Painter::drawArea(*this, beforePos, beforeSize, *obj);
-			//Painter::drawArea(*this, currentPos, currentSize, *obj);
+			mFrameBuffer->drawObjectToPartialArea(beforePos, beforeSize, obj);
+			mFrameBuffer->drawObjectToPartialArea(currentPos, currentSize, obj);
 		}
 	}
 
