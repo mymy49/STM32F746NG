@@ -125,7 +125,7 @@ private :
 		int32_t len;
 		char *str = new char[256];
 		char *name = new char[256];
-		Position_t posIcon = mListStartPos, posName = {mListStartPos.x + 25, mListStartPos.y + 2};
+		Position_t posIcon = mListStartPos, posName = {(int16_t)(mListStartPos.x + 25), (int16_t)(mListStartPos.y + 2)};
 
 		if(sdmmc.isConnected())
 		{
@@ -191,8 +191,11 @@ private :
 			Object::update();
 		}
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmismatched-new-delete"
 		delete str;
 		delete name;
+#pragma GCC diagnostic pop
 	}
 
 	virtual Object *handlerPush(Position_t pos)

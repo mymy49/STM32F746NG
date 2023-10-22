@@ -66,6 +66,8 @@ error Bmp888Buffer::setSize(Size_t size)
 	mBmp888.width = size.width;
 	mBmp888.height = size.height;
 	mSize = size;
+
+	return error::ERROR_NONE;
 }
 
 uint32_t Bmp888Buffer::getBufferSize(void)
