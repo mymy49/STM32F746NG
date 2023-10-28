@@ -62,11 +62,6 @@
 #endif
 
 #if ADC1_ENABLE || ADC2_ENABLE || ADC3_ENABLE
-static uint32_t getApb1ClockFrequency(void)
-{
-	return clock.getApb1ClockFrequency();
-}
-
 static uint32_t getApb2ClockFrequency(void)
 {
 	return clock.getApb2ClockFrequency();

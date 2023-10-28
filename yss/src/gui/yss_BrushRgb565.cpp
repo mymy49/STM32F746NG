@@ -118,7 +118,7 @@ uint8_t BrushRgb565::drawChar(Position_t pos, uint32_t utf8)
 void BrushRgb565::updateFontColor(void)
 {
 	for(uint8_t i=0;i<16;i++)
-		mFontColorTable[i] = mFontColor.calculateFontColorLevel(mFontBgColor, i).getRgb565Code();
+		mFontColorTable[i] = mFontColor.calculateFontColorLevel(mBgColor, i).getRgb565Code();
 }
 
 #endif

@@ -136,13 +136,15 @@ public:
 
 	virtual uint8_t drawChar(Position_t pos, uint32_t utf8);
 
+	virtual void drawBitmapBase(Position_t pos, const Bitmap_t &bitmap);
 
-	virtual void drawBitmap(Position_t pos, const Bitmap_t &bitmap);
+	void drawBitmap(Position_t pos, const Bitmap_t &bitmap);
 
 	void drawBitmap(Position_t pos, const Bitmap_t *bitmap);
 
+	virtual void drawBitmapFileBase(Position_t pos, const BitmapFile_t &bitmap);
 
-	virtual void drawBitmapFile(Position_t pos, const BitmapFile_t &bitmap);
+	void drawBitmapFile(Position_t pos, const BitmapFile_t &bitmap);
 
 	void drawBitmapFile(Position_t pos, const BitmapFile_t *bitmap);
 	
@@ -150,7 +152,9 @@ public:
 	void fillCircle(Position_t p1, uint16_t r);
 
 	
-	virtual void fillRect(Position_t pos, Size_t size, uint32_t color);
+	virtual void fillRectBase(Position_t pos, Size_t size, uint32_t color);
+
+	void fillRect(Position_t pos, Size_t size, uint32_t color);
 
 	void fillRect(Position_t pos, Size_t size, Color color);
 
@@ -186,9 +190,9 @@ public:
 
 protected:
 	Font mFont;
-	Color mFontColor, mFontBgColor;
-	uint32_t mBgColor, mBrushColor;
-	uint32_t mFontColorTable[16];
+	Color mFontColor, mBgColor;
+	uint32_t mBgColorCode, mBrushColorCode;
+	uint32_t mFontColorCodeTable[16];
 
 	void translateFromPositionToSize(Position_t &desPos, Size_t &desSize, Position_t &srcPos1, Position_t &srcPos2);
 };
