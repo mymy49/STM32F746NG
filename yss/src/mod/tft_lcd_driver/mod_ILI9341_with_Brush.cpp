@@ -39,7 +39,7 @@ void ILI9341_with_Brush::drawDot(int16_t x, int16_t y)
 	{
 		enable();
 		setWindows(x, y);
-		sendCmd(MEMORY_WRITE, &mBrushColor, 2);
+		sendCmd(MEMORY_WRITE, &mBrushColorCode, 2);
 		disable();
 	}
 }
@@ -74,7 +74,7 @@ void ILI9341_with_Brush::eraseDot(Position_t pos)
 	{
 		enable();
 		setWindows(pos.x, pos.y);
-		sendCmd(MEMORY_WRITE, &mBgColor, 2);
+		sendCmd(MEMORY_WRITE, &mBgColorCode, 2);
 		disable();
 	}
 }
@@ -125,7 +125,7 @@ void ILI9341_with_Brush::clear(void)
 	}
 	
 	mBmpBrush->setSize(width, height);
-	mBmpBrush->setBackgroundColor(mFontBgColor);
+	mBmpBrush->setBackgroundColor(mBgColor);
 	mBmpBrush->clear();
 	
 	for(uint32_t  i=0;i<loop;i++)

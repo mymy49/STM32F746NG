@@ -48,8 +48,6 @@ public :
 
 	virtual uint8_t getColorMode(void) = 0;
 
-//	Size_t getSize(void) { return {0, 0}; }
-
 protected:
 	//Size_t mSize;
 	uint8_t *mFrameBuffer;

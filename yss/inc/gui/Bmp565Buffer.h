@@ -34,7 +34,7 @@ class Bmp565Buffer : public BrushRgb565
 {
 protected:
 	uint32_t mBufferSize;
-	uint16_t *mFrameBuffer, mBrushColorCode;
+	uint16_t *mFrameBuffer;
 	bool mOkFlag;
 	Bmp565 mBmp565;
 

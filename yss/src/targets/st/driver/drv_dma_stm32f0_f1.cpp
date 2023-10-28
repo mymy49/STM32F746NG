@@ -212,7 +212,7 @@ bool Dma::isComplete(void)
 
 DmaChannel1::DmaChannel1(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel1::isr(void)
@@ -248,7 +248,7 @@ void DmaChannel1::isr(void)
 
 DmaChannel2::DmaChannel2(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel2::isr(void)
@@ -285,7 +285,7 @@ void DmaChannel2::isr(void)
 
 DmaChannel3::DmaChannel3(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel3::isr(void)
@@ -324,7 +324,7 @@ void DmaChannel3::isr(void)
 
 DmaChannel4::DmaChannel4(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel4::isr(void)
@@ -362,7 +362,7 @@ void DmaChannel4::isr(void)
 
 DmaChannel5::DmaChannel5(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel5::isr(void)
@@ -400,7 +400,7 @@ void DmaChannel5::isr(void)
 
 DmaChannel6::DmaChannel6(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel6::isr(void)
@@ -438,7 +438,7 @@ void DmaChannel6::isr(void)
 
 DmaChannel7::DmaChannel7(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel7::isr(void)
@@ -476,6 +476,7 @@ void DmaChannel7::isr(void)
 
 DmaChannel8::DmaChannel8(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
+	(void)config;
 }
 
 void DmaChannel8::isr(void)
@@ -513,7 +514,7 @@ void DmaChannel8::isr(void)
 
 DmaChannel9::DmaChannel9(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel9::isr(void)
@@ -551,7 +552,7 @@ void DmaChannel9::isr(void)
 
 DmaChannel10::DmaChannel10(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel10::isr(void)
@@ -589,7 +590,7 @@ void DmaChannel10::isr(void)
 
 DmaChannel11::DmaChannel11(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel11::isr(void)
@@ -627,7 +628,7 @@ void DmaChannel11::isr(void)
 
 DmaChannel12::DmaChannel12(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
 {
-	
+	(void)config;
 }
 
 void DmaChannel12::isr(void)

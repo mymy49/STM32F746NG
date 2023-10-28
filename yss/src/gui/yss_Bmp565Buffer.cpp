@@ -110,7 +110,7 @@ void Bmp565Buffer::drawFontDot(int16_t x, int16_t y, uint8_t color)
 void Bmp565Buffer::eraseDot(Position_t pos)
 {
 	if (mOkFlag)
-		mFrameBuffer[pos.y * mSize.width + pos.x] = mBgColor;
+		mFrameBuffer[pos.y * mSize.width + pos.x] = mBgColorCode;
 }
 
 void Bmp565Buffer::fillRect(Position_t pos, Size_t size)
@@ -186,7 +186,7 @@ void Bmp565Buffer::clear(void)
 	if (!mOkFlag)
 		return;
 
-	memsethw(mFrameBuffer, mBgColor, mSize.width * mSize.height * 2);
+	memsethw(mFrameBuffer, mBgColorCode, mSize.width * mSize.height * 2);
 }
 
 const Bmp565 *Bmp565Buffer::getBmp565(void)
@@ -213,15 +213,13 @@ void Bmp565Buffer::drawStringToCenterAligned(const char *str)
 
 void Bmp565Buffer::setBrushColor(Color color)
 {
-	mBrushColor = color.getRgb565Code();
 	mBrushColorCode = color.getRgb565Code();
 }
 
 void Bmp565Buffer::setBrushColor(uint8_t red, uint8_t green, uint8_t blue)
 {
 	Color color(red, green, blue);
-	mBrushColor = color.getRgb565Code();
-	mBrushColorCode = mBrushColor;
+	mBrushColorCode = color.getRgb565Code();
 }
 
 #endif
