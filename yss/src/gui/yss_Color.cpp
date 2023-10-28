@@ -146,6 +146,14 @@ uint16_t Color::getArgb1555Code(void)
 	return *(uint16_t*)code;
 }
 
+void Color::setColorCodeRgb888(uint32_t code)
+{
+	mAlpha = 0xFF;
+	mRed = code >> 16;
+	mGreen = code >> 8;
+	mBlue = code;
+}
+
 uint32_t Color::getRgb888Code(void)
 {
 	return (uint32_t)mRed << 16 | (uint32_t)mGreen << 8 | (uint32_t)mBlue;
