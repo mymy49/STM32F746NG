@@ -39,23 +39,133 @@
 
 #define MAX_LIST_COUNT		10
 
-class BmpViewer :Object
+typedef struct __attribute__((packed))
+{
+	uint16_t signature;
+	uint32_t size;
+	uint32_t reserved;
+	uint32_t dataOffset;
+	uint32_t infoHeaderSize;
+	uint32_t width;
+	uint32_t height;
+	uint16_t planes;
+	uint16_t bitCount;
+}BmpHeader_t;
+
+class BmpViewer : public Object
 {
 public :
 	BmpViewer(void)
 	{
-
+		setSize(480, 272);
+		mFrameBuffer->clear();
 	}
 
 	virtual ~BmpViewer(void)
 	{
+		
+	}
 
+	void active(File *file)
+	{
+		uint8_t *buf, r, g, b;
+		uint16_t index, w, h, width, height, offset = 0;
+		BmpHeader_t *header;
+		Color color;
+
+		buf = new uint8_t[512];
+
+		mFile = file;
+		
+		// BMP 파일 처리
+		file->moveToStart();
+		file->read(buf, 512);
+		
+		header = (BmpHeader_t*)buf;
+
+		if(header->signature != 0x4D42 || header->bitCount != 24)
+			goto error_handler;
+
+		height = header->height;
+		width = header->width;
+
+		if(width > 480)
+		{			
+			offset = width - 480;
+			width = 480;
+		}
+		
+		index = header->width * 3 % 4;
+		if(index)
+			offset += index;
+
+		if(height > 272)
+			height = 272;
+
+		index = header->dataOffset;
+
+		for(int16_t y = height; y >= 0; y--)
+		{
+			for(int16_t x = 0; x < width; x++)
+			{
+				b = buf[index++];
+				if(index >= 512)
+				{
+					index = 0;
+					file->read(buf, 512);
+				}
+				
+				g = buf[index++];
+				if(index >= 512)
+				{
+					index = 0;
+					file->read(buf, 512);
+				}
+
+				r = buf[index++];
+				if(index >= 512)
+				{
+					index = 0;
+					file->read(buf, 512);
+				}
+
+				color.setColor(r, g, b);
+				mFrameBuffer->drawDot(x, y, color);
+			}
+			
+			for(uint16_t x = 0; x < offset; x++)
+			{
+				index++;
+				if(index >= 512)
+				{
+					index = 0;
+					file->read(buf, 512);
+				}
+			}
+		}
+				
+		setVisible(true);
+		update();
+
+error_handler :
+		delete buf;
 	}
 
 private :
+	File *mFile;
+
 	virtual void paint(void)
 	{
+	}
 
+	virtual Object *handlerPush(Position_t pos)
+	{
+		(void)pos;
+
+		setVisible(false);
+		update();
+
+		return this;
 	}
 };
 
@@ -64,14 +174,17 @@ class FileExplorer : public Object
 public :
 	FileExplorer(void)
 	{
-		mFat32 = new Fat32(sdmmc);
-		mDir = new Directory(mFat32);
+		mFat32Dir = new Fat32(sdmmc);
+		mFat32File = new Fat32(sdmmc);
+		mDir = new Directory(mFat32Dir);
+		mFile = new File(mFat32File);
 
 		setSize(480, 272);
 		mLastDirCnt = mLastFileCnt = 0;
 		mDisplayedFileCount = mDisplayedFolderCount = 0;
 		mPage = 0;
 		mLastConnectFlag = false;
+		mBmpViewer = 0;
 
 		for(uint8_t i=0;i<MAX_LIST_COUNT;i++)
 			mList[i] = 0;
@@ -82,7 +195,7 @@ public :
 	virtual ~FileExplorer(void)
 	{
 		delete mDir;
-		delete mFat32;
+		delete mFat32Dir;
 	}
 	
 	void refresh(void)
@@ -111,14 +224,21 @@ public :
 		mEditLocker.unlock();
 	}
 
+	void setBmpViewer(BmpViewer *obj)
+	{
+		mBmpViewer = obj;
+	}
+
 private :
 	int32_t mLastFileCnt, mLastDirCnt, mList[10], mPage;
 	uint8_t mDisplayedFileCount, mDisplayedFolderCount;
 	const Position_t mListStartPos = {10, 10};
 	const Size_t mListSize = {460, 24};
 	bool mLastConnectFlag;
-	Fat32 *mFat32;
+	Fat32 *mFat32Dir, *mFat32File;
 	Directory *mDir;
+	File *mFile;
+	BmpViewer *mBmpViewer;
 
 	virtual void paint(void)
 	{
@@ -201,6 +321,7 @@ private :
 	virtual Object *handlerPush(Position_t pos)
 	{
 		int32_t index;
+		char *name = new char[256];
 
 		pos.x -= mListStartPos.x;
 		pos.y -= mListStartPos.y;
@@ -216,10 +337,20 @@ private :
 			}
 			else if(index < mDisplayedFolderCount + mDisplayedFileCount)
 			{
-				setVisible(false);
-				refresh();
+				if(mBmpViewer)
+				{
+					mFile->initialize();
+					mFile->setPath(mDir->getCurrentDirectoryCluster());
+					mDir->getFileName(mList[index], name, 256);
+					mFile->open(name, File::READ_ONLY);
+					mBmpViewer->active(mFile);
+					mFile->close();
+					refresh();
+				}
 			}
 		}
+		
+		delete name;
 
 		return this;
 	}
@@ -231,6 +362,7 @@ namespace Task
 
 	static Frame *gFrame;
 	static FileExplorer *gFileExplorer;
+	static BmpViewer *gBmpViewer;
 
 	void thread_handleImagePage(void)
 	{
@@ -260,12 +392,18 @@ namespace Task
 
 		gFrame = new Frame;
 		gFileExplorer = new FileExplorer;
+		gBmpViewer = new BmpViewer;
 		ImageButton *xBt = new ImageButton(&xButton);
 
 		xBt->setPushEventHandler(handler_xBt);
 		xBt->setPosition(480 - 35 - 10, 10);
+
+		gBmpViewer->setVisible(false);
+
+		gFileExplorer->setBmpViewer(gBmpViewer);
 		
 		gFrame->add(gFileExplorer);
+		gFrame->add(gBmpViewer);
 		gFrame->add(xBt);
 
 		setFrame(gFrame);
