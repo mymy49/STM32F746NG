@@ -30,9 +30,9 @@
 
 #if defined(FMC_Bank5_6)
 
-#include <targets/st_gigadevice/rcc_stm32_gd32f4_f7.h>
+#include <targets/st/bitfield.h>
 
-#if defined(SDRAM_ENABLE)
+#if SDRAM_ENABLE
 static void enableClock(bool en)
 {
 	clock.lock();

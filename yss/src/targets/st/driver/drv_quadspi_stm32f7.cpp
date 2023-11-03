@@ -23,83 +23,27 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef YSS_ERROR__H_
-#define YSS_ERROR__H_
+#include <drv/mcu.h>
+
+#if defined(STM32F7_N)
 
 #include <stdint.h>
+#include <drv/peripheral.h>
+#include <drv/Quadspi.h>
+#include <targets/st/bitfield.h>
+#include <yss/thread.h>
+#include <yss/reg.h>
 
-// 에러에 대해 간단한 그룹을 형성 했지만, 필요하다면 다른 그룹의 에러도 사용한다.
-typedef enum
+Quadspi::Quadspi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 {
-	ERROR_NONE = 0,
-
-// 범용
-	BUSY,
-	OVERSIZE,
-	MALLOC_FAILED,
-	OVERFLOW,
-	BUFFER_SIZE,
-	INDEX_OVER,
-	NOT_READY,
-	TX_UNDERRUN,
-	RX_OVERRUN,
-	DMA,
-	TIMEOUT,
-	UNSUPPORTED_MODE,
-	WRONG_CONFIG,
-	WRONG_INDEX,
-	NOT_INITIALIZED,
-	OUT_OF_RANGE,
-	UNKNOWN,
-	NOT_CONNECTED,
-	FAILED_THREAD_ADDING,
-	WRONG_SIZE,
-	WRONG_CLOCK_FREQUENCY,
-	IT_ALREADY_HAVE,
-	NOT_HAVE_SPECIFICATON,
-	NACK,
-	FAIL,
-	CHECK_SUM,
-	NOT_SUPPORTED_FORMAT,
-	NOT_SUPPORTED_YET,
-	ALREADY_OPENED,
-	ALREADY_CLOSED,
-	WRONG_RESPONSE,
-	
-// FAT 관련
-	SECTOR_READ,
-	SIGNATURE,
-	PARTITION_TYPE,
-	NO_BOOT_SECTOR,
-	NO_DATA,
-	NO_FREE_DATA,
-	NO_FILE,
-	NOT_EXIST_NAME,
-	WRONG_FORMAT,
-	WRONG_FILE_NAME,
-	WRONG_DIRECTORY_NAME,
-	WRONG_DIRECTORY_PATH,
-	FILE_NOT_OPENED,
-
-// SD메모리 관련
-	BAD_SECTOR,
-	NOT_DIRECTORY,
-	SAME_FILE_NAME_EXIST,
-	NO_RESPONSE_CMD,
-	CMD_TIMEOUT,
-	DATA_TIMEOUT,
-	CMD_CRC_FAIL,
-	DATA_CRC_FAIL,
-	SDCARD_NOT_ABLE,
-
-// STM32 관련
-	SYSCLK_SRC_IS_PLL,
-	HSE_NOT_READY,
-
-// CAN 통신 관련
-	SLEEP_ACK_INTERRUPT,
-	WAKEUP_INTERRUPT,
-	ERROR_INTERRUP,
-}error;
+	mDev = setup.dev;
+	mTxDma = &setup.txDma;
+	mTxDmaInfo = setup.txDmaInfo;
+	mRxDma = &setup.rxDma;
+	mRxDmaInfo = setup.rxDmaInfo;
+	//mLastSpec = 0;
+	//mDataSize = 1;
+}
 
 #endif
+

@@ -397,28 +397,8 @@ extern Qencoder qencoder5;
 extern Qencoder qencoder8;
 #endif
 
-#if defined(TIM1)
-extern Qencoder qencoder1;
-#endif
-
-#if defined(TIM2)
-extern Qencoder qencoder2;
-#endif
-
-#if defined(TIM3)
-extern Qencoder qencoder3;
-#endif
-
-#if defined(TIM4)
-extern Qencoder qencoder4;
-#endif
-
-#if defined(TIM5)
-extern Qencoder qencoder5;
-#endif
-
-#if defined(TIM8)
-extern Qencoder qencoder8;
+#if defined(QUADSPI)
+extern Quadspi quadspi;
 #endif
 
 #if defined(SAI1)

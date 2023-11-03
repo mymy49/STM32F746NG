@@ -147,7 +147,7 @@
 #define SDMMC_ENABLE		true
 
 // SDRAM 활성화
-#define SDRAM_ENABLE		false
+#define SDRAM_ENABLE		true
 
 // SPI 활성화
 #define SPI1_ENABLE			false
