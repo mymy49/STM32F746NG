@@ -136,6 +136,9 @@
 #define QENCODER5_ENABLE	false
 #define QENCODER8_ENABLE	false
 
+// QUADSPI 활성화
+#define QUADSPI_ENABLE		true
+
 // SAI 활성화
 #define SAI1_ENABLE			false
 #define SAI2_ENABLE			false

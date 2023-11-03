@@ -49,20 +49,6 @@ void initializeBoard(void)
 	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
 	i2c3.enableInterrupt();
 
-	// 터치 초기화
-	const FT5336::Config touchConfig = 
-	{
-		i2c3,			//I2c &peri;
-		{&gpioI, 13},	//Gpio::Pin isrPin;
-		{0, 0}			//Gpio::Pin resetPin;
-	};
-
-	touch.initialize(touchConfig);
-	event::setPointerDevice(touch);
-
-	// TFT LCD 초기화
-	initializeLcd();
-
 	// SD 메모리 초기화
 	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
 	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
@@ -78,6 +64,31 @@ void initializeBoard(void)
 
 	// setDetectPin() 함수를 가장 마지막에 호출해야 함
 	sdmmc.setDetectPin({&gpioC, 13});
+
+	// Quadspi 초기화
+	gpioB.setAsAltFunc(2, altfunc::PB2_QUADSPI_CLK);
+	gpioB.setAsAltFunc(6, altfunc::PB6_QUADSPI_BK1_NCS);
+	gpioD.setAsAltFunc(11, altfunc::PD11_QUADSPI_BK1_IO0);
+	gpioD.setAsAltFunc(12, altfunc::PD12_QUADSPI_BK1_IO1);
+	gpioE.setAsAltFunc(2, altfunc::PE2_QUADSPI_BK1_IO2);
+	gpioD.setAsAltFunc(13, altfunc::PD13_QUADSPI_BK1_IO3);
+
+	quadspi.enableClock();
+	
+
+	// TFT LCD 초기화
+	initializeLcd();
+
+	// 터치 초기화
+	const FT5336::Config touchConfig = 
+	{
+		i2c3,			//I2c &peri;
+		{&gpioI, 13},	//Gpio::Pin isrPin;
+		{0, 0}			//Gpio::Pin resetPin;
+	};
+
+	touch.initialize(touchConfig);
+	event::setPointerDevice(touch);
 }
 
 void initializeLcd(void)
@@ -186,7 +197,9 @@ void initializeSdram(void)
 void initializeSystem(void)
 {
 	// 외부 클럭 활성화
+#if defined(HSE_CLOCK_FREQ)
 	clock.enableHse(HSE_CLOCK_FREQ);
+#endif
 
 	// Power Controller 활성화
 	clock.enableApb1Clock(RCC_APB1ENR_PWREN_Pos);
@@ -210,7 +223,11 @@ void initializeSystem(void)
 	// Main PLL 설정
 	clock.enableMainPll(
 		pll::src::HSE,				// uint8_t src
+#if defined(HSE_CLOCK_FREQ)
 		HSE_CLOCK_FREQ / 1000000,	// uint8_t m
+#else
+		16000000 / 1000000,			// uint8_t m
+#endif
 		432,						// uint16_t n
 		pll::pdiv::DIV2,			// uint8_t pDiv
 		pll::qdiv::DIV9,			// uint8_t qDiv
@@ -225,14 +242,6 @@ void initializeSystem(void)
 		saipll::rdiv::DIV7   // uint8_t rDiv
 	);
 
-	//// I2S PLL 설정
-	//clock.enableI2sPll(
-	//	192,                 // uint32_t n
-	//	i2spll::pdiv::DIV4,  // uint8_t pDiv
-	//	i2spll::qdiv::DIV15, // uint8_t qDiv
-	//	i2spll::rdiv::DIV7   // uint8_t rDiv
-	//);
-	
 	// 시스템 클럭 설정
 	flash.setLatency(216000000, 33);
 	clock.setSysclk(
