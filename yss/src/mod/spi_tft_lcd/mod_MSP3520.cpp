@@ -96,6 +96,11 @@ MSP3520::MSP3520(void)
 	setColorMode(COLOR_MODE_RGB888);
 }
 
+Size_t MSP3520::getLcdSize(void)
+{
+	return Size_t{320, 480};
+}
+
 #endif
 
 

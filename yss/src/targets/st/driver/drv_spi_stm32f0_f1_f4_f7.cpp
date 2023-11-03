@@ -45,7 +45,7 @@ Spi::Spi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 	mDataSize = 1;
 }
 
-error Spi::setSpecification(const Specification &spec)
+error Spi::setSpecification(const Specification_t &spec)
 {
 #if defined(STM32F4_N) ||  defined(GD32F1) || defined(STM32F1_N)
 	uint32_t reg, buf;
