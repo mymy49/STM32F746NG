@@ -70,11 +70,11 @@
 // Depth of Touch Event Memory ( 32 ~ 256 )
 #define TOUCH_EVENT_MEMORY_DEPTH		128
 
-// Frame Buffer of LCD output (Rgb565, Rgb888, Argb1555)
-#define YSS_FRAME_BUFFER				Rgb888
+// Frame Buffer of GUI Object (Rgb565, Rgb888, Argb1555)
+#define YSS_GUI_FRAME_BUFFER			Argb1555
 
-// Frame Buffer of GUI Frame (Rgb565, Rgb888, Argb1555)
-#define YSS_GUI_FRAME_BUFFER			Rgb888
+// Frame Buffer of GUI Object (Rgb565, Rgb888, Argb1555)
+#define YSS_OUTPUT_FRAME_BUFFER			Rgb888
 
 // ####################### KEY 설정 #######################
 // 최대 KEY 생성 가능 갯수 설정 (0 ~ ), 0일 경우 기능 꺼짐
@@ -140,8 +140,11 @@
 #define SAI1_ENABLE			false
 #define SAI2_ENABLE			false
 
+// SDMMC 활성화
+#define SDMMC_ENABLE		true
+
 // SDRAM 활성화
-#define SDRAM_ENABLE		false
+#define SDRAM_ENABLE		true
 
 // SPI 활성화
 #define SPI1_ENABLE			false
