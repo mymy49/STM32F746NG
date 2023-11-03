@@ -136,13 +136,11 @@ void Flash::erase(uint16_t sector)
 		FLASH->AR = addr;
 		setBitData(FLASH->CR, true, 6);
 
-		__NOP();
-		__NOP();
+		__DSB();
 		while (getBitData(FLASH->SR, 0))
 			;
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR, false, 1);	// 지우기 해제
 		setBitData(FLASH->CR, false, 7);	// 잠금
 	}
@@ -165,13 +163,11 @@ void Flash::erase(uint16_t sector)
 		FLASH->AR2 = addr;
 		setBitData(FLASH->CR2, true, 6);
 
-		__NOP();
-		__NOP();
+		__DSB();
 		while (getBitData(FLASH->SR2, 0))
 			;
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR2, false, 1);	// 지우기 해제
 		setBitData(FLASH->CR2, false, 7);	// 잠금
 	}
@@ -208,19 +204,16 @@ void *Flash::program(uint32_t sector, void *src, uint32_t size)
 
 		setBitData(FLASH->CR, true, 0);	// 쓰기 설정
 
-		__NOP();
-		__NOP();
+		__DSB();
 		for (uint32_t i = 0; i < size; i++)
 		{
 			addr[i] = ((uint16_t *)src)[i];
-			__NOP();
-			__NOP();
+			__DSB();
 			while (getBitData(FLASH->SR, 0))
 				;
 		}
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR, false, 0);	// 쓰기 해제
 		setBitData(FLASH->CR, false, 7);	// 잠금
 	}
@@ -240,19 +233,16 @@ void *Flash::program(uint32_t sector, void *src, uint32_t size)
 
 		setBitData(FLASH->CR2, true, 0);	// 쓰기 설정
 
-		__NOP();
-		__NOP();
+		__DSB();
 		for (uint32_t i = 0; i < size; i++)
 		{
 			addr[i] = ((uint16_t *)src)[i];
-			__NOP();
-			__NOP();
+			__DSB();
 			while (getBitData(FLASH->SR2, 0))
 				;
 		}
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR2, false, 0);	// 쓰기 해제
 		setBitData(FLASH->CR2, false, 7);	// 잠금
 	}
@@ -290,19 +280,16 @@ void *Flash::program(void *des, void *src, uint32_t size)
 
 		setBitData(FLASH->CR, true, 0);	// 쓰기 설정
 
-		__NOP();
-		__NOP();
+		__DSB();
 		for (uint32_t i = 0; i < size; i++)
 		{
 			addr[i] = ((uint16_t *)src)[i];
-			__NOP();
-			__NOP();
+			__DSB();
 			while (getBitData(FLASH->SR, 0))
 				;
 		}
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR, false, 0);	// 쓰기 해제
 		setBitData(FLASH->CR, false, 7);	// 잠금
 	}
@@ -322,19 +309,16 @@ void *Flash::program(void *des, void *src, uint32_t size)
 
 		setBitData(FLASH->CR2, true, 0);	// 쓰기 설정
 
-		__NOP();
-		__NOP();
+		__DSB();
 		for (uint32_t i = 0; i < size; i++)
 		{
 			addr[i] = ((uint16_t *)src)[i];
-			__NOP();
-			__NOP();
+			__DSB();
 			while (getBitData(FLASH->SR2, 0))
 				;
 		}
 
-		__NOP();
-		__NOP();
+		__DSB();
 		setBitData(FLASH->CR2, false, 0);	// 쓰기 해제
 		setBitData(FLASH->CR2, false, 7);	// 잠금
 	}

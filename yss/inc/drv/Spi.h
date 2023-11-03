@@ -56,12 +56,12 @@ typedef volatile uint32_t	YSS_SPI_Peri;
 class Spi : public Drv
 {
   public:
-	struct Specification
+	typedef struct
 	{
 		int8_t mode;
 		int32_t  maxFreq;
 		int8_t bit;
-	};
+	}Specification_t;
 
 	// SPI 장치를 메인으로 초기화 한다. 초기화만 했을 뿐, 장치는 활성화 되어 있지 않다.
 	// 
@@ -82,7 +82,7 @@ class Spi : public Drv
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error setSpecification(const Specification &spec);
+	error setSpecification(const Specification_t &spec);
 	
 	// SPI 장치를 활성화/비활성화 시킨다.
 	// 정상적인 전송을 위해 enable(true)를 하기 전에 setSpecification()를 사용하여 타겟 장치에 맞는 
@@ -188,7 +188,7 @@ class Spi : public Drv
 	const Dma::DmaInfo *mTxDmaInfo;
 	const Dma::DmaInfo *mRxDmaInfo;
 #endif
-	const Specification *mLastSpec;
+	const Specification_t *mLastSpec;
 	uint8_t mRxData;
 	threadId  mThreadId;
 	bool mCompleteFlag;

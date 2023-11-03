@@ -289,10 +289,17 @@ error:
 #if defined(PLL_P_USE)
 uint32_t Clock::getMainPllPFrequency(void)
 {
-	uint32_t clk = gHseFreq;
+	uint32_t clk;
+
+	if(RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC_Msk)
+		clk = gHseFreq;
+	else
+		clk = HSI_FREQ;
+
 	clk /= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM_Msk) >> RCC_PLLCFGR_PLLM_Pos);
 	clk *= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN_Msk) >> RCC_PLLCFGR_PLLN_Pos);
 	clk /= 2  * (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP_Msk) >> RCC_PLLCFGR_PLLP_Pos ) + 1);
+
 	return clk;
 }
 #endif
@@ -300,7 +307,13 @@ uint32_t Clock::getMainPllPFrequency(void)
 #if defined(PLL_Q_USE)
 uint32_t Clock::getMainPllQFrequency(void)
 {
-	uint32_t clk = gHseFreq;
+	uint32_t clk;
+
+	if(RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC_Msk)
+		clk = gHseFreq;
+	else
+		clk = HSI_FREQ;
+
 	clk /= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM_Msk) >> RCC_PLLCFGR_PLLM_Pos);
 	clk *= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN_Msk) >> RCC_PLLCFGR_PLLN_Pos);
 	clk /= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLQ_Msk) >> RCC_PLLCFGR_PLLQ_Pos);
@@ -311,7 +324,13 @@ uint32_t Clock::getMainPllQFrequency(void)
 #if defined(PLL_R_USE)
 uint32_t Clock::getMainPllRFrequency(void)
 {
-	uint32_t clk = gHseFreq;
+	uint32_t clk;
+
+	if(RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC_Msk)
+		clk = gHseFreq;
+	else
+		clk = HSI_FREQ;
+
 	clk /= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLM_Msk) >> RCC_PLLCFGR_PLLM_Pos);
 	clk *= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN_Msk) >> RCC_PLLCFGR_PLLN_Pos);
 	clk /= ((RCC->PLLCFGR & RCC_PLLCFGR_PLLR_Msk) >> RCC_PLLCFGR_PLLR_Pos);
