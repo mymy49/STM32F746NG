@@ -30,8 +30,6 @@
 #include <mod/sdram/MT48LC4M32B2B5_6A.h>
 #include <mod/ctouch/FT5336.h>
 
-void initializeLcd(void);
-
 FunctionQueue fq(16);
 
 RK043FN48H lcd;
@@ -61,27 +59,6 @@ void initializeBoard(void)
 	event::setPointerDevice(touch);
 
 	// TFT LCD 초기화
-	initializeLcd();
-
-	// SD 메모리 초기화
-	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
-	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
-	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
-	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
-	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
-	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
-	
-	sdmmc.enableClock();
-	sdmmc.initialize();
-	sdmmc.setVcc(3.3);
-	sdmmc.enableInterrupt();
-
-	// setDetectPin() 함수를 가장 마지막에 호출해야 함
-	sdmmc.setDetectPin({&gpioC, 13});
-}
-
-void initializeLcd(void)
-{
 	using namespace define::gpio::altfunc;
 	
 	Gpio::AltFunc lcdPort[28] =
@@ -122,13 +99,28 @@ void initializeLcd(void)
 	using namespace define::gpio;
 	gpioA.setPackageAsAltFunc(lcdPort, 28, ospeed::FAST, otype::PUSH_PULL);
 
-	// LCD DISP 핀 활성화
-	gpioI.setAsOutput(12);
+	gpioI.setAsOutput(12);	// LCD DISP 핀 활성화
 	gpioI.setOutput(12, true);
 
 	ltdc.enableClock();
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
+
+	// SD 메모리 초기화
+	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
+	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
+	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
+	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
+	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
+	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
+	
+	sdmmc.enableClock();
+	sdmmc.initialize();
+	sdmmc.setVcc(3.3);
+	sdmmc.enableInterrupt();
+
+	// setDetectPin() 함수를 가장 마지막에 호출해야 함
+	sdmmc.setDetectPin({&gpioC, 13});
 }
 
 // OS에서 자동으로 호출함
