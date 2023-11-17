@@ -30,8 +30,6 @@
 #include <mod/sdram/MT48LC4M32B2B5_6A.h>
 #include <mod/ctouch/FT5336.h>
 
-void initializeLcd(void);
-
 FunctionQueue fq(16);
 
 RK043FN48H lcd;
@@ -75,10 +73,6 @@ void initializeBoard(void)
 
 	quadspi.enableClock();
 	
-
-	// TFT LCD 초기화
-	initializeLcd();
-
 	// 터치 초기화
 	const FT5336::Config touchConfig = 
 	{
@@ -89,10 +83,8 @@ void initializeBoard(void)
 
 	touch.initialize(touchConfig);
 	event::setPointerDevice(touch);
-}
 
-void initializeLcd(void)
-{
+	// TFT LCD 초기화
 	using namespace define::gpio::altfunc;
 	
 	Gpio::AltFunc lcdPort[28] =
@@ -133,8 +125,7 @@ void initializeLcd(void)
 	using namespace define::gpio;
 	gpioA.setPackageAsAltFunc(lcdPort, 28, ospeed::FAST, otype::PUSH_PULL);
 
-	// LCD DISP 핀 활성화
-	gpioI.setAsOutput(12);
+	gpioI.setAsOutput(12);	// LCD DISP 핀 활성화
 	gpioI.setOutput(12, true);
 
 	ltdc.enableClock();
