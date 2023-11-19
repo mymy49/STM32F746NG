@@ -29,7 +29,7 @@
 
 void initializeBoard(void);
 
-extern FunctionQueue fq;
+extern FunctionQueue fq1, fq2;
 
 #endif
 

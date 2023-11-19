@@ -25,6 +25,11 @@
 #include <bsp.h>
 #include "memory.h"
 
+error task_blinkLedOneTime(FunctionQueue *fq);
+error task_blinkLedTwoTime(FunctionQueue *fq);
+error task_blinkLedThreeTime(FunctionQueue *fq);
+error task_blinkLedFourTime(FunctionQueue *fq);
+
 int main(void)
 {
 	// 운영체체 초기화
@@ -35,10 +40,126 @@ int main(void)
 
 	// 설정 저장용 메모리 초기화
 	Memory::initilize();
+	
+	// fq1 동작 시작
+	fq1.start();
+	
+	fq1.add(task_blinkLedOneTime);
+	fq1.add(task_blinkLedTwoTime);
+	fq1.add(task_blinkLedThreeTime);
+	fq1.add(task_blinkLedFourTime);	
 
 	while(1)
 	{
 		thread::yield();
 	}
+}
+
+error task_blinkLedOneTime(FunctionQueue *fq)
+{
+	(void)fq;
+
+	// LED의 지정된 횟수만큼 동작
+	for(int32_t i = 0;i < 1;i++)
+	{
+		Led::on(true);
+		thread::delay(500);
+
+		Led::on(false);
+		thread::delay(500);
+	}
+
+	// 현재 동작이 완료 됐음을 알리는 빠른 깜빡임	
+	for(int32_t i = 0;i < 3;i++)
+	{
+		Led::on(true);
+		thread::delay(50);
+
+		Led::on(false);
+		thread::delay(50);
+	}
+
+	return error::ERROR_NONE;
+}
+
+error task_blinkLedTwoTime(FunctionQueue *fq)
+{
+	(void)fq;
+
+	// LED의 지정된 횟수만큼 동작
+	for(int32_t i = 0;i < 2;i++)
+	{
+		Led::on(true);
+		thread::delay(500);
+
+		Led::on(false);
+		thread::delay(500);
+	}
+
+	// 현재 동작이 완료 됐음을 알리는 빠른 깜빡임	
+	for(int32_t i = 0;i < 3;i++)
+	{
+		Led::on(true);
+		thread::delay(50);
+
+		Led::on(false);
+		thread::delay(50);
+	}
+
+	return error::ERROR_NONE;
+}
+
+error task_blinkLedThreeTime(FunctionQueue *fq)
+{
+	(void)fq;
+
+	// LED의 지정된 횟수만큼 동작
+	for(int32_t i = 0;i < 3;i++)
+	{
+		Led::on(true);
+		thread::delay(500);
+
+		Led::on(false);
+		thread::delay(500);
+	}
+
+	// 현재 동작이 완료 됐음을 알리는 빠른 깜빡임	
+	for(int32_t i = 0;i < 3;i++)
+	{
+		Led::on(true);
+		thread::delay(50);
+
+		Led::on(false);
+		thread::delay(50);
+	}
+
+	return error::ERROR_NONE;
+}
+
+error task_blinkLedFourTime(FunctionQueue *fq)
+{
+	(void)fq;
+
+	// LED의 지정된 횟수만큼 동작
+	for(int32_t i = 0;i < 4;i++)
+	{
+		Led::on(true);
+		thread::delay(500);
+
+		Led::on(false);
+		thread::delay(500);
+	}
+
+	// 현재 동작이 완료 됐음을 알리는 빠른 깜빡임	
+	for(int32_t i = 0;i < 3;i++)
+	{
+		Led::on(true);
+		thread::delay(50);
+
+		Led::on(false);
+		thread::delay(50);
+	}
+
+	return error::ERROR_NONE;
 }
 
