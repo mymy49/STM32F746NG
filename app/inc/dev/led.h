@@ -21,15 +21,20 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
+#ifndef DEV_LED__H_
+#define DEV_LED__H_
 
-#include <util/FunctionQueue.h>
-#include <dev/led.h>
-
-void initializeBoard(void);
-
-extern FunctionQueue fq;
+namespace Led
+{
+	// LED를 초기화 합니다.
+	void initilize(void);
+	
+	// LED의 상태를 제어합니다.
+	//
+	// bool en
+	//		true일 때 LED가 켜지고, false일 때 LED가 꺼집니다.
+	void on(bool en);
+};
 
 #endif
 

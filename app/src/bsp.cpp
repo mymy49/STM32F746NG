@@ -121,6 +121,9 @@ void initializeBoard(void)
 
 	// setDetectPin() 함수를 가장 마지막에 호출해야 함
 	sdmmc.setDetectPin({&gpioC, 13});
+
+	// LED 초기화
+	Led::initilize();
 }
 
 // OS에서 자동으로 호출함
