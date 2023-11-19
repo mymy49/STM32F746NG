@@ -21,15 +21,20 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef BSP__H_
-#define BSP__H_
-
-#include <util/FunctionQueue.h>
 #include <dev/led.h>
+#include <yss/instance.h>
 
-void initializeBoard(void);
+namespace Led
+{
+	void initilize(void)
+	{
+		gpioI.setAsOutput(1);
 
-extern FunctionQueue fq;
+		on(false);
+	}
 
-#endif
-
+	void on(bool en)
+	{
+		gpioI.setOutput(1, en);
+	}
+}

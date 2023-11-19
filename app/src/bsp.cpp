@@ -131,6 +131,9 @@ void initializeBoard(void)
 	ltdc.enableClock();
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
+
+	// LED 초기화
+	Led::initilize();
 }
 
 // OS에서 자동으로 호출함
