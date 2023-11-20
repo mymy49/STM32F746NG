@@ -44,6 +44,11 @@ namespace Task
 	error blinkLedTwoTime(FunctionQueue *fq);
 	error blinkLedThreeTime(FunctionQueue *fq);
 	error blinkLedFourTime(FunctionQueue *fq);
+
+	// task_uart.cpp
+	error sendUartHelloWorld(FunctionQueue *fq);
+	error sendUartYssOs(FunctionQueue *fq);
+	error sendUartEnjoyProgramming(FunctionQueue *fq);
 }
 
 #endif

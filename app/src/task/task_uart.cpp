@@ -21,42 +21,51 @@
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <task.h>
 #include <yss.h>
 #include <bsp.h>
-#include <bsp.h>
-#include <task.h>
-#include <memory.h>
 
-int main(void)
+namespace Task
 {
-	// 운영체체 초기화
-	initializeYss();
-	
-	// 보드 초기화
-	initializeBoard();
-
-	// 설정 저장용 메모리 초기화
-	Memory::initilize();
-	
-	// fq1 동작 시작
-	fq1.start();
-	
-	fq1.add(Task::blinkLedOneTime);
-	fq1.add(Task::blinkLedTwoTime);
-	fq1.add(Task::blinkLedThreeTime);
-	fq1.add(Task::blinkLedFourTime);
-
-	// fq2. 동작 시작
-	fq2.start();
-
-	fq2.add(Task::sendUartHelloWorld);
-	fq2.add(Task::sendUartYssOs);
-	fq2.add(Task::sendUartEnjoyProgramming);
-
-	while(1)
+	error sendUartHelloWorld(FunctionQueue *fq)
 	{
-		thread::yield();
-	}
-}
+		(void)fq;
 
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("Hello World\n\r", sizeof("Hello World\n\r")); 
+			thread::delay(500);
+		}
+
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error::ERROR_NONE;
+	}
+
+	error sendUartYssOs(FunctionQueue *fq)
+	{
+		(void)fq;
+
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("It is yss OS example!!\n\r", sizeof("It is yss OS example!!\n\r")); 
+			thread::delay(500);
+		}
+
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error::ERROR_NONE;
+	}
+
+	error sendUartEnjoyProgramming(FunctionQueue *fq)
+	{
+		(void)fq;
+
+		for(int32_t i = 0;i < 10;i++)
+		{
+			usart1.send("enjoy programming with yss OS!!\n\r", sizeof("enjoy programming with yss OS!!\n\r")); 
+			thread::delay(500);
+		}
+
+		usart1.send("Complete!!\n\r", sizeof("Complete!!\n\r")); 
+		return error::ERROR_NONE;
+	}}
 
