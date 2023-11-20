@@ -38,6 +38,12 @@ namespace Task
 	void addThread(void (*func)(void), uint32_t stackSize);
 	void clearTask(void);
 	void setFrame(Frame *obj);
+
+	// task_led.cpp
+	error blinkLedOneTime(FunctionQueue *fq);
+	error blinkLedTwoTime(FunctionQueue *fq);
+	error blinkLedThreeTime(FunctionQueue *fq);
+	error blinkLedFourTime(FunctionQueue *fq);
 }
 
 #endif
