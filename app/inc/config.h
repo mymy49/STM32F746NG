@@ -171,7 +171,7 @@
 #define TIM14_ENABLE		false
 
 // UART 활성화
-#define USART1_ENABLE		false
+#define USART1_ENABLE		true
 #define USART2_ENABLE		false
 #define USART3_ENABLE		false
 #define UART4_ENABLE		false
