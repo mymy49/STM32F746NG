@@ -39,6 +39,14 @@ void initializeBoard(void)
 {
 	using namespace define::gpio;
 
+	// USART1 초기화 (Virtual Com Port)
+	gpioA.setAsAltFunc(9, altfunc::PA9_USART1_TX);
+	gpioB.setAsAltFunc(7, altfunc::PB7_USART1_RX);
+
+	usart1.enableClock();
+	usart1.initialize(115200, 128);
+	usart1.enableInterrupt();
+
 	// I2C3 초기화
 	gpioH.setAsAltFunc(7, altfunc::PH7_I2C3_SCL, ospeed::MID, otype::OPEN_DRAIN);
 	gpioH.setAsAltFunc(8, altfunc::PH8_I2C3_SDA, ospeed::MID, otype::OPEN_DRAIN);
