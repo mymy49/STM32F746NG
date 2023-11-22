@@ -52,6 +52,10 @@ int main(void)
 	fq2.add(Task::sendUartHelloWorld);
 	fq2.add(Task::sendUartYssOs);
 	fq2.add(Task::sendUartEnjoyProgramming);
+	
+	thread::delay(2000);
+	fq1.stop();
+	fq2.stop();
 
 	while(1)
 	{
