@@ -52,6 +52,7 @@ class FunctionQueue : public Mutex
 	// int32_t  stackSize
 	//		등록된 함수를 호출하는 쓰레드의 스텍 용량을 설정한다.
 	FunctionQueue(uint16_t depth, int32_t  stackSize = 2048);
+	
 	~FunctionQueue(void);
 	
 	// 순차처리 함수를 등록한다.
