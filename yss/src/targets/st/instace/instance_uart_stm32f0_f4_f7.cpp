@@ -112,14 +112,14 @@ static const Dma::DmaInfo gUart1TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART1_DMA_TX == DMA_CH2)
+#if (USART1_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x08 << (4 * 1),									// uint32_t controlRegister3
-#elif (UART1_DMA_TX == DMA_CH4)
+#elif (USART1_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x08 << (4 * 3),									// uint32_t controlRegister3
 #endif
-	(void*)&USART2->TDR,								//void *dataRegister;
+	(void*)&USART1->TDR,								//void *dataRegister;
 };
 #else
 static const Dma::DmaInfo gUart1TxDmaInfo = 
@@ -214,10 +214,10 @@ static const Dma::DmaInfo gUart2TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART2_DMA_TX == DMA_CH2)
+#if (USART2_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x09 << (4 * 1),									// uint32_t controlRegister3
-#elif (UART2_DMA_TX == DMA_CH4)
+#elif (USART2_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x09 << (4 * 3),									// uint32_t controlRegister3
 #endif
@@ -252,9 +252,9 @@ static const Uart::Setup gUart2Setup =
 {
 	(YSS_USART_Peri*)USART2,	//YSS_USART_Peri *peri;
 #if defined(STM32F030xC)
-#if (UART2_DMA_TX == DMA_CH2)
+#if (USART2_DMA_TX == DMA_CH2)
 	dmaChannel2,				//Dma &txDma;
-#elif (UART2_DMA_TX == DMA_CH4)
+#elif (USART2_DMA_TX == DMA_CH4)
 	dmaChannel4,				//Dma &txDma;
 #endif
 #else
@@ -319,10 +319,10 @@ static const Dma::DmaInfo gUart3TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART3_DMA_TX == DMA_CH2)
+#if (USART3_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x0A << (4 * 1),									// uint32_t controlRegister3
-#elif (UART3_DMA_TX == DMA_CH4)
+#elif (USART3_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x0A << (4 * 3),									// uint32_t controlRegister3
 #endif
@@ -356,9 +356,9 @@ static const Uart::Setup gUart3Setup
 {
 	USART3,			//YSS_SPI_Peri *peri;
 #if defined(STM32F030xC)
-#if (UART3_DMA_TX == DMA_CH2)
+#if (USART3_DMA_TX == DMA_CH2)
 	dmaChannel2,				//Dma &txDma;
-#elif (UART3_DMA_TX == DMA_CH4)
+#elif (USART3_DMA_TX == DMA_CH4)
 	dmaChannel4,				//Dma &txDma;
 #endif
 #else
@@ -436,10 +436,10 @@ static const Dma::DmaInfo gUart4TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART4_DMA_TX == DMA_CH2)
+#if (USART4_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x0B << (4 * 1),									// uint32_t controlRegister3
-#elif (UART4_DMA_TX == DMA_CH4)
+#elif (USART4_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x0B << (4 * 3),									// uint32_t controlRegister3
 #endif
@@ -473,7 +473,7 @@ static const Uart::Setup gUart4Setup =
 {
 #if defined(STM32F030xC)
 	USART4,			//YSS_SPI_Peri *peri;
-#if (UART4_DMA_TX == DMA_CH2)
+#if (USART4_DMA_TX == DMA_CH2)
 	dmaChannel2,				//Dma &txDma;
 #elif (UART4_DMA_TX == DMA_CH4)
 	dmaChannel4,				//Dma &txDma;
@@ -556,10 +556,10 @@ static const Dma::DmaInfo gUart5TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART5_DMA_TX == DMA_CH2)
+#if (USART5_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x0C << (4 * 1),									// uint32_t controlRegister3
-#elif (UART5_DMA_TX == DMA_CH4)
+#elif (USART5_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x0C << (4 * 3),									// uint32_t controlRegister3
 #endif
@@ -593,9 +593,9 @@ static const Uart::Setup gUart5Setup
 {
 #if defined(STM32F030xC)
 	USART5,			//YSS_SPI_Peri *peri;
-#if (UART5_DMA_TX == DMA_CH2)
+#if (USART5_DMA_TX == DMA_CH2)
 	dmaChannel2,	//Dma &txDma;
-#elif (UART5_DMA_TX == DMA_CH4)
+#elif (USART5_DMA_TX == DMA_CH4)
 	dmaChannel4,	//Dma &txDma;
 #endif
 #else
@@ -669,10 +669,10 @@ static const Dma::DmaInfo gUart6TxDmaInfo =
 	DMA_CCR_TCIE_Msk | 
 	DMA_CCR_TEIE_Msk | 
 	DMA_CCR_EN_Msk ,
-#if (UART6_DMA_TX == DMA_CH2)
+#if (USART6_DMA_TX == DMA_CH2)
 	0x0F << (4 * 1),									// uint32_t controlRegister2
 	0x0D << (4 * 1),									// uint32_t controlRegister3
-#elif (UART6_DMA_TX == DMA_CH4)
+#elif (USART6_DMA_TX == DMA_CH4)
 	0x0F << (4 * 3),									// uint32_t controlRegister2
 	0x0D << (4 * 3),									// uint32_t controlRegister3
 #endif

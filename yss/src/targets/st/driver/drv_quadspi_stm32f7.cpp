@@ -45,5 +45,11 @@ Quadspi::Quadspi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
 	//mDataSize = 1;
 }
 
+error Quadspi::initialize(void)
+{
+	
+	return error::ERROR_NONE;
+}
+
 #endif
 
