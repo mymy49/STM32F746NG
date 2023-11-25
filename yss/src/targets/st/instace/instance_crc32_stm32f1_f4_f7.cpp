@@ -25,22 +25,22 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4_N) || defined(STM32F7_N)
+#if defined(STM32F4_N) || defined(STM32F7_N) || defined(STM32F1_N)
 
 #include <yss/instance.h>
 #include <config.h>
-
-#if defined(STM32F446xx)
-#include <targets/st/bitfield_stm32f446xx.h>
-#elif defined(STM32F746xx)
-#include <targets/st/bitfield_stm32f746xx.h>
-#endif
+#include <drv/peripheral.h>
+#include <targets/st/bitfield.h>
 
 #if defined(CRC) && CRC32_ENABLE
 static void setClockEn(bool en)
 {
 	clock.lock();
+#if defined(STM32F4_N) || defined(STM32F7_N)
 	clock.enableAhb1Clock(RCC_AHB1ENR_CRCEN_Pos);
+#elif defined(STM32F1_N)
+	clock.enableAhb1Clock(RCC_AHBENR_CRCEN_Pos);
+#endif
 	clock.unlock();
 }
 

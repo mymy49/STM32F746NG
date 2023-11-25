@@ -30,10 +30,7 @@
 #include <config.h>
 #include <drv/Capture.h>
 #include <yss.h>
-
-#if defined(STM32F746xx)
-#include <targets/st/bitfield_stm32f746xx.h>
-#endif
+#include <targets/st/bitfield.h>
 
 uint32_t getApb1TimerClockFrequency(void);
 uint32_t getApb2TimerClockFrequency(void);
@@ -168,7 +165,7 @@ static void setCapture2ClockEn(bool en)
 static void setCapture2InterruptEn(bool en)
 {
 	nvic.lock();
-#if defined(STM32F746xx)
+#if defined(STM32F746xx) || defined(STM32F1_N)
 	nvic.enableInterrupt(TIM2_IRQn, en);
 #endif
 	nvic.unlock();

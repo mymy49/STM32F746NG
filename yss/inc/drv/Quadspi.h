@@ -58,7 +58,7 @@ public :
 	};
 
 	//Quadspi(YSS_QUADSPI_Peri *peri, void (*clockFunc)(bool en), void (*nvicFunc)(bool en), Stream *stream, uint8_t channel, uint16_t priority);
-	//bool init(sac::QuadspiFlash &memory, uint8_t flash);
+	error initialize(void);
 	//void setWaveform(config::quadspi::Waveform &waveform);
 	//bool writeCommand(uint8_t cmd);
 	//bool readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t timeout);
