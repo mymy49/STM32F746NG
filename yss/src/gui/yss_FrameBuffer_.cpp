@@ -45,6 +45,10 @@ error FrameBuffer_::setColorMode(uint8_t colorMode)
 		mDotSize  = 3;
 		mColorMode = colorMode;
 		return error::ERROR_NONE;
+	case COLOR_MODE_RGB565 :
+		mDotSize  = 2;
+		mColorMode = colorMode;
+		return error::ERROR_NONE;
 	case COLOR_MODE_ARGB1555 :
 		mDotSize  = 2;
 		mColorMode = colorMode;
