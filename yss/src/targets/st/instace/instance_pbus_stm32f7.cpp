@@ -26,7 +26,7 @@
 #include <yss/instance.h>
 #include <config.h>
 
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 
 #if defined(FMC_Bank1)
 

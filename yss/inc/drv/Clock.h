@@ -28,9 +28,9 @@
 
 #include "peripheral.h"
 
-#if defined(STM32F1_N) || defined(GD32F1)
+#if defined(STM32F1) || defined(GD32F1)
 #define IncludeSubClassHeader	<targets/st/class_clock_stm32f1.h>
-#elif defined(STM32F4_N) || defined(STM32F7_N)
+#elif defined(STM32F4) || defined(STM32F7)
 #define IncludeSubClassHeader	<targets/st/class_clock_stm32f4_f7.h>
 #elif defined(STM32F0_N)
 #define IncludeSubClassHeader	<targets/st/class_clock_stm32f0.h>

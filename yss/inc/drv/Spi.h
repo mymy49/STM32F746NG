@@ -29,11 +29,7 @@
 #include "peripheral.h"
 #include <stdint.h>
 
-#if defined(GD32F4) || defined(STM32F4) || defined(STM32F0)
-
-typedef volatile uint32_t	YSS_SPI_Peri;
-
-#elif defined(STM32F4_N) || defined(STM32F0_N) || defined(STM32F7_N) || defined(GD32F1) || defined(STM32F1_N)
+#if defined(STM32F4) || defined(STM32F0_N) || defined(STM32F7) || defined(GD32F1) || defined(STM32F1)
 
 typedef SPI_TypeDef			YSS_SPI_Peri;
 
@@ -155,7 +151,7 @@ class Spi : public Drv
 
 	// 인터럽트 벡터에서 호출되는 함수이다.
 	// 사용자 임의의 호출은 금지한다.
-#if defined(GD32F1) || defined(STM32F1_N) || defined(STM32F4) || defined(GD32F4)  || defined(STM32F7_N) || defined(STM32F0_N) || defined(STM32F4_N)
+#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F0_N) || defined(STM32F4)
 	struct Setup
 	{
 		YSS_SPI_Peri *dev;
@@ -181,7 +177,7 @@ class Spi : public Drv
   private:
 	YSS_SPI_Peri *mDev;
 	Dma *mTxDma, *mRxDma;
-#if defined(GD32F1) || defined(STM32F1_N) || defined(STM32F4) || defined(GD32F4)  || defined(STM32F7_N) || defined(STM32F0_N) || defined(STM32F4_N)
+#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F0_N) || defined(STM32F4)
 	Dma::DmaInfo mTxDmaInfo, mRxDmaInfo;
 #elif defined(EFM32PG22)
 	Dma **mDmaChannelList;
