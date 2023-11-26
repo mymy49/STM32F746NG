@@ -28,14 +28,13 @@
 
 #include <drv/peripheral.h>
 
-#if defined(STM32F7) || defined(STM32F4) || defined(STM32F1_N) || defined(STM32G4) || defined(STM32L0) || defined(STM32L4) || defined(STM32F0)
+#if defined(STM32F7) || defined(STM32F1) || defined(STM32G4) || defined(STM32L0) || defined(STM32L4) || defined(STM32F0)
 static uint64_t gYssTimeSum = (uint64_t)-60000;
-static uint32_t gOverFlowCnt = 60000;
 #else
 static uint64_t gYssTimeSum;
-static uint32_t gOverFlowCnt;
 #endif
 
+static uint32_t gOverFlowCnt;
 static bool gPreUpdateFlag;
 
 static void isr(void)

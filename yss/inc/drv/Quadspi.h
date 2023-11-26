@@ -28,7 +28,7 @@
 
 #include "peripheral.h"
 
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 
 typedef QUADSPI_TypeDef		YSS_QUADSPI_Peri;
 

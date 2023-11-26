@@ -25,14 +25,14 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4_N) || defined(STM32F030xC) || defined(STM32F7_N)
+#if defined(STM32F4) || defined(STM32F030xC) || defined(STM32F7)
 
 #include <yss/instance.h>
 #include <yss.h>
 #include <config.h>
 #include <yss/reg.h>
 
-#if defined(STM32F4_N)
+#if defined(STM32F4)
 #include <targets/st/bitfield_stm32f446xx.h>
 #elif defined(STM32F767xx)
 #include <targets/st/bitfield_stm32f767xx.h>
@@ -42,7 +42,7 @@
 #include <targets/st/bitfield_stm32f030xx.h>
 #endif
 
-#if defined(STM32F4_N) || defined(STM32F7_N)
+#if defined(STM32F4) || defined(STM32F7)
 #define YSS_USART1_IRQHandler		USART1_IRQHandler
 #define YSS_USART2_IRQHandler		USART2_IRQHandler
 #define YSS_USART3_IRQHandler		USART3_IRQHandler
@@ -137,7 +137,7 @@ static const Dma::DmaInfo gUart1TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&USART1->TDR,	//void *dataRegister;
 #else
 	(void*)&USART1->DR,					//void *dataRegister;
@@ -240,7 +240,7 @@ static const Dma::DmaInfo gUart2TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,		// uint32_t controlRegister2
 	0,							// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&USART2->TDR,		//void *dataRegister;
 #else
 	(void*)&USART2->DR,			//void *dataRegister;
@@ -344,7 +344,7 @@ static const Dma::DmaInfo gUart3TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&USART3->TDR,	//void *dataRegister;
 #else
 	(void*)&USART3->DR,					//void *dataRegister;
@@ -461,7 +461,7 @@ static const Dma::DmaInfo gUart4TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&UART4->TDR,				//void *dataRegister;
 #else
 	(void*)&UART4->DR,						//void *dataRegister;
@@ -581,7 +581,7 @@ static const Dma::DmaInfo gUart5TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&UART5->TDR,				//void *dataRegister;
 #else
 	(void*)&UART5->DR,						//void *dataRegister;
@@ -694,7 +694,7 @@ static const Dma::DmaInfo gUart6TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&USART6->TDR,			//void *dataRegister;
 #else
 	(void*)&USART6->DR,						//void *dataRegister;
@@ -775,7 +775,7 @@ static const Dma::DmaInfo gUart7TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&UART7->TDR,			//void *dataRegister;
 #else
 	(void*)&UART7->DR,						//void *dataRegister;
@@ -847,7 +847,7 @@ static const Dma::DmaInfo gUart8TxDmaInfo =
 	DMA_SxCR_EN_Msk ,
 	DMA_SxFCR_DMDIS_Msk,			// uint32_t controlRegister2
 	0,								// uint32_t controlRegister3
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	(void*)&UART8->TDR,			//void *dataRegister;
 #else
 	(void*)&UART8->DR,						//void *dataRegister;

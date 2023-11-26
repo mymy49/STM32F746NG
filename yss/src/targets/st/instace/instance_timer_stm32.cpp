@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4_N) || defined(STM32F7_N) || defined(STM32F0_N) || defined(STM32F1_N)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32F0_N) || defined(STM32F1)
 
 #include <drv/peripheral.h>
 #include <yss/instance.h>
@@ -33,7 +33,7 @@
 #include <yss.h>
 #include <targets/st/bitfield.h>
 
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32F4_N) || defined(STM32F7_N)
+#if defined(STM32F4) || defined(STM32F7)
 #define TIM1_UP_IRQn			TIM1_UP_TIM10_IRQn
 #define	TIM6_IRQn				TIM6_DAC_IRQn
 #define TIM14_IRQn				TIM8_TRG_COM_TIM14_IRQn
