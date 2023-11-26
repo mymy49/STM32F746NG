@@ -28,9 +28,7 @@
 
 #include "mcu.h"
 
-#if defined(STM32F1) || defined(STM32F4) || defined(STM32F7) || defined(STM32L1) || defined(STM32F0)
-
-#elif defined(STM32F4_N) || defined(STM32F1_N) || defined(STM32F7_N) || defined (STM32F0_N) || defined(GD32F1)
+#if defined(STM32F4) || defined(STM32F1) || defined(STM32F7) || defined (STM32F0_N) || defined(GD32F1)
 
 #define FlashTargetHeaderFile	<targets/st/class_flash_stm32f0_f1_f4_f7.h>
 

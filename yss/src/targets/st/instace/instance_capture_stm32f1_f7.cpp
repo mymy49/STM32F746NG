@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F7_N) || defined(STM32F1_N)
+#if defined(STM32F7) || defined(STM32F1)
 
 #include <config.h>
 #include <drv/Capture.h>
@@ -165,7 +165,7 @@ static void setCapture2ClockEn(bool en)
 static void setCapture2InterruptEn(bool en)
 {
 	nvic.lock();
-#if defined(STM32F746xx) || defined(STM32F1_N)
+#if defined(STM32F746xx) || defined(STM32F1)
 	nvic.enableInterrupt(TIM2_IRQn, en);
 #endif
 	nvic.unlock();
