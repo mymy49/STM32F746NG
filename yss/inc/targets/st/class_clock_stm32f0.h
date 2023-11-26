@@ -162,11 +162,6 @@ public:
 	//		활성화 여부를 설정한다. true를 설정시 활성화한다.
 	void enableSdram(bool enable = true);
 
-#if defined(GD32F4) || defined(STM32F429xx) || defined(STM32F7)
-	void setLtdcDivisionFactor(uint8_t div);
-	uint32_t getLtdcClockFrequency(void);
-#endif
-
 	// Clock
 	virtual uint32_t getCoreClockFrequency(void); // virtual 0
 

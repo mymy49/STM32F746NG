@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4) || defined(STM32F4_N)
+#if defined(STM32F4)
 
 #include <config.h>
 

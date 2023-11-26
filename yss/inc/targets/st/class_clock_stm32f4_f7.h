@@ -229,7 +229,7 @@ public:
 
 	uint32_t getSdmmcClockFrequency(void);
 
-#if defined(STM32F7_N)
+#if defined(STM32F7)
 	uint32_t getPll48ClkClockFrequency(void);
 
 	void setSdmmcClockSrouce(bool src);
