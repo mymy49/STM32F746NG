@@ -23,24 +23,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef YSS_DEFINE_STM32F4__H_
-#define YSS_DEFINE_STM32F4__H_
+#ifndef YSS_DEFINE_STM32G4__H_
+#define YSS_DEFINE_STM32G4__H_
 
 namespace define
 {
-	// Capture
-	namespace capture
-	{
-		namespace option
-		{
-			enum
-			{
-				RISING_EDGE = 0,
-				FALLING_EDGE
-			};
-		}
-	}
-
 	// Clock
 	namespace clock
 	{
@@ -50,23 +37,12 @@ namespace define
 			{
 				enum
 				{
-					HSI = 0,
-					HSE = 1
+					HSI16 = 2,
+					HSE = 3
 				};
 			}
 
 			namespace pdiv
-			{
-				enum
-				{
-					DIV2 = 0,
-					DIV4 = 1,
-					DIV6 = 2,
-					DIV8 = 3
-				};
-			}
-
-			namespace qdiv
 			{
 				enum
 				{
@@ -83,7 +59,34 @@ namespace define
 					DIV12 = 12,
 					DIV13 = 13,
 					DIV14 = 14,
-					DIV15 = 15
+					DIV15 = 15,
+					DIV16 = 16,
+					DIV17 = 17,
+					DIV18 = 18,
+					DIV19 = 19,
+					DIV20 = 20,
+					DIV21 = 21,
+					DIV22 = 22,
+					DIV23 = 23,
+					DIV24 = 24,
+					DIV25 = 25,
+					DIV26 = 26,
+					DIV27 = 27,
+					DIV28 = 28,
+					DIV29 = 29,
+					DIV30 = 30,
+					DIV31 = 31,
+				};
+			}
+
+			namespace qdiv
+			{
+				enum
+				{
+					DIV2 = 0,
+					DIV4,
+					DIV6,
+					DIV8,
 				};
 			}
 
@@ -91,12 +94,10 @@ namespace define
 			{
 				enum
 				{
-					DIV2 = 2,
-					DIV3 = 3,
-					DIV4 = 4,
-					DIV5 = 5,
-					DIV6 = 6,
-					DIV7 = 7
+					DIV2 = 0,
+					DIV4,
+					DIV6,
+					DIV8,
 				};
 			}
 		}
@@ -119,12 +120,9 @@ namespace define
 			{
 				enum
 				{
-					HSI = 0,
-					HSE = 1,
-					PLL = 2,
-#if defined(STM32F446xx)
-					PLL_R = 3,
-#endif
+					HSI16 = 1,
+					HSE = 2,
+					PLL = 3,
 				};
 			}
 		}
@@ -198,26 +196,15 @@ namespace define
 				};
 			}
 		}
-#if defined(STM32F407xx)
+
 		namespace  powerScale
 		{
 			enum
 			{
-				SCALE2_MODE = 0,
-				SCALE1_MODE,
-			};
-		}
-#else
-		namespace  powerScale
-		{
-			enum
-			{
-				SCALE3_MODE = 1,
+				SCALE1_MODE = 1,
 				SCALE2_MODE,
-				SCALE1_MODE,
 			};
 		}
-#endif
 	}
 	
 	// DMA
@@ -473,47 +460,6 @@ namespace define
 		}
 	}
 }
-
-// 사용 가능한 DMA 채널 정의
-
-#define DMA1_CH0		0
-#define DMA1_CH1		1
-#define DMA1_CH2		2
-#define DMA1_CH3		3
-#define DMA1_CH4		4
-#define DMA1_CH5		5
-#define DMA1_CH6		6
-#define DMA1_CH7		7
-
-#define DMA2_CH0		8
-#define DMA2_CH1		9
-#define DMA2_CH2		10
-#define DMA2_CH3		11
-#define DMA2_CH4		12
-#define DMA2_CH5		13
-#define DMA2_CH6		14
-#define DMA2_CH7		15
-
-//enum
-//{
-//	DMA1_CH0,
-//	DMA1_CH1,
-//	DMA1_CH2,
-//	DMA1_CH3,
-//	DMA1_CH4,
-//	DMA1_CH5,
-//	DMA1_CH6,
-//	DMA1_CH7,
-
-//	DMA2_CH0,
-//	DMA2_CH1,
-//	DMA2_CH2,
-//	DMA2_CH3,
-//	DMA2_CH4,
-//	DMA2_CH5,
-//	DMA2_CH6,
-//	DMA2_CH7,
-//};
 
 #endif
 

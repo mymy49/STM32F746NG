@@ -25,22 +25,13 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4) || defined(STM32F030xC) || defined(STM32F7)
+#if defined(STM32F4) || defined(STM32F030xC) || defined(STM32F7) || defined(STM32G4)
 
 #include <yss/instance.h>
 #include <yss.h>
 #include <config.h>
 #include <yss/reg.h>
-
-#if defined(STM32F4)
-#include <targets/st/bitfield_stm32f446xx.h>
-#elif defined(STM32F767xx)
-#include <targets/st/bitfield_stm32f767xx.h>
-#elif defined(STM32F746xx)
-#include <targets/st/bitfield_stm32f746xx.h>
-#elif defined(STM32F030xC)
-#include <targets/st/bitfield_stm32f030xx.h>
-#endif
+#include <targets/st/bitfield.h>
 
 #if defined(STM32F4) || defined(STM32F7)
 #define YSS_USART1_IRQHandler		USART1_IRQHandler
@@ -177,7 +168,11 @@ extern "C"
 static void enableUart2Clock(bool en)
 {
 	clock.lock();
+#if defined(STM32G4)
+	clock.enableApb1_1Clock(RCC_APB1ENR1_USART2EN_Pos, en);
+#else
 	clock.enableApb1Clock(RCC_APB1ENR_USART2EN_Pos, en);
+#endif
 	clock.unlock();
 }
 
@@ -191,7 +186,11 @@ static void enableUart2Interrupt(bool en)
 static void resetUart2(void)
 {
 	clock.lock();
+#if defined(STM32G4)
+	clock.resetApb1_1(RCC_APB1RSTR1_USART2RST_Pos);
+#else
 	clock.resetApb1(RCC_APB1RSTR_USART2RST_Pos);
+#endif
 	clock.unlock();
 }
 
@@ -203,7 +202,7 @@ static const Drv::Setup gDrvUart2Setup=
 	getApb1ClockFrequency	//uint32_t (*getClockFunc)(void);
 };
 
-#if defined(STM32F030xC)
+#if defined(STM32F030xC) || defined(STM32G4)
 static const Dma::DmaInfo gUart2TxDmaInfo = 
 {
 	(define::dma::priorityLevel::LOW << DMA_CCR_PL_Pos) | // uint32_t controlRegister1

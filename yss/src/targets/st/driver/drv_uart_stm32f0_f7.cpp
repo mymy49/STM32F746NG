@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F0_N) || defined(STM32F7)
+#if defined(STM32F0) || defined(STM32F7) || defined(STM32G4)
 
 #include <drv/peripheral.h>
 #include <drv/Uart.h>
@@ -213,7 +213,11 @@ void Uart::isr(void)
 			__NOP();
 
 		mDev->RDR;
+#if defined(STM32G4)
+		mDev->ICR = USART_ICR_FECF_Msk | USART_ICR_ORECF_Msk | USART_ICR_NECF_Msk;
+#else
 		mDev->ICR = USART_ICR_FECF_Msk | USART_ICR_ORECF_Msk | USART_ICR_NCF_Msk;
+#endif
 	}
 	else if(mIsrForRxData)
 		mIsrForRxData(mDev->RDR);

@@ -96,7 +96,7 @@
 
 #elif defined(STM32F030xC)
 
-#define STM32F0_N
+#define STM32F0
 #define DEFAULT_CLOCK_SPEED 8000000
 #define YSS__CORE_CM0_H_GENERIC
 

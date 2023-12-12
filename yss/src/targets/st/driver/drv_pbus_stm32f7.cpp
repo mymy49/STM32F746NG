@@ -47,8 +47,8 @@ error Pbus::initialize(void)
 	FMC_Bank1->BTCR[2] |= FMC_BCR2_MBKEN_Msk;
 	FMC_Bank1->BTCR[4] |= FMC_BCR3_MBKEN_Msk;
 	FMC_Bank1->BTCR[6] |= FMC_BCR4_MBKEN_Msk | FMC_BCR4_WAITEN_Msk | FMC_BCR4_CBURSTRW_Msk | FMC_BCR4_BURSTEN_Msk;
-	FMC_Bank1->BTCR[7] = 0x00002000;
-//	FMC_Bank1->BTCR[7] = 0x02224022;
+//	FMC_Bank1->BTCR[7] = 0x00002000;
+	FMC_Bank1->BTCR[7] = 0x02224022;
 
 	return error::ERROR_NONE;
 }
