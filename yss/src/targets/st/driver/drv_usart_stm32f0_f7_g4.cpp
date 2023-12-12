@@ -23,73 +23,40 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef YSS_DRV_GPIO__H_
-#define YSS_DRV_GPIO__H_
+#include <drv/mcu.h>
 
-#include "peripheral.h"
-#include <stdint.h>
+#if defined(STM32F0) || defined(STM32F7) || defined(STM32G4)
 
-#if defined(STM32L1)
+#include <drv/peripheral.h>
+#include <drv/Usart.h>
+#include <yss/reg.h>
+#include <yss/thread.h>
+#include <targets/st/bitfield.h>
 
-#include "gpio/define_gpio_stm32l1.h"
-
-typedef volatile uint32_t		YSS_GPIO_Peri;
-
-#elif defined(GD32F4)
-
-#include <targets/st_gigadevice/define_gpio_gd32f4.h>
-
-typedef volatile uint32_t		YSS_GPIO_Peri;
-
-#elif defined(NRF52840_XXAA)
-
-#include <targets/nordic/define_gpio_nrf52840.h>
-
-typedef NRF_GPIO_Type			YSS_GPIO_Peri;
-
-#elif defined(EFM32PG22) || defined(EFR32BG22)
-
-typedef GPIO_TypeDef			YSS_GPIO_Peri;
-#define GpioTargetHeaderFile	<targets/siliconlabs/class_gpio_efm32pg22_efr32bg22.h>
-
-#elif defined(STM32F7) || defined(STM32F1) || defined(STM32F4) || defined(STM32F0) || defined(GD32F1) || defined(STM32G4)
-
-typedef GPIO_TypeDef			YSS_GPIO_Peri;
-#define GpioTargetHeaderFile	<targets/st/class_gpio_stm32.h>
-
-#else
-
-typedef volatile uint32_t		YSS_GPIO_Peri;
-
-#define YSS_DRV_GPIO_UNSUPPORTED
-
-#endif
-
-#include "Drv.h"
-
-class Gpio;
-
-class GpioBase : public Drv
+Usart::Usart(const Drv::Setup drvSetup, const Uart::Setup setup) : Uart(drvSetup, setup)
 {
-public :
-	struct AltFunc
+
+}
+
+void Usart::enableSck(bool en)
+{
+	bool ue = getBitData(mDev->CR1, USART_CR1_UE_Pos);
+
+	if(ue)
 	{
-		YSS_GPIO_Peri *port;
-		uint8_t pin;
-		uint8_t func;
-	};
+		setBitData(mDev->CR1, false, USART_CR1_UE_Pos);
+	}
+	
+	if(en)
+		mDev->CR2 |= USART_CR2_CLKEN_Msk | USART_CR2_LBCL_Msk;
+	else
+		mDev->CR2 &= ~(USART_CR2_CLKEN_Msk | USART_CR2_LBCL_Msk);
 
-	struct Pin
+	if(ue)
 	{
-		Gpio *port;
-		uint8_t pin;
-	};
-
-	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
-	GpioBase(const Drv::Setup drvSetup) : Drv(drvSetup) {}
-};
-
-#include GpioTargetHeaderFile
+		setBitData(mDev->CR1, true, USART_CR1_UE_Pos);
+	}
+}
 
 #endif
 

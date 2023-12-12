@@ -59,12 +59,26 @@
 // 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화 한다.
 //
 // 주의 
-// 1. TIMER, PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
+// 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못한다.
 
 // ADC 활성화
 #define ADC1_ENABLE			false
 #define ADC2_ENABLE			false
 #define ADC3_ENABLE			false
+
+// CAPTURE 활성화
+#define CAPTURE1_ENABLE		false
+#define CAPTURE2_ENABLE		false
+#define CAPTURE3_ENABLE		false
+#define CAPTURE4_ENABLE		false
+#define CAPTURE5_ENABLE		false
+#define CAPTURE8_ENABLE		false
+#define CAPTURE9_ENABLE		false
+#define CAPTURE10_ENABLE	false
+#define CAPTURE11_ENABLE	false
+#define CAPTURE12_ENABLE	false
+#define CAPTURE13_ENABLE	false
+#define CAPTURE14_ENABLE	false
 
 // CRC32 활성화
 #define CRC32_ENABLE		false
@@ -79,7 +93,7 @@
 
 // I2S 활성화
 #define I2S1_ENABLE			false
-#define I2S2_ENABLE			false
+#define I2S2_ENABLE			false		// DMA1_CH4(TX), DMA1_CH3(RX) 고정
 #define I2S3_ENABLE			false
 
 // PWM 활성화
@@ -107,6 +121,10 @@
 // SAI 활성화
 #define SAI1_ENABLE			false
 #define SAI2_ENABLE			false
+
+// SDMMC 활성화
+#define SDMMC_ENABLE		false
+#define SDMMC_DMA_TRX		DMA2_CH3	// DMA2_CH3, DMA2_CH6 가능
 
 // SPI 활성화
 #define SPI1_ENABLE			false

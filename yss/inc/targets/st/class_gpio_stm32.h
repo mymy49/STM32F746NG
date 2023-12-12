@@ -23,40 +23,53 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <drv/mcu.h>
+#ifndef YSS_CLASS_GPIO_STM32__H_
+#define YSS_CLASS_GPIO_STM32__H_
 
-#if defined(STM32F0_N) || defined(STM32F7)
-
+#include <yss/error.h>
 #include <drv/peripheral.h>
-#include <drv/Usart.h>
-#include <yss/reg.h>
-#include <yss/thread.h>
-#include <targets/st/bitfield.h>
 
-Usart::Usart(const Drv::Setup drvSetup, const Uart::Setup setup) : Uart(drvSetup, setup)
+class Gpio : public GpioBase
 {
+public:
+	// 핀을 출력으로 설정한다.
+	// 
+	// 반환
+	//		에러를 반환한다.
+	// uint8_t pin
+	//		출력으로 변경할 핀의 번호를 설정한다.
+	// uint8_t otype
+	//		출력핀의 출력 타입을 설정한다. enum OTYPE을 사용한다.
+	error setAsOutput(uint8_t pin, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
 
-}
+	void setPackageAsAltFunc(AltFunc *altport, uint8_t numOfPort, uint8_t ospeed, uint8_t otype);
 
-void Usart::enableSck(bool en)
-{
-	bool ue = getBitData(mDev->CR1, USART_CR1_UE_Pos);
+	error setAsAltFunc(uint8_t pin, uint8_t altFunc, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
 
-	if(ue)
-	{
-		setBitData(mDev->CR1, false, USART_CR1_UE_Pos);
-	}
+	void setAsInput(uint8_t pin, uint8_t pullUpDown = define::gpio::pupd::NONE);
+
+	void setAsAnalog(uint8_t pin);
+
+	void setOutput(uint8_t pin, bool data);
+
+	void setPullUpDown(uint8_t pin, uint8_t pupd);
+
+	void setExti(uint8_t pin);
 	
-	if(en)
-		mDev->CR2 |= USART_CR2_CLKEN_Msk | USART_CR2_LBCL_Msk;
-	else
-		mDev->CR2 &= ~(USART_CR2_CLKEN_Msk | USART_CR2_LBCL_Msk);
+	bool getInputData(uint8_t pin);
 
-	if(ue)
+	// 아래 함수들은 시스템 함수로 사용자 호출을 금한다.
+	struct Setup
 	{
-		setBitData(mDev->CR1, true, USART_CR1_UE_Pos);
-	}
-}
+		YSS_GPIO_Peri *dev;
+		uint8_t exti;
+	};
+
+	Gpio(const Drv::Setup drvSetup, const Setup setup);
+
+private:
+	YSS_GPIO_Peri *mDev;
+	uint8_t mExti;
+};
 
 #endif
-
