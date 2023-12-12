@@ -32,7 +32,7 @@
 
 typedef NRF_UART_Type		YSS_USART_Peri;
 
-#elif defined(EFM32PG22) || defined(EFR32BG22) || defined(STM32F4) || defined(STM32F0_N) || defined(STM32F7) || defined(STM32F1) || defined(GD32F1)
+#elif defined(EFM32PG22) || defined(EFR32BG22) || defined(STM32F4) || defined(STM32F0) || defined(STM32F7) || defined(STM32F1) || defined(GD32F1) || defined(STM32G4)
 
 typedef USART_TypeDef		YSS_USART_Peri;
 
@@ -193,7 +193,7 @@ class Uart : public Drv
 	void enable(bool en);
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
-#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F4) || defined(STM32F0_N)
+#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F4) || defined(STM32F0) || defined(STM32G4)
 	struct Setup
 	{
 		YSS_USART_Peri *dev;
@@ -229,7 +229,7 @@ protected:
 	void (*mIsrForFrameError)(void);
 	void (*mIsrForRxData)(uint8_t rxData);
 
-#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F0_N) || defined(STM32F4)
+#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F0) || defined(STM32F4) || defined(STM32G4)
 	Dma *mTxDma;
 	Dma::DmaInfo mTxDmaInfo;
 #elif defined(EFM32PG22) || defined(EFR32BG22)

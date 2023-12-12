@@ -28,7 +28,7 @@
 
 #include "peripheral.h"
 
-#if defined(STM32F0_N) || defined(GD32F1) || defined(STM32F1)
+#if defined(STM32F0) || defined(GD32F1) || defined(STM32F1) || defined(STM32G4)
 typedef DMA_TypeDef				YSS_DMA_Peri;
 typedef DMA_Channel_TypeDef		YSS_DMA_Channel_Peri;
 #elif defined(STM32F4) || defined(STM32F7)

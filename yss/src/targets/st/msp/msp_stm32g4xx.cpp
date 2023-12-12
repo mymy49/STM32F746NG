@@ -23,81 +23,93 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#include <drv/peripheral.h>
+#include <drv/mcu.h>
 
-#if defined(STM32F0)
+#if defined(STM32G4)
 
 #include <config.h>
 #include <yss/instance.h>
 #include <targets/st/bitfield.h>
 
+#if defined(STM32G474xx)
+#if HSE_CLOCK_FREQ % 4000000
+#error "STM32G474xx의 HSE의 클럭 주파수는 반드시 4MHz의 배수를 사용해야 합니다."
+#endif
+#else
+#error "HSE의 클럭 주파수에 대한 에러 범위를 설정하세요."
+#endif
+
+extern "C"
+{
+	void __WEAK SystemCoreClockUpdate(void)
+	{
+
+	}
+}
+
 void __WEAK initializeSystem(void)
 {
-	// Power Control 장치 활성화
-	clock.enableApb1Clock(RCC_APB1ENR_PWREN_Pos);
+	using namespace define::clock;
 
-	// 외부 고속 클럭 활성화
+	// Power Controller 클럭 활성화
+	clock.enableApb1_1Clock(RCC_APB1ENR1_PWREN_Pos);
+
+	// Power Scale 설정
+	clock.setPowerScale(powerScale::SCALE1_MODE);
+
+	// 외부 크리스탈 클럭 활성화
 #if defined(HSE_CLOCK_FREQ)
 	clock.enableHse(HSE_CLOCK_FREQ);
 #endif
 
-	using namespace define::clock;
-
-	// 주 PLL 활성화
-	// pllClock = HSE_CLOCK_FREQ * (mul + 2) / (1 + xtpre);
-#if HSE_CLOCK_FREQ == 8000000
+	// Main PLL 설정
+#if defined(STM32G474xx)
 	clock.enableMainPll(
-		pll::src::HSE,	// uint8_t src;
-		0,				// uint8_t xtpre;
-		7				// uint8_t mul;
-	);
-#define PLL_ENABLED
-# elif HSE_CLOCK_FREQ == 12000000
-	clock.enableMainPll(
-		pll::src::HSE,	// uint8_t src;
-		0,				// uint8_t xtpre;
-		2				// uint8_t mul;
-	); 
-#define PLL_ENABLED
+#if defined(HSE_CLOCK_FREQ)
+		pll::src::HSE,				// uint8_t src
+		HSE_CLOCK_FREQ / 4000000,	// uint8_t m
+#else
+		pll::src::HSI,				// uint8_t src
+		16000000 / 4000000,			// uint8_t m
 #endif
-
-#if defined(PLL_ENABLED)
-	flash.setLatency(48000000);
-
-	// 시스템 클럭 설정
+		85,							// uint16_t n
+		2,							// uint8_t pDiv
+		pll::qdiv::DIV2,			// uint8_t qDiv
+		pll::rdiv::DIV2				// uint8_t rDiv
+	);
+#else
+#error "PLL 설정을 추가해주세요."
+#endif
+	
+	// SYSCLK 설정
+#if defined(STM32G474xx)
 	clock.setSysclk(
-		sysclk::src::PLL,		// uint8_t sysclkSrc;
-		divFactor::ahb::NO_DIV, // uint8_t ahb;
-		divFactor::apb::NO_DIV,	// uint8_t apb1;
-		divFactor::apb::NO_DIV	// <- 사용 안됨
-	);
+		sysclk::src::PLL,				// uint8_t sysclkSrc
+		divisionFactor::ahb::NO_DIV,	// uint8_t ahbDiv
+		divisionFactor::apb::NO_DIV,	// uint8_t apb1Div
+		divisionFactor::apb::NO_DIV		// uint8_t apb2Div
+#else
+#error "SYSCLK 설정을 추가해주세요."
 #endif
+	);
 
-	flash.setPrefetchEn(true);
+	// FLASH 성능 도구 활성화
+	flash.enableDataCache();
+	flash.enableInstructionCache();
+	flash.enablePrefetch();
 
-	// GPIO 활성화
-	clock.enableAhb1Clock(RCC_AHBENR_GPIOAEN_Pos);
-	clock.enableAhb1Clock(RCC_AHBENR_GPIOBEN_Pos);
-	clock.enableAhb1Clock(RCC_AHBENR_GPIOCEN_Pos);
-	clock.enableAhb1Clock(RCC_AHBENR_GPIODEN_Pos);
-	clock.enableAhb1Clock(RCC_AHBENR_GPIOFEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOAEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOBEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOCEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIODEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOEEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOFEN_Pos);
+	clock.enableAhb2Clock(RCC_AHB2ENR_GPIOGEN_Pos);
 }
 
 void initializeDma(void)
 {
-	// DMA1
-	dmaChannel1.enableClock();
-	dmaChannel1.initialize();
-	dmaChannel1.enableInterrupt();
-	dmaChannel2.initialize();
-	dmaChannel2.enableInterrupt();
-	dmaChannel3.initialize();
-	dmaChannel3.enableInterrupt();
-	dmaChannel4.initialize();
-	dmaChannel4.enableInterrupt();
-	dmaChannel5.initialize();
-	dmaChannel5.enableInterrupt();
-}
 
+}
 
 #endif
