@@ -342,49 +342,52 @@ namespace define
 				PB10_SAI1_SCK_A = 14,
 				PB10_EVENTOUT = 15,
 
-#warning "이 아래는 다시 점검해야 함"
 				PB11_TIM2_CH4 = 1,
-				PB11_I2C2_SDA = 4,
 				PB11_USART3_RX = 7,
-				PB11_SAI2_SD_A = 8,
+				PB11_LPUART1_TX = 8,
+				PB11_QUADSPI1_BK1_NCS = 10,
+				PB11_HRTIM1_FLT4 = 13,
 				PB11_EVENTOUT = 15,
 
-				PB12_TIM1_BKIN = 1,
+				PB12_TIM5_ETR = 2,
 				PB12_I2C2_SMBA = 4,
 				PB12_SPI2_NSS = 5,
 				PB12_I2S2_WS = 5,
-				PB12_SAI1_SCK_B = 6,
+				PB12_TIM1_BKIN = 6,
 				PB12_USART3_CK = 7,
-				PB12_CAN2_RX = 9,
-				PB12_OTG_HSULPI_D5 = 10,
-				PB12_OTG_HS_ID = 12,
+				PB12_LPUART1_RTS_DE = 8,
+				PB12_FDCAN2_RX = 9,
+				PB12_HRTIM1_CHC1 = 13,
 				PB12_EVENTOUT = 15,
 
-				PB13_TIM1_CH1N = 1,
 				PB13_SPI2_SCK = 5,
 				PB13_I2S2_CK = 5,
+				PB13_TIM1_CH1N = 6,
 				PB13_USART3_CTS = 7,
-				PB13_CAN2_TX = 9,
-				PB13_OTG_HS_ULPI_D6 = 10,
+				PB13_LPUART1_CTS = 8,
+				PB13_FDCAN2_TX = 9,
+				PB13_HRTIM1_CHC2 = 13,
 				PB13_EVENTOUT = 15,
 
-				PB14_TIM1_CH2N = 1,
-				PB14_TIM8_CH2N = 3,
+				PB14_TIM15_CH1 = 1,
 				PB14_SPI2_MISO = 5,
-				PB14_USART3_RTS = 7,
-				PB14_TIM12_CH1 = 9,
-				PB14_OTG_HS_DM = 12,
+				PB14_TIM1_CH2N = 6,
+				PB14_USART3_RTS_DE = 7,
+				PB14_COMP4_OUT = 8,
+				PB14_HRTIM1_CHD1 = 13,
 				PB14_EVENTOUT = 15,
 
 				PB15_RTC_REFIN = 0,
-				PB15_TIM1_CH3N = 1,
-				PB15_TIM8_CH3N = 3,
+				PB15_TIM15_CH2 = 1,
+				PB15_TIM15_CH1N = 2,
+				PB15_COMP3_OUT = 3,
+				PB15_TIM1_CH3N = 4,
 				PB15_SPI2_MOSI = 5,
 				PB15_I2S2_SD = 5,
-				PB15_TIM12_CH2 = 9,
-				PB15_OTG_HS_DP = 12,
+				PB15_HRTIM1_CHD2 = 13,
 				PB15_EVENTOUT = 15,
 	
+#warning "이 아래는 다시 점검해야 함"
 				PC0_SAI1_MCLK_B = 6,
 				PC0_OTG_HS_ULPI_STP = 10,
 				PC0_FMC_SDNWE = 12,
@@ -1117,6 +1120,8 @@ namespace define
 		}
 	}
 }
+
+#define DMA_COUNT			16
 
 #endif
 

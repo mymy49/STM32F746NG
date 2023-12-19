@@ -39,10 +39,11 @@
 
 static Mutex gMutex;
 
-Dma::Dma(const Drv::Config drvConfig, const Config dmaConfig) : Drv(drvConfig)
+Dma::Dma(const Drv::Setup drvSetup, const Setup dmaSetup) : Drv(drvSetup)
 {
-	mDma = dmaConfig.dma;
-	mPeri = dmaConfig.peri;
+	mDma = dmaSetup.dma;
+	mChannel = dmaSetup.channel;
+	mDmaMux = dmaSetup.dmamux;
 	mCompleteFlag = false;
 	mErrorFlag = false;
 	mAddr = 0;
@@ -56,7 +57,7 @@ void Dma::initialize(void)
 error Dma::ready(DmaInfo &dmaInfo, void *buffer, int32_t  size)
 {
 	if(size == 0)
-		return error::NO_DATA;
+		return error::ERROR_NONE;
 
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -64,43 +65,31 @@ error Dma::ready(DmaInfo &dmaInfo, void *buffer, int32_t  size)
 
 	if (size > 0xF000)
 	{
-		mPeri->CPAR = (uint32_t)dmaInfo.dataRegister;
-		mPeri->CNDTR = 0xF000;
-		mPeri->CMAR = (uint32_t)buffer;
+		mChannel->CPAR = (uint32_t)dmaInfo.cpar;
+		mChannel->CNDTR = 0xF000;
+		mChannel->CMAR = (uint32_t)buffer;
 		mAddr = (uint32_t)buffer;
 		mRemainSize = size - 0xF000;
-#if defined(STM32F030xC)
-		gMutex.lock();
-		mDma->CSELR &= ~dmaInfo.controlRegister2;
-		mDma->CSELR |= dmaInfo.controlRegister3;
-		gMutex.unlock();
-#endif
-		mPeri->CCR = dmaInfo.controlRegister1;
+		mChannel->CCR = dmaInfo.ccr;
 	}
 	else
 	{
-		mPeri->CPAR = (uint32_t)dmaInfo.dataRegister;
-		mPeri->CNDTR = size;
-		mPeri->CMAR = (uint32_t)buffer;
+		mChannel->CPAR = (uint32_t)dmaInfo.cpar;
+		mChannel->CNDTR = size;
+		mChannel->CMAR = (uint32_t)buffer;
 		mRemainSize = 0;
-#if defined(STM32F030xC)
-		gMutex.lock();
-		mDma->CSELR &= ~dmaInfo.controlRegister2;
-		mDma->CSELR |= dmaInfo.controlRegister3;
-		gMutex.unlock();
-#endif
-		mPeri->CCR = dmaInfo.controlRegister1;
+		mChannel->CCR = dmaInfo.ccr;
 	}
 
 	return error::ERROR_NONE;
 }
 
-error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
+error Dma::transfer(DmaInfo &dmaInfo, void *src, int32_t  size)
 {
 	uint32_t addr = (uint32_t)src;
 
 	if(size == 0)
-		return error::NO_DATA;
+		return error::ERROR_NONE;
 
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -108,40 +97,32 @@ error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
 	
 	if (size > 0xF000)
 	{
-		mPeri->CPAR = (uint32_t)dmaInfo.dataRegister;
-		mPeri->CNDTR = 0xF000;
-		mPeri->CMAR = addr;
+		mChannel->CPAR = (uint32_t)dmaInfo.cpar;
+		mChannel->CNDTR = 0xF000;
+		mChannel->CMAR = addr;
 		mAddr = addr;
 		mRemainSize = size - 0xF000;
-#if defined(STM32F030xC)
-		gMutex.lock();
-		mDma->CSELR &= ~dmaInfo.controlRegister2;
-		mDma->CSELR |= dmaInfo.controlRegister3;
-		gMutex.unlock();
-#endif
-		mPeri->CCR = dmaInfo.controlRegister1;
+		mChannel->CCR = dmaInfo.ccr;
+		mDmaMux->CCR = dmaInfo.muxccr;
 	}
 	else
 	{
-		mPeri->CPAR = (uint32_t)dmaInfo.dataRegister;
-		mPeri->CNDTR = size;
-		mPeri->CMAR = addr;
+		mChannel->CPAR = (uint32_t)dmaInfo.cpar;
+		mChannel->CNDTR = size;
+		mChannel->CMAR = addr;
 		mRemainSize = 0;
-#if defined(STM32F030xC)
-		gMutex.lock();
-		mDma->CSELR &= ~dmaInfo.controlRegister2;
-		mDma->CSELR |= dmaInfo.controlRegister3;
-		gMutex.unlock();
-#endif
-		mPeri->CCR = dmaInfo.controlRegister1;
+		mChannel->CCR = dmaInfo.ccr;
+		mDmaMux->CCR = dmaInfo.muxccr;
 	}
 
-	while (!mCompleteFlag && !mErrorFlag && mPeri->CNDTR)
+	mChannel->CCR |= DMA_CCR_EN_Msk;
+
+	while (!mCompleteFlag && !mErrorFlag && mChannel->CNDTR)
 	{
 		thread::yield();
 	}
 	
-	mPeri->CCR &= ~DMA_CCR_EN_Msk;
+	mChannel->CCR &= ~DMA_CCR_EN_Msk;
 
 	if(mErrorFlag)
 		return error::DMA;
@@ -149,55 +130,9 @@ error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
 		return error::ERROR_NONE;
 }
 
-error Dma::receive(DmaInfo &dmaInfo, void *des, int32_t  size)
-{
-	if(size == 0)
-		return error::NO_DATA;
-
-	mCompleteFlag = false;
-	mErrorFlag = false;
-	mThreadId = thread::getCurrentThreadId();
-
-	if (size > 0xF000)
-	{
-		mPeri->CPAR = (int32_t )dmaInfo.dataRegister;
-		mPeri->CNDTR = 0xF000;
-		mPeri->CMAR = (int32_t )des;
-		mAddr = (int32_t )des;
-		mRemainSize = size - 0xF000;
-#if defined(STM32F030xC)
-		gMutex.lock();
-		mDma->CSELR &= ~dmaInfo.controlRegister2;
-		mDma->CSELR |= dmaInfo.controlRegister3;
-		gMutex.unlock();
-#endif
-		mPeri->CCR = dmaInfo.controlRegister1;
-	}
-	else
-	{
-		mPeri->CPAR = (int32_t )dmaInfo.dataRegister;
-		mPeri->CNDTR = size;
-		mPeri->CMAR = (int32_t )des;
-		mRemainSize = 0;
-		mPeri->CCR = dmaInfo.controlRegister1;
-	}
-
-	while (!mCompleteFlag && !mErrorFlag && mPeri->CNDTR)
-	{
-		thread::yield();
-	}
-
-	mPeri->CCR &= ~DMA_CCR_EN_Msk;
-
-	if (mErrorFlag)
-		return error::DMA;
-	else
-		return error::ERROR_NONE;
-}
-
 void Dma::stop(void)
 {
-	mPeri->CCR &= ~DMA_CCR_EN_Msk;
+	mChannel->CCR &= ~DMA_CCR_EN_Msk;
 }
 
 bool Dma::isError(void)
@@ -210,9 +145,9 @@ bool Dma::isComplete(void)
 	return mCompleteFlag;
 }
 
-DmaChannel1::DmaChannel1(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel1::DmaChannel1(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel1::isr(void)
@@ -228,17 +163,17 @@ void DmaChannel1::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -246,9 +181,9 @@ void DmaChannel1::isr(void)
 	thread::signal(mThreadId);
 }
 
-DmaChannel2::DmaChannel2(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel2::DmaChannel2(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel2::isr(void)
@@ -263,17 +198,17 @@ void DmaChannel2::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -283,9 +218,9 @@ void DmaChannel2::isr(void)
 
 
 
-DmaChannel3::DmaChannel3(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel3::DmaChannel3(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel3::isr(void)
@@ -298,21 +233,21 @@ void DmaChannel3::isr(void)
 
 	if (mRemainSize)
 	{
-		mPeri->CCR &= ~DMA_CCR_EN_Msk;
+		mChannel->CCR &= ~DMA_CCR_EN_Msk;
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -322,9 +257,9 @@ void DmaChannel3::isr(void)
 
 
 
-DmaChannel4::DmaChannel4(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel4::DmaChannel4(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel4::isr(void)
@@ -340,17 +275,17 @@ void DmaChannel4::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -360,9 +295,9 @@ void DmaChannel4::isr(void)
 
 
 
-DmaChannel5::DmaChannel5(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel5::DmaChannel5(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel5::isr(void)
@@ -378,17 +313,17 @@ void DmaChannel5::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -398,9 +333,9 @@ void DmaChannel5::isr(void)
 
 
 
-DmaChannel6::DmaChannel6(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel6::DmaChannel6(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel6::isr(void)
@@ -416,17 +351,17 @@ void DmaChannel6::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -436,9 +371,9 @@ void DmaChannel6::isr(void)
 
 
 
-DmaChannel7::DmaChannel7(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel7::DmaChannel7(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel7::isr(void)
@@ -454,17 +389,17 @@ void DmaChannel7::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -474,9 +409,9 @@ void DmaChannel7::isr(void)
 
 
 
-DmaChannel8::DmaChannel8(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel8::DmaChannel8(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel8::isr(void)
@@ -492,17 +427,17 @@ void DmaChannel8::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -512,9 +447,9 @@ void DmaChannel8::isr(void)
 
 
 
-DmaChannel9::DmaChannel9(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel9::DmaChannel9(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel9::isr(void)
@@ -530,17 +465,17 @@ void DmaChannel9::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -550,9 +485,9 @@ void DmaChannel9::isr(void)
 
 
 
-DmaChannel10::DmaChannel10(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel10::DmaChannel10(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel10::isr(void)
@@ -568,17 +503,17 @@ void DmaChannel10::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -588,9 +523,9 @@ void DmaChannel10::isr(void)
 
 
 
-DmaChannel11::DmaChannel11(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel11::DmaChannel11(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel11::isr(void)
@@ -606,17 +541,17 @@ void DmaChannel11::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -626,9 +561,9 @@ void DmaChannel11::isr(void)
 
 
 
-DmaChannel12::DmaChannel12(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel12::DmaChannel12(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel12::isr(void)
@@ -644,17 +579,17 @@ void DmaChannel12::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -664,9 +599,9 @@ void DmaChannel12::isr(void)
 
 
 
-DmaChannel13::DmaChannel13(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel13::DmaChannel13(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel13::isr(void)
@@ -682,17 +617,17 @@ void DmaChannel13::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -702,9 +637,9 @@ void DmaChannel13::isr(void)
 
 
 
-DmaChannel14::DmaChannel14(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel14::DmaChannel14(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel14::isr(void)
@@ -720,17 +655,17 @@ void DmaChannel14::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -740,9 +675,9 @@ void DmaChannel14::isr(void)
 
 
 
-DmaChannel15::DmaChannel15(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel15::DmaChannel15(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel15::isr(void)
@@ -758,17 +693,17 @@ void DmaChannel15::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;
@@ -778,9 +713,9 @@ void DmaChannel15::isr(void)
 
 
 
-DmaChannel16::DmaChannel16(const Drv::Config drvConfig, const Dma::Config dmaConfig, const Config config) : Dma(drvConfig, dmaConfig)
+DmaChannel16::DmaChannel16(const Drv::Setup drvSetup, const Dma::Setup dmaSetup) : Dma(drvSetup, dmaSetup)
 {
-	(void)config;
+	
 }
 
 void DmaChannel16::isr(void)
@@ -796,17 +731,17 @@ void DmaChannel16::isr(void)
 		mAddr += 0xF000;
 		if (mRemainSize > 0xF000)
 		{
-			mPeri->CNDTR = 0xF000;
+			mChannel->CNDTR = 0xF000;
 			mRemainSize -= 0xF000;
 		}
 		else
 		{
-			mPeri->CNDTR = mRemainSize;
+			mChannel->CNDTR = mRemainSize;
 			mRemainSize = 0;
 		}
 
-		mPeri->CMAR = mAddr;
-		mPeri->CCR |= DMA_CCR_EN_Msk;
+		mChannel->CMAR = mAddr;
+		mChannel->CCR |= DMA_CCR_EN_Msk;
 	}
 	else if (checkComplete(sr))
 		mCompleteFlag = true;

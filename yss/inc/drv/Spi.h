@@ -74,7 +74,7 @@ class Spi : public Drv
 
 	// SPI 장치의 전송 세부 사항을 설정한다. 
 	// 설정 전에 반드시 enable(false) 를 호출하여 장치를 먼저 비활성화 시키는게 필요하다.
-	// 세부 설정 사항은 구조체 Specification를 사용한다.
+	// 세부 설정 사항은 구조체 Specification_t를 사용한다.
 	// 
 	// 반환
 	//		에러를 반환한다.
