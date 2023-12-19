@@ -96,6 +96,8 @@ extern Clock clock;
 	extern DmaChannel16 dmaChannel16;
 #endif
 
+extern Dma *dmaChannelList[DMA_COUNT];
+
 #if defined(FLASH)
 extern Flash flash;
 #endif
