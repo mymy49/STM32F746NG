@@ -29,11 +29,19 @@
 
 #include <targets/st/bitfield.h>
 
+Dma *dmaChannelList[DMA_COUNT] = 
+{
+	&dmaChannel1, &dmaChannel2, &dmaChannel3, &dmaChannel4, &dmaChannel5, &dmaChannel6, &dmaChannel7, &dmaChannel8, 
+	&dmaChannel9, &dmaChannel10, &dmaChannel11, &dmaChannel12, &dmaChannel13, &dmaChannel14, &dmaChannel15, &dmaChannel16, 
+};
+
+
 #if defined(DMA1)
 static void enableDma1Clock(bool en)
 {
 	clock.lock();
     clock.enableAhb1Clock(RCC_AHB1ENR_DMA1EN_Pos, en);
+    clock.enableAhb1Clock(RCC_AHB1ENR_DMAMUX1EN_Pos, en);
 	clock.unlock();
 }
 
@@ -45,7 +53,7 @@ static void enableDma1Channel1Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel1Config = 
+const Drv::Setup gDrvDmaChannel1Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel1Interrupt,	//void (*nvicFunc)(bool en);
@@ -53,17 +61,14 @@ const Drv::Config gDrvDmaChannel1Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma1Config = 
+const Dma::Setup gDma1Config = 
 {
-	DMA1,			//YSS_DMA_Peri *dma;
-	DMA1_Channel1	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				// YSS_DMA_Peri *dma;
+	DMA1_Channel1,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel0	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel1::Config gDmaChannel1 = 
-{
-};
-
-DmaChannel1 dmaChannel1(gDrvDmaChannel1Config, gDma1Config, gDmaChannel1);
+DmaChannel1 dmaChannel1(gDrvDmaChannel1Config, gDma1Config);
 
 extern "C"
 {
@@ -84,7 +89,7 @@ static void enableDma1Channel2Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel2Config = 
+const Drv::Setup gDrvDmaChannel2Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel2Interrupt,	//void (*nvicFunc)(bool en);
@@ -92,17 +97,14 @@ const Drv::Config gDrvDmaChannel2Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma2Config = 
+const Dma::Setup gDma2Config = 
 {
-	DMA1,	//YSS_DMA_Peri *dma;
-	DMA1_Channel2	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				//YSS_DMA_Peri *dma;
+	DMA1_Channel2,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel1	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel2::Config gDmaChannel2 = 
-{
-};
-
-DmaChannel2 dmaChannel2(gDrvDmaChannel2Config, gDma2Config, gDmaChannel2);
+DmaChannel2 dmaChannel2(gDrvDmaChannel2Config, gDma2Config);
 
 extern "C"
 {
@@ -123,7 +125,7 @@ static void enableDma1Channel3Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel3Config = 
+const Drv::Setup gDrvDmaChannel3Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel3Interrupt,	//void (*nvicFunc)(bool en);
@@ -131,17 +133,14 @@ const Drv::Config gDrvDmaChannel3Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma3Config = 
+const Dma::Setup gDma3Config = 
 {
-	DMA1,			//YSS_DMA_Peri *dma;
-	DMA1_Channel3	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				//YSS_DMA_Peri *dma;
+	DMA1_Channel3,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel2	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel3::Config gDmaChannel3 = 
-{
-};
-
-DmaChannel3 dmaChannel3(gDrvDmaChannel3Config, gDma3Config, gDmaChannel3);
+DmaChannel3 dmaChannel3(gDrvDmaChannel3Config, gDma3Config);
 
 extern "C"
 {
@@ -162,7 +161,7 @@ static void enableDma1Channel4Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel4Config = 
+const Drv::Setup gDrvDmaChannel4Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel4Interrupt,	//void (*nvicFunc)(bool en);
@@ -170,17 +169,14 @@ const Drv::Config gDrvDmaChannel4Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma4Config = 
+const Dma::Setup gDma4Config = 
 {
-	DMA1,	//YSS_DMA_Peri *dma;
-	DMA1_Channel4	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				// YSS_DMA_Peri *dma;
+	DMA1_Channel4,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel3	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel4::Config gDmaChannel4 = 
-{
-};
-
-DmaChannel4 dmaChannel4(gDrvDmaChannel4Config, gDma4Config, gDmaChannel4);
+DmaChannel4 dmaChannel4(gDrvDmaChannel4Config, gDma4Config);
 
 extern "C"
 {
@@ -201,7 +197,7 @@ static void enableDma1Channel5Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel5Config = 
+const Drv::Setup gDrvDmaChannel5Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel5Interrupt,	//void (*nvicFunc)(bool en);
@@ -209,17 +205,14 @@ const Drv::Config gDrvDmaChannel5Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma5Config = 
+const Dma::Setup gDma5Config = 
 {
 	DMA1,	//YSS_DMA_Peri *dma;
-	DMA1_Channel5	//YSS_DMA_Channel_Peri *peri;	
+	DMA1_Channel5,	//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel4	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel5::Config gDmaChannel5 = 
-{
-};
-
-DmaChannel5 dmaChannel5(gDrvDmaChannel5Config, gDma5Config, gDmaChannel5);
+DmaChannel5 dmaChannel5(gDrvDmaChannel5Config, gDma5Config);
 
 extern "C"
 {
@@ -240,7 +233,7 @@ static void enableDma1Channel6Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel6Config = 
+const Drv::Setup gDrvDmaChannel6Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel6Interrupt,	//void (*nvicFunc)(bool en);
@@ -248,17 +241,14 @@ const Drv::Config gDrvDmaChannel6Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma6Config = 
+const Dma::Setup gDma6Config = 
 {
-	DMA1,	//YSS_DMA_Peri *dma;
-	DMA1_Channel6	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				// YSS_DMA_Peri *dma;
+	DMA1_Channel6,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel5	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel6::Config gDmaChannel6 = 
-{
-};
-
-DmaChannel6 dmaChannel6(gDrvDmaChannel6Config, gDma6Config, gDmaChannel6);
+DmaChannel6 dmaChannel6(gDrvDmaChannel6Config, gDma6Config);
 
 extern "C"
 {
@@ -279,7 +269,7 @@ static void enableDma1Channel7Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel7Config = 
+const Drv::Setup gDrvDmaChannel7Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel7Interrupt,	//void (*nvicFunc)(bool en);
@@ -287,17 +277,14 @@ const Drv::Config gDrvDmaChannel7Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma7Config = 
+const Dma::Setup gDma7Config = 
 {
-	DMA1,	//YSS_DMA_Peri *dma;
-	DMA1_Channel7	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				// YSS_DMA_Peri *dma;
+	DMA1_Channel7,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel6	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel7::Config gDmaChannel7 = 
-{
-};
-
-DmaChannel7 dmaChannel7(gDrvDmaChannel7Config, gDma7Config, gDmaChannel7);
+DmaChannel7 dmaChannel7(gDrvDmaChannel7Config, gDma7Config);
 
 extern "C"
 {
@@ -318,7 +305,7 @@ static void enableDma1Channel8Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel8Config = 
+const Drv::Setup gDrvDmaChannel8Config = 
 {
 	enableDma1Clock,				//void (*clockFunc)(bool en);
 	enableDma1Channel8Interrupt,	//void (*nvicFunc)(bool en);
@@ -326,17 +313,14 @@ const Drv::Config gDrvDmaChannel8Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma8Config = 
+const Dma::Setup gDma8Config = 
 {
-	DMA1,			//YSS_DMA_Peri *dma;
-	DMA1_Channel8	//YSS_DMA_Channel_Peri *peri;	
+	DMA1,				// YSS_DMA_Peri *dma;
+	DMA1_Channel8,		// YSS_DMA_Channel_Peri *peri;
+	DMAMUX1_Channel7	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel8::Config gDmaChannel8 = 
-{
-};
-
-DmaChannel8 dmaChannel8(gDrvDmaChannel8Config, gDma8Config, gDmaChannel8);
+DmaChannel8 dmaChannel8(gDrvDmaChannel8Config, gDma8Config);
 
 extern "C"
 {
@@ -364,7 +348,7 @@ static void enableDma2Channel1Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel9Config = 
+const Drv::Setup gDrvDmaChannel9Config = 
 {
 	enableDma2Clock,				//void (*clockFunc)(bool en);
 	enableDma2Channel1Interrupt,	//void (*nvicFunc)(bool en);
@@ -372,17 +356,14 @@ const Drv::Config gDrvDmaChannel9Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma9Config = 
+const Dma::Setup gDma9Config = 
 {
-	DMA2,			//YSS_DMA_Peri *dma;
-	DMA2_Channel1	//YSS_DMA_Channel_Peri *peri;	
+	DMA2,				//YSS_DMA_Peri *dma;
+	DMA2_Channel1,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel8	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel9::Config gDmaChannel9 = 
-{
-};
-
-DmaChannel9 dmaChannel9(gDrvDmaChannel9Config, gDma9Config, gDmaChannel9);
+DmaChannel9 dmaChannel9(gDrvDmaChannel9Config, gDma9Config);
 
 extern "C"
 {
@@ -403,7 +384,7 @@ static void enableDma2Channel2Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel10Config = 
+const Drv::Setup gDrvDmaChannel10Config = 
 {
 	enableDma2Clock,				//void (*clockFunc)(bool en);
 	enableDma2Channel2Interrupt,	//void (*nvicFunc)(bool en);
@@ -411,17 +392,14 @@ const Drv::Config gDrvDmaChannel10Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma10Config = 
+const Dma::Setup gDma10Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
-	DMA2_Channel2	//YSS_DMA_Channel_Peri *peri;	
+	DMA2_Channel2,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel9	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel10::Config gDmaChannel10 = 
-{
-};
-
-DmaChannel10 dmaChannel10(gDrvDmaChannel10Config, gDma10Config, gDmaChannel10);
+DmaChannel10 dmaChannel10(gDrvDmaChannel10Config, gDma10Config);
 
 extern "C"
 {
@@ -442,7 +420,7 @@ static void enableDma2Channel3Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel11Config = 
+const Drv::Setup gDrvDmaChannel11Config = 
 {
 	enableDma2Clock,				//void (*clockFunc)(bool en);
 	enableDma2Channel3Interrupt,	//void (*nvicFunc)(bool en);
@@ -450,17 +428,14 @@ const Drv::Config gDrvDmaChannel11Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma11Config = 
+const Dma::Setup gDma11Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
-	DMA2_Channel3	//YSS_DMA_Channel_Peri *peri;	
+	DMA2_Channel3,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel10	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel11::Config gDmaChannel11 = 
-{
-};
-
-DmaChannel11 dmaChannel11(gDrvDmaChannel11Config, gDma11Config, gDmaChannel11);
+DmaChannel11 dmaChannel11(gDrvDmaChannel11Config, gDma11Config);
 
 extern "C"
 {
@@ -481,7 +456,7 @@ static void enableDma2Channel4Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel12Config = 
+const Drv::Setup gDrvDmaChannel12Config = 
 {
 	enableDma2Clock,				//void (*clockFunc)(bool en);
 	enableDma2Channel4Interrupt,	//void (*nvicFunc)(bool en);
@@ -489,17 +464,14 @@ const Drv::Config gDrvDmaChannel12Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma12Config = 
+const Dma::Setup gDma12Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
-	DMA2_Channel4	//YSS_DMA_Channel_Peri *peri;	
+	DMA2_Channel4,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel11	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel12::Config gDmaChannel12 = 
-{
-};
-
-DmaChannel12 dmaChannel12(gDrvDmaChannel12Config, gDma12Config, gDmaChannel12);
+DmaChannel12 dmaChannel12(gDrvDmaChannel12Config, gDma12Config);
 
 extern "C"
 {
@@ -520,7 +492,7 @@ static void enableDma2Channel5Interrupt(bool en)
     nvic.unlock();
 }
 
-const Drv::Config gDrvDmaChannel13Config = 
+const Drv::Setup gDrvDmaChannel13Config = 
 {
 	enableDma2Clock,				//void (*clockFunc)(bool en);
 	enableDma2Channel5Interrupt,	//void (*nvicFunc)(bool en);
@@ -528,23 +500,128 @@ const Drv::Config gDrvDmaChannel13Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Config gDma13Config = 
+const Dma::Setup gDma13Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
-	DMA2_Channel5	//YSS_DMA_Channel_Peri *peri;	
+	DMA2_Channel5,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel12	// YSS_DMAMUX_Channel_Peri *dmamux;
 };
 
-const DmaChannel13::Config gDmaChannel13 = 
-{
-};
-
-DmaChannel13 dmaChannel13(gDrvDmaChannel13Config, gDma13Config, gDmaChannel13);
+DmaChannel13 dmaChannel13(gDrvDmaChannel13Config, gDma13Config);
 
 extern "C"
 {
 	void DMA2_Channel5_IRQHandler(void)
 	{
 		dmaChannel13.isr();
+	}
+}
+#endif
+
+
+
+#if defined(DMA2_CHANNEL6) || defined(DMA2_Channel6)
+static void enableDma2Channel6Interrupt(bool en)
+{
+    nvic.lock();
+	nvic.enableInterrupt(DMA2_Channel6_IRQn, en);
+    nvic.unlock();
+}
+
+const Drv::Setup gDrvDmaChannel14Config = 
+{
+	enableDma2Clock,				//void (*clockFunc)(bool en);
+	enableDma2Channel6Interrupt,	//void (*nvicFunc)(bool en);
+	0,								//void (*resetFunc)(void);
+	0								//uint32_t (*getClockFunc)(void);
+};
+
+const Dma::Setup gDma14Config = 
+{
+	DMA2,			//YSS_DMA_Peri *dma;
+	DMA2_Channel6,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel13	// YSS_DMAMUX_Channel_Peri *dmamux;
+};
+
+DmaChannel14 dmaChannel14(gDrvDmaChannel14Config, gDma14Config);
+
+extern "C"
+{
+	void DMA2_Channel6_IRQHandler(void)
+	{
+		dmaChannel14.isr();
+	}
+}
+#endif
+
+
+
+#if defined(DMA2_CHANNEL7) || defined(DMA2_Channel7)
+static void enableDma2Channel7Interrupt(bool en)
+{
+    nvic.lock();
+	nvic.enableInterrupt(DMA2_Channel7_IRQn, en);
+    nvic.unlock();
+}
+
+const Drv::Setup gDrvDmaChannel15Config = 
+{
+	enableDma2Clock,				//void (*clockFunc)(bool en);
+	enableDma2Channel7Interrupt,	//void (*nvicFunc)(bool en);
+	0,								//void (*resetFunc)(void);
+	0								//uint32_t (*getClockFunc)(void);
+};
+
+const Dma::Setup gDma15Config = 
+{
+	DMA2,			//YSS_DMA_Peri *dma;
+	DMA2_Channel7,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel14	// YSS_DMAMUX_Channel_Peri *dmamux;
+};
+
+DmaChannel15 dmaChannel15(gDrvDmaChannel15Config, gDma15Config);
+
+extern "C"
+{
+	void DMA2_Channel7_IRQHandler(void)
+	{
+		dmaChannel15.isr();
+	}
+}
+#endif
+
+
+
+#if defined(DMA2_CHANNEL8) || defined(DMA2_Channel8)
+static void enableDma2Channel8Interrupt(bool en)
+{
+    nvic.lock();
+	nvic.enableInterrupt(DMA2_Channel8_IRQn, en);
+    nvic.unlock();
+}
+
+const Drv::Setup gDrvDmaChannel16Config = 
+{
+	enableDma2Clock,				//void (*clockFunc)(bool en);
+	enableDma2Channel8Interrupt,	//void (*nvicFunc)(bool en);
+	0,								//void (*resetFunc)(void);
+	0								//uint32_t (*getClockFunc)(void);
+};
+
+const Dma::Setup gDma16Config = 
+{
+	DMA2,			//YSS_DMA_Peri *dma;
+	DMA2_Channel8,		//YSS_DMA_Channel_Peri *peri;	
+	DMAMUX1_Channel15	// YSS_DMAMUX_Channel_Peri *dmamux;
+};
+
+DmaChannel16 dmaChannel16(gDrvDmaChannel16Config, gDma16Config);
+
+extern "C"
+{
+	void DMA2_Channel8_IRQHandler(void)
+	{
+		dmaChannel16.isr();
 	}
 }
 #endif
