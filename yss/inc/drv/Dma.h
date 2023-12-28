@@ -35,6 +35,7 @@ typedef DMA_Channel_TypeDef		YSS_DMA_Channel_Peri;
 typedef DMA_TypeDef				YSS_DMA_Peri;
 typedef DMA_Channel_TypeDef		YSS_DMA_Channel_Peri;
 typedef DMAMUX_Channel_TypeDef	YSS_DMAMUX_Channel_Peri;
+#define DMA_OCCUPANCY_ABLE
 #elif defined(STM32F4) || defined(STM32F7)
 typedef DMA_TypeDef				YSS_DMA_Peri;
 typedef DMA_Stream_TypeDef		YSS_DMA_Channel_Peri;
