@@ -142,6 +142,14 @@ void initializeBoard(void)
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
 
+	// Quadspi Memory 초기화
+	const N25Q128A1::Config_t config = 
+	{
+		quadspi
+	};
+
+	memory.setConfig(config);
+
 
 	// LED 초기화
 	Led::initilize();
