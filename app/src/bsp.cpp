@@ -198,6 +198,8 @@ void initializeSdram(void)
 
 void initializeSystem(void)
 {
+	using namespace define::clock;
+
 	// 외부 클럭 활성화
 #if defined(HSE_CLOCK_FREQ)
 	clock.enableHse(HSE_CLOCK_FREQ);
@@ -220,14 +222,13 @@ void initializeSystem(void)
 	// Q(PLLSAICLK) = VCO / qDiv;	45 MHz를 넘어선 안됨
 	// R(PLLLCDCLK) = VCO / rDiv;	42 MHz를 넘어선 안됨
 
-	using namespace define::clock;
-
 	// Main PLL 설정
 	clock.enableMainPll(
-		pll::src::HSE,				// uint8_t src
 #if defined(HSE_CLOCK_FREQ)
+		pll::src::HSE,				// uint8_t src
 		HSE_CLOCK_FREQ / 1000000,	// uint8_t m
 #else
+		pll::src::HSI,				// uint8_t src
 		16000000 / 1000000,			// uint8_t m
 #endif
 		432,						// uint16_t n
@@ -247,11 +248,11 @@ void initializeSystem(void)
 	// 시스템 클럭 설정
 	flash.setLatency(216000000, 33);
 	clock.setSysclk(
-		define::clock::sysclk::src::PLL,       // uint8_t sysclkSrc;
-		define::clock::sysclk::ahbDiv::NO_DIV, // uint8_t ahb;
-		define::clock::sysclk::apbDiv::DIV4,   // uint8_t apb1;
-		define::clock::sysclk::apbDiv::DIV2,   // uint8_t apb2;
-		33                                     // uint8_t vcc
+		sysclk::src::PLL,       // uint8_t sysclkSrc;
+		sysclk::ahbDiv::NO_DIV, // uint8_t ahb;
+		sysclk::apbDiv::DIV4,   // uint8_t apb1;
+		sysclk::apbDiv::DIV2,   // uint8_t apb2;
+		33						// uint8_t vcc
 	);
 
 	// 명령어 캐쉬 활성화
