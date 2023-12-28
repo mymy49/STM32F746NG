@@ -31,9 +31,9 @@
 #include <mod/ctouch/FT5336.h>
 
 FunctionQueue fq(16);
-
 RK043FN48H lcd;
 FT5336 touch;
+N25Q128A1 memory;
 
 void initializeBoard(void)
 {
@@ -70,6 +70,18 @@ void initializeBoard(void)
 
 	// setDetectPin() 함수를 가장 마지막에 호출해야 함
 	sdmmc.setDetectPin({&gpioC, 13});
+
+	// Quadspi 초기화
+	gpioB.setAsAltFunc(2, altfunc::PB2_QUADSPI_CLK);
+	gpioB.setAsAltFunc(6, altfunc::PB6_QUADSPI_BK1_NCS);
+	gpioD.setAsAltFunc(11, altfunc::PD11_QUADSPI_BK1_IO0);
+	gpioD.setAsAltFunc(12, altfunc::PD12_QUADSPI_BK1_IO1);
+	gpioE.setAsAltFunc(2, altfunc::PE2_QUADSPI_BK1_IO2);
+	gpioD.setAsAltFunc(13, altfunc::PD13_QUADSPI_BK1_IO3);
+
+	quadspi.enableClock();
+	quadspi.initialize();
+	quadspi.enableInterrupt();
 
 	// 터치 초기화
 	const FT5336::Config touchConfig = 

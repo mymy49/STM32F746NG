@@ -26,10 +26,13 @@
 
 #include <util/FunctionQueue.h>
 #include <dev/led.h>
+#include <mod/qsflash/N25Q128A1.h>
 
 void initializeBoard(void);
 
 extern FunctionQueue fq;
+
+extern N25Q128A1 memory;
 
 #endif
 
