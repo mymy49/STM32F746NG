@@ -55,6 +55,22 @@ void initializeBoard(void)
 	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
 	i2c3.enableInterrupt();
 
+	// SD 메모리 초기화
+	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
+	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
+	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
+	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
+	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
+	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
+	
+	sdmmc.enableClock();
+	sdmmc.initialize();
+	sdmmc.setVcc(3.3);
+	sdmmc.enableInterrupt();
+
+	// setDetectPin() 함수를 가장 마지막에 호출해야 함
+	sdmmc.setDetectPin({&gpioC, 13});
+
 	// 터치 초기화
 	const FT5336::Config touchConfig = 
 	{
@@ -114,21 +130,6 @@ void initializeBoard(void)
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
 
-	// SD 메모리 초기화
-	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
-	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
-	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
-	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
-	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
-	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
-	
-	sdmmc.enableClock();
-	sdmmc.initialize();
-	sdmmc.setVcc(3.3);
-	sdmmc.enableInterrupt();
-
-	// setDetectPin() 함수를 가장 마지막에 호출해야 함
-	sdmmc.setDetectPin({&gpioC, 13});
 
 	// LED 초기화
 	Led::initilize();
