@@ -68,16 +68,6 @@ error Sdmmc::initialize(void)
 	return error::ERROR_NONE;
 }
 
-void Sdmmc::lock(void)
-{
-	Mutex::lock();
-}
-
-void Sdmmc::unlock(void)
-{
-	Mutex::unlock();
-}
-
 #define SHORT_RESP 1
 #define LONG_RESP 3
 #define setWaitResp(des, x) des |= x << 6
