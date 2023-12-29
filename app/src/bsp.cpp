@@ -33,7 +33,10 @@
 FunctionQueue fq(16);
 RK043FN48H lcd;
 FT5336 touch;
+
+#if defined(MB1191_B_03)
 N25Q128A1 memory;
+#endif
 
 void initializeBoard(void)
 {
@@ -71,6 +74,7 @@ void initializeBoard(void)
 	// setDetectPin() 함수를 가장 마지막에 호출해야 함
 	sdmmc.setDetectPin({&gpioC, 13});
 
+#if defined(MB1191_B_03)
 	// Quadspi 초기화
 	gpioB.setAsAltFunc(2, altfunc::PB2_QUADSPI_CLK);
 	gpioB.setAsAltFunc(6, altfunc::PB6_QUADSPI_BK1_NCS);
@@ -82,6 +86,7 @@ void initializeBoard(void)
 	quadspi.enableClock();
 	quadspi.initialize();
 	quadspi.enableInterrupt();
+#endif
 
 	// 터치 초기화
 	const FT5336::Config touchConfig = 
@@ -148,9 +153,10 @@ void initializeBoard(void)
 		quadspi
 	};
 
+#if defined(MB1191_B_03)
 	memory.setConfig(config);
 	memory.initialize();
-
+#endif
 
 	// LED 초기화
 	Led::initilize();
