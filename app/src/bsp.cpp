@@ -149,6 +149,7 @@ void initializeBoard(void)
 	};
 
 	memory.setConfig(config);
+	memory.initialize();
 
 
 	// LED 초기화
