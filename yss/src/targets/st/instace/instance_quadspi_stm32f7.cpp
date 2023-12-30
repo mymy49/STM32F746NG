@@ -59,7 +59,7 @@ static void resetQuadspi(void)
 	clock.unlock();
 }
 
-static const Drv::Setup gDrvQuadspiSetup = 
+static const Drv::Setup_t gDrvQuadspiSetup = 
 {
 	enableQuadspiClock,		//void (*clockFunc)(bool en);
 	enableQuadspiInterrupt,	//void (*nvicFunc)(bool en);
@@ -105,7 +105,7 @@ static const Dma::DmaInfo gQuadspiRxDmaInfo =
 	(void*)&QUADSPI->DR,										//void *dataRegister;
 };
 
-static const Quadspi::Setup gQuadSetup = 
+static const Quadspi::Setup_t gQuadSetup = 
 {
 	QUADSPI,			//YSS_QUADSPI_Peri *peri;
 	dmaChannel16,		//Dma &txDma;

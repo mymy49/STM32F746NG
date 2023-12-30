@@ -51,7 +51,7 @@ enum
 
 void thread_taskSdmmc(void *var);
 
-Sdmmc::Sdmmc(const Drv::Config &drvConfig, const Config &config) : Drv(drvConfig)
+Sdmmc::Sdmmc(const Drv::Setup_t &drvConfig, const Config &config) : Drv(drvConfig)
 {
 	mPeri = config.peri;
 	mTxDma = &config.txDma;

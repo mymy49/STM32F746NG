@@ -33,15 +33,7 @@ Drv::Drv(void (*clockFunc)(bool en), void (*nvicFunc)(bool en), void (*resetFunc
 	mResetFunc = resetFunc;
 }
 
-Drv::Drv(const Config &config)
-{
-	mClockFunc = config.clockFunc;
-	mNvicFunc = config.nvicFunc;
-	mResetFunc = config.resetFunc;
-	mGetClockFunc = config.getClockFunc;
-}
-
-Drv::Drv(const Setup &setup)
+Drv::Drv(const Setup_t &setup)
 {
 	mClockFunc = setup.clockFunc;
 	mNvicFunc = setup.nvicFunc;
