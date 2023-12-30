@@ -40,10 +40,8 @@ typedef QUADSPI_TypeDef		YSS_QUADSPI_Peri;
 
 #ifndef YSS_DRV_QUADSPI_UNSUPPORTED
 
-#include "quadspi/config_quadspi_common.h"
 #include "Drv.h"
 #include <drv/Dma.h>
-#include <sac/QuadspiFlash.h>
 
 class Quadspi : public Drv
 {
