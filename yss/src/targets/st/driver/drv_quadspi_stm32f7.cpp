@@ -40,7 +40,7 @@
 #define FMODE_AUTO_POLLING		2
 #define FMODE_MEMEORY_MAPPED	3
 
-Quadspi::Quadspi(const Drv::Setup drvSetup, const Setup setup) : Drv(drvSetup)
+Quadspi::Quadspi(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
 {
 	mDev = setup.dev;
 	mTxDma = &setup.txDma;

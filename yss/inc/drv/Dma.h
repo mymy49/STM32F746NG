@@ -164,7 +164,7 @@ class Dma : public Drv
 	// 아래 함수들은 시스템 함수로 사용자 호출을 금한다.
 	virtual void isr(void) = 0;
 
-	struct Setup
+	struct Setup_t
 	{
 #if defined(STM32G4)
 		YSS_DMA_Peri *dma;
@@ -181,7 +181,7 @@ class Dma : public Drv
 #endif
 	};
 
-	Dma(const Drv::Setup drvSetup, const Setup dmaSetup);
+	Dma(const Drv::Setup_t drvSetup, const Setup_t dmaSetup);
 
   protected :
 	threadId mThreadId;
@@ -206,7 +206,7 @@ class Dma : public Drv
 class DmaChannel1 : public Dma
 {
 public :
-	DmaChannel1(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel1(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -214,7 +214,7 @@ public :
 class DmaChannel2 : public Dma
 {
 public :
-	DmaChannel2(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel2(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -222,7 +222,7 @@ public :
 class DmaChannel3 : public Dma
 {
 public :
-	DmaChannel3(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel3(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -230,7 +230,7 @@ public :
 class DmaChannel4 : public Dma
 {
 public :
-	DmaChannel4(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel4(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -238,7 +238,7 @@ public :
 class DmaChannel5 : public Dma
 {
 public :
-	DmaChannel5(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel5(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -246,7 +246,7 @@ public :
 class DmaChannel6 : public Dma
 {
 public :
-	DmaChannel6(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel6(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -254,7 +254,7 @@ public :
 class DmaChannel7 : public Dma
 {
 public :
-	DmaChannel7(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel7(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -262,7 +262,7 @@ public :
 class DmaChannel8 : public Dma
 {
  public :
-	DmaChannel8(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel8(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -270,7 +270,7 @@ class DmaChannel8 : public Dma
 class DmaChannel9 : public Dma
 {
 public :
-	DmaChannel9(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel9(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -278,7 +278,7 @@ public :
 class DmaChannel10 : public Dma
 {
 public :
-	DmaChannel10(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel10(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -286,7 +286,7 @@ public :
 class DmaChannel11 : public Dma
 {
 public :
-	DmaChannel11(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel11(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -294,7 +294,7 @@ public :
 class DmaChannel12 : public Dma
 {
 public :
-	DmaChannel12(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel12(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -302,7 +302,7 @@ public :
 class DmaChannel13 : public Dma
 {
 public :
-	DmaChannel13(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel13(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -310,7 +310,7 @@ public :
 class DmaChannel14 : public Dma
 {
 public :
-	DmaChannel14(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel14(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -318,7 +318,7 @@ public :
 class DmaChannel15 : public Dma
 {
 public :
-	DmaChannel15(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel15(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
@@ -326,7 +326,7 @@ public :
 class DmaChannel16 : public Dma
 {
 public :
-	DmaChannel16(const Drv::Setup drvSetup, const Dma::Setup dmaSetup);
+	DmaChannel16(const Drv::Setup_t drvSetup, const Dma::Setup_t dmaSetup);
 
 	virtual void isr(void);
 };
