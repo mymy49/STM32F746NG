@@ -28,7 +28,6 @@
 #if defined(STM32F4)
 
 #include <config.h>
-
 #include <yss/instance.h>
 #include <targets/st/bitfield.h>
 
@@ -48,7 +47,7 @@ void __WEAK initializeSystem(void)
 	// SYSCFG 클럭 활성화
 	clock.enableApb2Clock(RCC_APB2ENR_SYSCFGEN_Pos);
 
-	// 외부 고속 클럭 활성화
+	// 외부 크리스탈 클럭 활성화
 #if defined(HSE_CLOCK_FREQ)
 	clock.enableHse(HSE_CLOCK_FREQ);
 #endif
@@ -136,11 +135,11 @@ void __WEAK initializeSystem(void)
 #endif
 
 	clock.setSysclk(
-		sysclk::src::PLL,				// uint8_t sysclkSrc;
-		divisionFactor::ahb::NO_DIV,	// uint8_t ahb;
-		divisionFactor::apb::DIV4,		// uint8_t apb1;
-		divisionFactor::apb::DIV2,		// uint8_t apb2;
-		33								// uint8_t vcc
+		sysclk::src::PLL,			// uint8_t sysclkSrc;
+		sysclk::ahbDiv::NO_DIV,		// uint8_t ahb;
+		sysclk::apbDiv::DIV4,		// uint8_t apb1;
+		sysclk::apbDiv::DIV2,		// uint8_t apb2;
+		33							// uint8_t vcc
 	);
 	
 	// Flash Prefetch, D/I 캐시 활성화

@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F7) || defined(STM32F1)
+#if defined(STM32F7) || defined(STM32F1) || defined(STM32F4)
 
 #include <config.h>
 #include <drv/Capture.h>
@@ -46,8 +46,9 @@ static void setCapture1ClockEn(bool en)
 static void setCapture1InterruptEn(bool en)
 {
 	nvic.lock();
-#if defined(STM32F746xx)
+#if defined(STM32F746xx) || defined(STM32F446xx)
 	nvic.enableInterrupt(TIM1_UP_TIM10_IRQn, en);
+	nvic.enableInterrupt(TIM1_CC_IRQn, en);
 #endif
 	nvic.unlock();
 }
@@ -59,7 +60,7 @@ static void resetCapture1(void)
 	clock.unlock();
 }
 
-static const Drv::Setup gCapture1DrvSetup = 
+static const Drv::Setup_t gCapture1DrvSetup = 
 {
 	setCapture1ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture1InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -178,7 +179,7 @@ static void resetCapture2(void)
 	clock.unlock();
 }
 
-static const Drv::Setup gCapture2DrvSetup = 
+static const Drv::Setup_t gCapture2DrvSetup = 
 {
 	setCapture2ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture2InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -263,7 +264,7 @@ static void resetCapture12(void)
 	clock.unlock();
 }
 
-static const Drv::Setup gCapture12DrvSetup = 
+static const Drv::Setup_t gCapture12DrvSetup = 
 {
 	setCapture12ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture12InterruptEn,			//void (*nvicFunc)(bool en) = 0;

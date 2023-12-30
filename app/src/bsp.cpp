@@ -35,6 +35,10 @@ FunctionQueue fq1(16, 2048), fq2(16, 1024);
 RK043FN48H lcd;
 FT5336 touch;
 
+#if defined(MB1191_B_03)
+N25Q128A1 memory;
+#endif
+
 void initializeBoard(void)
 {
 	using namespace define::gpio;
@@ -54,6 +58,36 @@ void initializeBoard(void)
 	i2c3.enableClock();
 	i2c3.initializeAsMain(define::i2c::speed::STANDARD);
 	i2c3.enableInterrupt();
+
+	// SD 메모리 초기화
+	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
+	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
+	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
+	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
+	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
+	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
+	
+	sdmmc.enableClock();
+	sdmmc.initialize();
+	sdmmc.setVcc(3.3);
+	sdmmc.enableInterrupt();
+
+	// setDetectPin() 함수를 가장 마지막에 호출해야 함
+	sdmmc.setDetectPin({&gpioC, 13});
+
+#if defined(MB1191_B_03)
+	// Quadspi 초기화
+	gpioB.setAsAltFunc(2, altfunc::PB2_QUADSPI_CLK);
+	gpioB.setAsAltFunc(6, altfunc::PB6_QUADSPI_BK1_NCS);
+	gpioD.setAsAltFunc(11, altfunc::PD11_QUADSPI_BK1_IO0);
+	gpioD.setAsAltFunc(12, altfunc::PD12_QUADSPI_BK1_IO1);
+	gpioE.setAsAltFunc(2, altfunc::PE2_QUADSPI_BK1_IO2);
+	gpioD.setAsAltFunc(13, altfunc::PD13_QUADSPI_BK1_IO3);
+
+	quadspi.enableClock();
+	quadspi.initialize();
+	quadspi.enableInterrupt();
+#endif
 
 	// 터치 초기화
 	const FT5336::Config touchConfig = 
@@ -114,21 +148,16 @@ void initializeBoard(void)
 	ltdc.initialize(lcd.getSpecification());
 	ltdc.enableInterrupt();
 
-	// SD 메모리 초기화
-	gpioC.setAsAltFunc(8, altfunc::PC8_SDIO_D0, ospeed::MID);
-	gpioC.setAsAltFunc(9, altfunc::PC9_SDIO_D1, ospeed::MID);
-	gpioC.setAsAltFunc(10, altfunc::PC10_SDIO_D2, ospeed::MID);
-	gpioC.setAsAltFunc(11, altfunc::PC11_SDIO_D3, ospeed::MID);
-	gpioC.setAsAltFunc(12, altfunc::PC12_SDIO_CK, ospeed::MID);
-	gpioD.setAsAltFunc(2, altfunc::PD2_SDIO_CMD, ospeed::MID);
-	
-	sdmmc.enableClock();
-	sdmmc.initialize();
-	sdmmc.setVcc(3.3);
-	sdmmc.enableInterrupt();
+	// Quadspi Memory 초기화
+	const N25Q128A1::Config_t config = 
+	{
+		quadspi
+	};
 
-	// setDetectPin() 함수를 가장 마지막에 호출해야 함
-	sdmmc.setDetectPin({&gpioC, 13});
+#if defined(MB1191_B_03)
+	memory.setConfig(config);
+	memory.initialize();
+#endif
 
 	// LED 초기화
 	Led::initilize();
@@ -188,6 +217,8 @@ void initializeSdram(void)
 
 void initializeSystem(void)
 {
+	using namespace define::clock;
+
 	// 외부 클럭 활성화
 	clock.enableHse(HSE_CLOCK_FREQ);
 
@@ -208,12 +239,15 @@ void initializeSystem(void)
 	// Q(PLLSAICLK) = VCO / qDiv;	45 MHz를 넘어선 안됨
 	// R(PLLLCDCLK) = VCO / rDiv;	42 MHz를 넘어선 안됨
 
-	using namespace define::clock;
-
 	// Main PLL 설정
 	clock.enableMainPll(
+#if defined(HSE_CLOCK_FREQ)
 		pll::src::HSE,				// uint8_t src
 		HSE_CLOCK_FREQ / 1000000,	// uint8_t m
+#else
+		pll::src::HSI,				// uint8_t src
+		16000000 / 1000000,			// uint8_t m
+#endif
 		432,						// uint16_t n
 		pll::pdiv::DIV2,			// uint8_t pDiv
 		pll::qdiv::DIV9,			// uint8_t qDiv
@@ -228,22 +262,14 @@ void initializeSystem(void)
 		saipll::rdiv::DIV7   // uint8_t rDiv
 	);
 
-	//// I2S PLL 설정
-	//clock.enableI2sPll(
-	//	192,                 // uint32_t n
-	//	i2spll::pdiv::DIV4,  // uint8_t pDiv
-	//	i2spll::qdiv::DIV15, // uint8_t qDiv
-	//	i2spll::rdiv::DIV7   // uint8_t rDiv
-	//);
-	
 	// 시스템 클럭 설정
 	flash.setLatency(216000000, 33);
 	clock.setSysclk(
-		define::clock::sysclk::src::PLL,       // uint8_t sysclkSrc;
-		define::clock::divisionFactor::ahb::NO_DIV, // uint8_t ahb;
-		define::clock::divisionFactor::apb::DIV4,   // uint8_t apb1;
-		define::clock::divisionFactor::apb::DIV2,   // uint8_t apb2;
-		33                                     // uint8_t vcc
+		sysclk::src::PLL,       // uint8_t sysclkSrc;
+		sysclk::ahbDiv::NO_DIV, // uint8_t ahb;
+		sysclk::apbDiv::DIV4,   // uint8_t apb1;
+		sysclk::apbDiv::DIV2,   // uint8_t apb2;
+		33						// uint8_t vcc
 	);
 
 	// 명령어 캐쉬 활성화

@@ -64,6 +64,10 @@
 // 쓰레드의 스택을 0xAA 패턴으로 채우기 (true, false)
 #define FILL_THREAD_STACK	false
 
+// ####################### DMA 복사 설정 #######################
+// DMA를 사용하는 copy() 함수가 사용할 DMA를 지정한다. (dmaChannel9 ~ dmaChannel16)
+#define COPY_DMA			dmaChannel9
+
 // ####################### GUI 설정 #######################
 // GUI library Enable (true, false)
 #define USE_GUI							false
@@ -88,7 +92,7 @@
 // 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화 한다.
 //
 // 주의 
-// 1. TIMER, PWM은 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 PWM과 TIMER는 동시에 활성화 되지 못한다.
+// 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못한다.
 
 // ADC 활성화
 #define ADC1_ENABLE			false
@@ -117,6 +121,9 @@
 
 // LTDC 활성화
 #define LTDC_ENABLE			false
+
+// PBUS 활성화
+#define PBUS_ENABLE			false
 
 // PWM 활성화
 #define PWM1_ENABLE			false
