@@ -118,7 +118,7 @@ public :
 	//void lock(void);
 	//void unlock(void);
 
-	struct Setup
+	struct Setup_t
 	{
 		YSS_QUADSPI_Peri *dev;
 		Dma &txDma;
@@ -127,7 +127,7 @@ public :
 		Dma::DmaInfo rxDmaInfo;
 	};
 
-	Quadspi(const Drv::Setup drvSetup, const Setup setup);
+	Quadspi(const Drv::Setup_t drvSetup, const Setup_t setup);
 
 private :
 	YSS_QUADSPI_Peri *mDev;
