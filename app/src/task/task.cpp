@@ -1,5 +1,5 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
+	Copyright 2024. 홍윤기 all right reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -31,7 +31,7 @@
 namespace Task
 {
 	uint32_t gThreadCnt;
-	threadId gThreadId[MAX_TASK_THREAD];
+	threadId_t gThreadId[MAX_TASK_THREAD];
 	Mutex gMutex;
 	Frame *gFrame;
 

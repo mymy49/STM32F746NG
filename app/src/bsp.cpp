@@ -1,5 +1,5 @@
 /*
-	Copyright 2023. 홍윤기 all right reserved.
+	Copyright 2024. 홍윤기 all right reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files (the
@@ -148,13 +148,14 @@ void initializeBoard(void)
 	ltdc.enableInterrupt();
 
 	// Quadspi Memory 초기화
-	const N25Q128A1::Config_t config = 
+	const N25Q128A1::Config_t flashConfig = 
 	{
-		quadspi
+		quadspi,
+		define::quadspi::bank::BANK1
 	};
 
 #if defined(MB1191_B_03)
-	memory.setConfig(config);
+	memory.setConfig(flashConfig);
 	memory.initialize();
 #endif
 
