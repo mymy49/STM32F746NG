@@ -31,7 +31,7 @@
 namespace Task
 {
 	uint32_t gThreadCnt;
-	threadId gThreadId[MAX_TASK_THREAD];
+	threadId_t gThreadId[MAX_TASK_THREAD];
 	FunctionQueue *gFq;
 	Mutex gMutex;
 	Frame *gFrame;

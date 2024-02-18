@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -165,7 +165,7 @@ static const Dma::DmaInfo gUart1RxDmaInfo =
 static const Uart::Setup_t gUart1Setup
 {
 #if defined(STM32F030xC)
-	USART1,	//YSS_USART_Peri *peri;
+	USART1,	//YSS_USART_Typedef *peri;
 #if (USART1_DMA_TX == DMA_CH2)
 	dmaChannel2,				//Dma &txDma;
 #elif (USART1_DMA_TX == DMA_CH4)
@@ -173,11 +173,11 @@ static const Uart::Setup_t gUart1Setup
 	gUart1TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #endif
 #elif defined(STM32G4)
-	(YSS_USART_Peri*)USART1,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)USART1,	//YSS_USART_Typedef *peri;
 	gUart1TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 	gUart1RxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 #else
-	USART1,	//YSS_USART_Peri *peri;
+	USART1,	//YSS_USART_Typedef *peri;
 	dmaChannel16,				//Dma &txDma;
 	gUart1TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 #endif
@@ -302,7 +302,7 @@ static const Dma::DmaInfo gUart2RxDmaInfo =
 static const Uart::Setup_t gUart2Setup = 
 {
 #if defined(STM32F030xC)
-	(YSS_USART_Peri*)USART2,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)USART2,	//YSS_USART_Typedef *peri;
 #if (USART2_DMA_TX == DMA_CH2)
 	dmaChannel2,				//Dma &txDma;
 #elif (USART2_DMA_TX == DMA_CH4)
@@ -310,11 +310,11 @@ static const Uart::Setup_t gUart2Setup =
 	gUart2TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #endif
 #elif defined(STM32G4)
-	(YSS_USART_Peri*)USART2,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)USART2,	//YSS_USART_Typedef *peri;
 	gUart2TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 	gUart2RxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #else
-	(YSS_USART_Peri*)USART2,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)USART2,	//YSS_USART_Typedef *peri;
 	dmaChannel7,				//Dma &txDma;
 	gUart2TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #endif
@@ -449,7 +449,7 @@ static const Uart::Setup_t gUart3Setup
 	gUart3TxDmaInfo,//Dma::DmaInfo txDmaInfo;
 #endif
 #elif defined(STM32G4)
-	(YSS_USART_Peri*)USART3,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)USART3,	//YSS_USART_Typedef *peri;
 	gUart3TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 	gUart3RxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #else
@@ -601,7 +601,7 @@ static const Uart::Setup_t gUart4Setup =
 #endif
 	gUart4TxDmaInfo	//Dma::DmaInfo txDmaInfo;
 #elif defined(STM32G4)
-	(YSS_USART_Peri*)UART4,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)UART4,	//YSS_USART_Typedef *peri;
 	gUart4TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 	gUart4RxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #else
@@ -755,7 +755,7 @@ static const Uart::Setup_t gUart5Setup
 	gUart5TxDmaInfo	//Dma::DmaInfo txDmaInfo;
 #endif
 #elif defined(STM32G4)
-	(YSS_USART_Peri*)UART4,	//YSS_USART_Peri *peri;
+	(YSS_USART_Typedef*)UART4,	//YSS_USART_Typedef *peri;
 	gUart5TxDmaInfo,			//Dma::DmaInfo txDmaInfo;
 	gUart5RxDmaInfo				//Dma::DmaInfo txDmaInfo;
 #else

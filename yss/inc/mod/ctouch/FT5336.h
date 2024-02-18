@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -33,11 +33,7 @@
 
 class FT5336 : public sac::Touch
 {
-	I2c *mPeri;
-	Gpio::Pin mIsr;
-	int32_t mTriggerId;
-
-  public:
+public :
 	struct Config
 	{
 		I2c &peri;
@@ -46,9 +42,17 @@ class FT5336 : public sac::Touch
 	};
 
 	error initialize(const Config config);
+
 	int8_t getByte(int8_t addr);
+
 	error getMultiByte(int8_t addr, uint8_t *des, uint8_t size);
+
 	void isr(void);
+
+private :
+	I2c *mPeri;
+	Gpio::Pin mIsr;
+	int32_t mTriggerId;
 };
 
 #endif

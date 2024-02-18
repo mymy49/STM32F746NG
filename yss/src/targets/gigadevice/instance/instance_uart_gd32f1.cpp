@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,7 +102,7 @@ static const Dma::DmaInfo gUart1TxDmaInfo =
 
 static const Uart::Setup gUart1Setup
 {
-	(YSS_USART_Peri*)USART1,	//YSS_SPI_Peri *peri;
+	(YSS_USART_Typedef*)USART1,	//YSS_SPI_Peri *peri;
 	dmaChannel4,				//Dma &txDma;
 	gUart1TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 };
@@ -165,7 +165,7 @@ static const Dma::DmaInfo gUart2TxDmaInfo =
 
 static const Uart::Setup gUart2Setup
 {
-	(YSS_USART_Peri*)USART2,	//YSS_SPI_Peri *peri;
+	(YSS_USART_Typedef*)USART2,	//YSS_SPI_Peri *peri;
 	dmaChannel7,				//Dma &txDma;
 	gUart2TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 };
@@ -229,7 +229,7 @@ static const Dma::DmaInfo gUart3TxDmaInfo =
 
 static const Uart::Setup gUart3Setup
 {
-	(YSS_USART_Peri*)USART3,	//YSS_SPI_Peri *peri;
+	(YSS_USART_Typedef*)USART3,	//YSS_SPI_Peri *peri;
 	dmaChannel2,				//Dma &txDma;
 	gUart3TxDmaInfo				//Dma::DmaInfo txDmaInfo;
 };
@@ -293,7 +293,7 @@ static const Dma::DmaInfo gUart4TxDmaInfo =
 
 static const Uart::Setup gUart4Setup
 {
-	(YSS_USART_Peri*)UART4,	//YSS_SPI_Peri *peri;
+	(YSS_USART_Typedef*)UART4,	//YSS_SPI_Peri *peri;
 	dmaChannel12,			//Dma &txDma;
 	gUart4TxDmaInfo			//Dma::DmaInfo txDmaInfo;
 };

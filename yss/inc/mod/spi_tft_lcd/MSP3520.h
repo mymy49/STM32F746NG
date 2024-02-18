@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -30,6 +30,8 @@
 #include <drv/Gpio.h>
 
 #include <mod/tft_lcd_driver/ILI9488_spi_with_Brush_RGB888.h>
+
+// 구매처 : https://ko.aliexpress.com/item/32985467436.html
 
 class MSP3520 : public ILI9488_spi_with_Brush_RGB888
 {
