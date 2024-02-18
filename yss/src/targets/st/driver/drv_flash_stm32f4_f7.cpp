@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -213,6 +213,20 @@ uint32_t Flash::getAddress(uint16_t sector)
 	{
 		0x08000000, 0x08008000, 0x08010000, 0x08018000, 0x08020000,
 		0x08040000, 0x08080000, 0x080C0000
+	};
+
+	if(sector < 8)
+		return addrTable[sector];
+	else
+		return 0;
+}
+#elif defined(STM32F446xx)
+uint32_t Flash::getAddress(uint16_t sector)
+{
+	const uint32_t addrTable[8] =
+	{
+		0x08000000, 0x08004000, 0x08008000, 0x0800C000, 0x08010000,
+		0x08020000, 0x08040000, 0x08060000
 	};
 
 	if(sector < 8)

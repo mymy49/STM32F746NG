@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -110,11 +110,14 @@ error Quadspi::setBank(uint8_t bank)
 		return error::BUSY;
 	
 	setBitData(mDev->CR, (bool)bank, QUADSPI_CR_FSEL_Pos);
+
+	return error::ERROR_NONE;
 }
 
 error Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t timeout)
 {
 	error result;
+	Timeout tout(timeout);
 
 	if(mRxDma == 0)
 		return error::DMA;
@@ -129,13 +132,20 @@ error Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t time
 		mDev->CCR =	(FMODE_INDIRECT_READ << QUADSPI_CCR_FMODE_Pos) |
 						(mCcr & ( QUADSPI_CCR_IMODE_Msk | QUADSPI_CCR_DMODE_Msk ) ) |
 						cmd;
-		
+		mRxDma->lock();
 		result = mRxDma->transfer(mRxDmaInfo, des, size);
+		mRxDma->unlock();
+
 		if(result != error::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
+		{
+			if(tout.isTimeout())
+				return error::TIMEOUT;
+
 			thread::yield();
+		}
 
 		return error::ERROR_NONE;
 	}
@@ -181,8 +191,13 @@ error Quadspi::wait(uint8_t cmd, uint32_t mask, uint32_t status, uint8_t size, u
 						(mCcr & ( QUADSPI_CCR_SIOO_Msk  | QUADSPI_CCR_DMODE_Msk | QUADSPI_CCR_IMODE_Msk) ) |
 						cmd;
 
-		while(!getBitData(mDev->SR, QUADSPI_SR_SMF_Pos) && timeout.isTimeout())
+		while(!getBitData(mDev->SR, QUADSPI_SR_SMF_Pos))
+		{
+			if(timeout.isTimeout())
+				return error::TIMEOUT;
+
 			thread::yield();
+		}
 
 		if(getBitData(mDev->SR, QUADSPI_SR_SMF_Pos))
 			return error::ERROR_NONE;
@@ -218,6 +233,7 @@ error Quadspi::writeAddress(uint8_t cmd, uint32_t addr)
 
 error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint32_t timeout)
 {
+	Timeout tout(timeout);
 	error result;
 
 	if(mTxDma == 0)
@@ -234,13 +250,21 @@ error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint3
 						(mCcr & ( QUADSPI_CCR_IMODE_Msk | QUADSPI_CCR_ADMODE_Msk | QUADSPI_CCR_ADSIZE_Msk | QUADSPI_CCR_DMODE_Msk | QUADSPI_CCR_ABMODE_Msk  | QUADSPI_CCR_ABSIZE_Msk) ) |
 						cmd;
 		mDev->AR = addr;
-
+		
+		mTxDma->lock();
 		result = mTxDma->transfer(mTxDmaInfo, src, size);
+		mTxDma->unlock();
+
 		if(result != error::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
+		{
+			if(tout.isTimeout())
+				return error::TIMEOUT;
+
 			thread::yield();
+		}
 
 		return error::ERROR_NONE;
 	}
@@ -251,6 +275,7 @@ error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint3
 error Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32_t timeout)
 {
 	error result;
+	Timeout tout(timeout);
 
 	if(mRxDma == 0)
 		return error::DMA;
@@ -266,13 +291,21 @@ error Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32
 						(mCcr & ( QUADSPI_CCR_IMODE_Msk | QUADSPI_CCR_ADMODE_Msk | QUADSPI_CCR_ADSIZE_Msk | QUADSPI_CCR_DMODE_Msk | QUADSPI_CCR_ABMODE_Msk  | QUADSPI_CCR_ABSIZE_Msk | QUADSPI_CCR_DCYC_Msk) ) |
 						cmd;
 		mDev->AR = addr;
-
+		
+		mTxDma->lock();
 		result = mTxDma->transfer(mTxDmaInfo, des, size);
+		mTxDma->unlock();
+
 		if(result != error::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
+		{
+			if(tout.isTimeout())
+				return error::TIMEOUT;
+
 			thread::yield();
+		}
 
 		return error::ERROR_NONE;
 	}

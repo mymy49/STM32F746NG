@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -61,7 +61,7 @@ const Drv::Setup_t gDrvDmaChannel1Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma1Config = 
+const Dma::Setup_t gDma1Config = 
 {
 	DMA1,				// YSS_DMA_Peri *dma;
 	DMA1_Channel1,		// YSS_DMA_Channel_Peri *peri;
@@ -97,7 +97,7 @@ const Drv::Setup_t gDrvDmaChannel2Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma2Config = 
+const Dma::Setup_t gDma2Config = 
 {
 	DMA1,				//YSS_DMA_Peri *dma;
 	DMA1_Channel2,		// YSS_DMA_Channel_Peri *peri;
@@ -133,7 +133,7 @@ const Drv::Setup_t gDrvDmaChannel3Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma3Config = 
+const Dma::Setup_t gDma3Config = 
 {
 	DMA1,				//YSS_DMA_Peri *dma;
 	DMA1_Channel3,		// YSS_DMA_Channel_Peri *peri;
@@ -169,7 +169,7 @@ const Drv::Setup_t gDrvDmaChannel4Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma4Config = 
+const Dma::Setup_t gDma4Config = 
 {
 	DMA1,				// YSS_DMA_Peri *dma;
 	DMA1_Channel4,		// YSS_DMA_Channel_Peri *peri;
@@ -205,7 +205,7 @@ const Drv::Setup_t gDrvDmaChannel5Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma5Config = 
+const Dma::Setup_t gDma5Config = 
 {
 	DMA1,	//YSS_DMA_Peri *dma;
 	DMA1_Channel5,	//YSS_DMA_Channel_Peri *peri;	
@@ -241,7 +241,7 @@ const Drv::Setup_t gDrvDmaChannel6Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma6Config = 
+const Dma::Setup_t gDma6Config = 
 {
 	DMA1,				// YSS_DMA_Peri *dma;
 	DMA1_Channel6,		// YSS_DMA_Channel_Peri *peri;
@@ -277,7 +277,7 @@ const Drv::Setup_t gDrvDmaChannel7Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma7Config = 
+const Dma::Setup_t gDma7Config = 
 {
 	DMA1,				// YSS_DMA_Peri *dma;
 	DMA1_Channel7,		// YSS_DMA_Channel_Peri *peri;
@@ -313,7 +313,7 @@ const Drv::Setup_t gDrvDmaChannel8Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma8Config = 
+const Dma::Setup_t gDma8Config = 
 {
 	DMA1,				// YSS_DMA_Peri *dma;
 	DMA1_Channel8,		// YSS_DMA_Channel_Peri *peri;
@@ -356,7 +356,7 @@ const Drv::Setup_t gDrvDmaChannel9Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma9Config = 
+const Dma::Setup_t gDma9Config = 
 {
 	DMA2,				//YSS_DMA_Peri *dma;
 	DMA2_Channel1,		//YSS_DMA_Channel_Peri *peri;	
@@ -392,7 +392,7 @@ const Drv::Setup_t gDrvDmaChannel10Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma10Config = 
+const Dma::Setup_t gDma10Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel2,		//YSS_DMA_Channel_Peri *peri;	
@@ -428,7 +428,7 @@ const Drv::Setup_t gDrvDmaChannel11Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma11Config = 
+const Dma::Setup_t gDma11Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel3,		//YSS_DMA_Channel_Peri *peri;	
@@ -464,7 +464,7 @@ const Drv::Setup_t gDrvDmaChannel12Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma12Config = 
+const Dma::Setup_t gDma12Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel4,		//YSS_DMA_Channel_Peri *peri;	
@@ -500,7 +500,7 @@ const Drv::Setup_t gDrvDmaChannel13Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma13Config = 
+const Dma::Setup_t gDma13Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel5,		//YSS_DMA_Channel_Peri *peri;	
@@ -536,7 +536,7 @@ const Drv::Setup_t gDrvDmaChannel14Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma14Config = 
+const Dma::Setup_t gDma14Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel6,		//YSS_DMA_Channel_Peri *peri;	
@@ -572,7 +572,7 @@ const Drv::Setup_t gDrvDmaChannel15Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma15Config = 
+const Dma::Setup_t gDma15Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel7,		//YSS_DMA_Channel_Peri *peri;	
@@ -608,7 +608,7 @@ const Drv::Setup_t gDrvDmaChannel16Config =
 	0								//uint32_t (*getClockFunc)(void);
 };
 
-const Dma::Setup gDma16Config = 
+const Dma::Setup_t gDma16Config = 
 {
 	DMA2,			//YSS_DMA_Peri *dma;
 	DMA2_Channel8,		//YSS_DMA_Channel_Peri *peri;	

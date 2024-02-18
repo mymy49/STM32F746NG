@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +55,7 @@ class Spi : public Drv
 	typedef struct
 	{
 		int8_t mode;
-		int32_t  maxFreq;
+		int32_t maxFreq;
 		int8_t bit;
 	}Specification_t;
 
@@ -186,7 +186,7 @@ class Spi : public Drv
 #endif
 	const Specification_t *mLastSpec;
 	uint8_t mRxData;
-	threadId  mThreadId;
+	threadId_t  mThreadId;
 	bool mCompleteFlag;
 	uint8_t *mDataBuffer, mDataSize;
 	int32_t mTransferBufferSize, mTail;

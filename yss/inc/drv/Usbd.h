@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -29,28 +29,34 @@
 #include "peripheral.h"
 
 #if defined(STM32F7)
-
-#define MAX_EP_NUM 8
 typedef USB_OTG_GlobalTypeDef		YSS_USB_TypeDef;
-
+typedef USB_OTG_DeviceTypeDef		YSS_USB_Device_TypeDef;
 #else
-
 #include <stdint.h>
 typedef volatile uint32_t			YSS_USB_TypeDef;
+typedef volatile uint32_t			YSS_USB_Device_TypeDef;
 #define YSS_DRV_USBD_UNSUPPORTED
-
 #endif
+
+#include "Drv.h"
+#include <yss/error.h>
+#include <sac/UsbClass.h>
 
 class Usbd : public Drv
 {
 public :
-	void initialize(void);
+	struct Config_t
+	{
 
-	void resetCore(void);
+	};
+
+	error initialize(void);
 
 	struct Setup_t
 	{
-		YSS_USB_TypeDef *dev;
+		YSS_USB_TypeDef *global;
+		YSS_USB_Device_TypeDef *dev;
+		uint8_t endpointCount;
 	};
 
 	Usbd(const Drv::Setup_t drvSetup, const Setup_t setup);
@@ -78,7 +84,12 @@ private :
 	//	BufferInfo rx3;
 	//}__attribute__ ((__packed__));
 
-	//YSS_USB_TypeDef *mDev;
+#if defined(STM32F7)
+	YSS_USB_TypeDef *mGlobal;
+	YSS_USB_Device_TypeDef *mDev;
+	uint8_t mEndpointCount;
+#endif
+
 	//void setEpStatusTx(uint8_t ep, uint16_t status);
 	//void setEpStatusRx(uint8_t ep, uint16_t status);
 	//void setEpType(uint8_t ep, uint16_t type);

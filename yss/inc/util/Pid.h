@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -30,40 +30,67 @@
 
 class Pid
 {
+public :
+	Pid(void);
+
+	float calculate(float value);
+
+	float calculate(float target, float value);
+
+	void setPgain(float gain);
+
+	void setIgain(float gain);
+
+	void setDgain(float gain);
+
+	void setGain(float p, float i, float d);
+
+	float getPgain(void);
+
+	float getIgain(void);
+
+	float getDgain(void);
+
+	void setLimit(float min, float max);
+
+	void setPLimit(float min, float max);
+
+	void setILimit(float min, float max);
+
+	void setDLimit(float min, float max);
+
+	float getPLimitMin(void);
+
+	float getPLimitMax(void);
+
+	float getILimitMin(void);
+
+	float getILimitMax(void);
+
+	float getDLimitMin(void);
+
+	float getDLimitMax(void);
+
+	float getCurrentP(void);
+
+	float getCurrentIsum(void);
+
+	float getCurrentD(void);
+
+	void setTarget(float target);
+
+	float getTarget(void);
+
+	float getError(void);
+
+	void reset(void);
+private :
 	uint64_t mLastTime;
 	float mPgain, mIgain, mDgain, mP, mIsum, mD;
 	float mPLimitMax, mPLimitMin, mILimitMax, mILimitMin, mDLimitMax, mDLimitMin;
 	float mOutputLimitMax, mOutputLimitMin;
 	float mBeforeError, mTarget;
-
-  public:
-	Pid(void);
-	float calculate(float value);
-	float calculate(float target, float value);
-	void setPgain(float gain);
-	void setIgain(float gain);
-	void setDgain(float gain);
-	void setGain(float p, float i, float d);
-	float getPgain(void);
-	float getIgain(void);
-	float getDgain(void);
-	void setLimit(float min, float max);
-	void setPLimit(float min, float max);
-	void setILimit(float min, float max);
-	void setDLimit(float min, float max);
-	float getPLimitMin(void);
-	float getPLimitMax(void);
-	float getILimitMin(void);
-	float getILimitMax(void);
-	float getDLimitMin(void);
-	float getDLimitMax(void);
-	float getCurrentP(void);
-	float getCurrentIsum(void);
-	float getCurrentD(void);
-	void setTarget(float target);
-	float getTarget(void);
-	float getError(void);
-	void reset(void);
 };
 
 #endif
+

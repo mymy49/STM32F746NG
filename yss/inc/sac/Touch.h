@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,13 +37,13 @@ namespace sac
 	{
 	public :
 		Touch(void);
-		void setInterface(PointerEvent &pointerEvent, triggerId id);
+		void setInterface(PointerEvent &pointerEvent, triggerId_t id);
 		void push(uint32_t x, uint32_t y, uint8_t event);
 
 	protected :
 
 	private :
-		triggerId mTriggerId;
+		triggerId_t mTriggerId;
 		PointerEvent *mPointerEvent;
 	};
 }

@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@ class STMPE811 : public sac::Rtouch
 	Gpio::Pin mIsrPin;
 	bool mFirstFlag, mDetectedFlag;
 	int32_t mX, mY;
-	threadId mThreadId;
+	threadId_t mThreadId;
 	ElapsedTime mLastUpdateTime;
 
   public:

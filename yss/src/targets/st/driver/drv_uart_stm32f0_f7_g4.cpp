@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -114,9 +114,13 @@ error Uart::initialize(int32_t  baud, void *receiveBuffer, int32_t  receiveBuffe
 #endif
 
 	// TX En, RX En, Rxnei En, 장치 En
+#if defined(STM32G4)
 	mDev->CR3 |= USART_CR3_EIE_Msk;
 	mDev->CR1 = USART_CR1_TE_Msk | USART_CR1_RE_Msk | USART_CR1_UE_Msk;
-
+#else
+	mDev->CR3 |= USART_CR3_EIE_Msk;
+	mDev->CR1 = USART_CR1_TE_Msk | USART_CR1_RE_Msk | USART_CR1_UE_Msk | USART_CR1_RXNEIE_Msk;
+#endif
 	return error::ERROR_NONE;
 }
 
