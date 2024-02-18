@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,8 @@
 #define YSS_MOD_SPI_TFT_LCD_MSP3218__H_
 
 #include <mod/tft_lcd_driver/ILI9341_spi_with_Brush.h>
+
+// 구매처 : https://ko.aliexpress.com/item/1005003120684423.html
 
 class MSP3218 : public ILI9341_spi_with_Brush
 {

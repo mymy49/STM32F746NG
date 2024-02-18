@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -184,7 +184,7 @@ class Dma : public Drv
 	Dma(const Drv::Setup_t drvSetup, const Setup_t dmaSetup);
 
   protected :
-	threadId mThreadId;
+	threadId_t mThreadId;
 	bool mCompleteFlag, mErrorFlag;
 	int32_t mRemainSize, mAddr;
 

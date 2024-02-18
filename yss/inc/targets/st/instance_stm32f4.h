@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,6 +38,14 @@ extern Adc adc2;
 
 #if defined(ADC3)
 extern Adc adc3;
+#endif
+
+#if defined(CAN1)
+extern Can can1;
+#endif
+
+#if defined(CAN2)
+extern Can can2;
 #endif
 
 #if defined(RCC)

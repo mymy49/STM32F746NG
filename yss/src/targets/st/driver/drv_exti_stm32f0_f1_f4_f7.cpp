@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +51,7 @@ error Exti::add(Gpio &gpio, uint8_t pin, uint8_t mode, void (*func)(void))
 	return error::ERROR_NONE;
 }
 
-error Exti::add(Gpio &gpio, uint8_t pin, uint8_t mode, triggerId  trigger)
+error Exti::add(Gpio &gpio, uint8_t pin, uint8_t mode, triggerId_t  trigger)
 {
 	if (pin > 15)
 		return error::INDEX_OVER;

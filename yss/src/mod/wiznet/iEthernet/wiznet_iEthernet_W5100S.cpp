@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -155,7 +155,7 @@ W5100S::W5100S(void)
 	}
 }
 
-bool W5100S::initialize(Config config)
+bool W5100S::initialize(Config_t config)
 {
 	uint8_t reg;
 	uint32_t buf;
@@ -173,6 +173,7 @@ bool W5100S::initialize(Config config)
 	
 	readRegister(ADDR::MODE, &reg, sizeof(reg));
 	mInitFlag = reg == 0x03;
+
 
 	if(mInitFlag)
 	{
