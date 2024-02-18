@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -30,16 +30,16 @@
 
 #if defined(NRF52840_XXAA)
 
-typedef NRF_UART_Type		YSS_USART_Peri;
+typedef NRF_UART_Type		YSS_USART_Typedef;
 
 #elif defined(EFM32PG22) || defined(EFR32BG22) || defined(STM32F4) || defined(STM32F0) || defined(STM32F7) || defined(STM32F1) || defined(GD32F1) || defined(STM32G4)
 
-typedef USART_TypeDef		YSS_USART_Peri;
+typedef USART_TypeDef		YSS_USART_Typedef;
 
 #else
 
 #include <stdint.h>
-typedef volatile uint32_t	YSS_USART_Peri;
+typedef volatile uint32_t	YSS_USART_Typedef;
 
 #define YSS_DRV_UART_UNSUPPORTED
 
@@ -193,26 +193,20 @@ class Uart : public Drv
 	void enable(bool en);
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
-#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F4) || defined(STM32F0)
 	struct Setup_t
 	{
-		YSS_USART_Peri *dev;
+#if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F4) || defined(STM32F0)
+		YSS_USART_Typedef *dev;
 		Dma &txDma;
 		Dma::DmaInfo txDmaInfo;
-	};
 #elif defined(EFM32PG22) || defined(EFR32BG22) || defined(STM32G4)
-	struct Setup_t
-	{
-		YSS_USART_Peri *dev;
+		YSS_USART_Typedef *dev;
 		Dma::DmaInfo txDmaInfo;
 		Dma::DmaInfo rxDmaInfo;
-	};
 #elif defined(NRF52840_XXAA)
-	struct Setup_t
-	{
-		YSS_USART_Peri *dev;
-	};
+		YSS_USART_Typedef *dev;
 #endif
+	};
 
 	Uart(const Drv::Setup_t drvSetup, const Uart::Setup_t setup);
 
@@ -221,7 +215,7 @@ class Uart : public Drv
 	void isr(void);
 
 protected:
-	YSS_USART_Peri *mDev;
+	YSS_USART_Typedef *mDev;
 	int8_t *mRcvBuf;
 	int32_t  mRcvBufSize;
 	bool mOneWireModeFlag;

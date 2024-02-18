@@ -32,8 +32,14 @@ namespace Task
 {
 	uint32_t gThreadCnt;
 	threadId_t gThreadId[MAX_TASK_THREAD];
+	FunctionQueue *gFq;
 	Mutex gMutex;
 	Frame *gFrame;
+
+	void setFunctionQueue(FunctionQueue &obj)
+	{
+		gFq = &obj;
+	}
 
 	void lock(void)
 	{
@@ -73,11 +79,8 @@ namespace Task
 		}
 
 #if USE_GUI && YSS_L_HEAP_USE
-		if(gFrame)
-		{
-			delete gFrame;
-			gFrame = 0;
-		}
+		delete gFrame;
+		gFrame = 0;
 #endif
 
 		gThreadCnt = 0;

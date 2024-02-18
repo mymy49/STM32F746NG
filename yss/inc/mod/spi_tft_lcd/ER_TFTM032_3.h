@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -27,6 +27,8 @@
 #define YSS_MOD_SPI_TFT_LCD_ER_TFTM032_3__H_
 
 #include <mod/spi_tft_lcd/MSP2202.h>
+
+// 구매처 : https://www.buydisplay.com/3-2-inch-capacitive-touchscreen-240x320-tft-lcd-module-display
 
 class ER_TFTM032_3 : public MSP2202
 {

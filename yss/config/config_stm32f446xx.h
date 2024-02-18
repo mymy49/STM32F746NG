@@ -19,7 +19,7 @@
 // 요구하는 사항을 업데이트 할 예정입니다.
 //
 // Home Page : http://cafe.naver.com/yssoperatingsystem
-// Copyright 2023. 홍윤기 all right reserved.
+// Copyright 2024. 홍윤기 all right reserved.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,6 +65,10 @@
 #define ADC1_ENABLE			false
 #define ADC2_ENABLE			false
 #define ADC3_ENABLE			false
+
+// CAN 활성화
+#define CAN1_ENABLE			false
+#define CAN2_ENABLE			false
 
 // CAPTURE 활성화
 #define CAPTURE1_ENABLE		false
