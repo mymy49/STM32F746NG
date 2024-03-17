@@ -45,21 +45,21 @@ typedef volatile uint32_t			YSS_USB_Device_TypeDef;
 class Usbd : public Drv
 {
 public :
-	struct Config_t
+	struct config_t
 	{
-
+		uint16_t ep0RxBuffSize;
 	};
 
-	error initialize(void);
+	error initialize(const config_t confg);
 
-	struct Setup_t
+	struct setup_t
 	{
 		YSS_USB_TypeDef *global;
 		YSS_USB_Device_TypeDef *dev;
 		uint8_t endpointCount;
 	};
 
-	Usbd(const Drv::Setup_t drvSetup, const Setup_t setup);
+	Usbd(const Drv::setup_t drvSetup, const setup_t setup);
 
 	void isr(void);
 

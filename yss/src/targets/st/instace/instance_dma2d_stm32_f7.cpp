@@ -53,7 +53,7 @@ static void reset(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gDrvConfig
+static const Drv::setup_t gDrvConfig
 {
 	enableClock,	//void (*clockFunc)(bool en);
 	enableInterrup,	//void (*nvicFunc)(bool en);
@@ -61,7 +61,7 @@ static const Drv::Setup_t gDrvConfig
 	0				//uint32_t (*getClockFunc)(void);
 };
 
-static const Dma2d::Setup_t gConfig
+static const Dma2d::setup_t gConfig
 {
 	(YSS_DMA2D_Peri*)DMA2D	//YSS_DMA2D_Peri *peri;
 };

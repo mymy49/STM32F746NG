@@ -41,7 +41,7 @@
 #define REG_CMD			0x4080
 #define REG_CMD_CHK		0x4680
 
-struct Gt911Config_t
+struct Gt911config_t
 {
 	uint8_t version;				// 0x8047
 	uint16_t xOutputMax;			// 0x8048
@@ -148,11 +148,11 @@ struct Gt911Config_t
 
 static void trigger_handler(void *peri);
 
-error GT911::initialize(const Config_t config)
+error GT911::initialize(const config_t config)
 {
 	error result;
 	uint8_t data[4];
-	Gt911Config_t *gt911Config = new Gt911Config_t;
+	Gt911config_t *gt911Config = new Gt911config_t;
 	
 	mPeri = &config.peri;
 	mIsr = config.isrPin;
@@ -183,7 +183,7 @@ error GT911::initialize(const Config_t config)
 		goto error_handler;
 	}
 
-	result = getMultiByte(REG_CFG, gt911Config, sizeof(Gt911Config_t));
+	result = getMultiByte(REG_CFG, gt911Config, sizeof(Gt911config_t));
 	if(result != error::ERROR_NONE)
 	{
 		goto error_handler;
@@ -332,7 +332,7 @@ error GT911::initialize(const Config_t config)
 	memset(gt911Config->reserved11, 0x00, sizeof(gt911Config->reserved11));
 	gt911Config->configFresh = 1;
 	gt911Config->chksum = calculateChksum(gt911Config);
-	result = setMultiByte(REG_CFG, gt911Config, sizeof(Gt911Config_t));
+	result = setMultiByte(REG_CFG, gt911Config, sizeof(Gt911config_t));
 
 	thread::delay(100);
 
@@ -360,7 +360,7 @@ uint8_t GT911::calculateChksum(void *src)
 {
 	uint8_t chksum = 0, *data = (uint8_t*)src;
 	
-	for(uint32_t i = 0; i < sizeof(Gt911Config_t) - 2; i++)
+	for(uint32_t i = 0; i < sizeof(Gt911config_t) - 2; i++)
 	{
 		chksum += data[i];
 	}

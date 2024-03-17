@@ -36,6 +36,11 @@
 #define PLL_P_USE
 #define PLL_Q_USE
 #define PLL_R_USE
+#elif defined(STM32G431xx)
+#define PLL_USE
+#define PLL_P_USE
+#define PLL_Q_USE
+#define PLL_R_USE
 #endif
 
 class Clock : public Mutex

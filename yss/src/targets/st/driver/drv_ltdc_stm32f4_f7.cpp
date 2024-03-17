@@ -31,11 +31,11 @@
 #include <yss/reg.h>
 #include <targets/st/bitfield.h>
 
-Ltdc::Ltdc(const Drv::Setup_t drvConfig) : Drv(drvConfig)
+Ltdc::Ltdc(const Drv::setup_t drvConfig) : Drv(drvConfig)
 {
 }
 
-error Ltdc::initialize(const Ltdc::Specification *spec)
+error Ltdc::initialize(const Ltdc::specification_t *spec)
 {
 	unsigned short v, h, pitch;
 	unsigned char pixelFormat = spec->pixelFormat;

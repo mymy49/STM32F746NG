@@ -39,7 +39,7 @@
 #include <targets/siliconlabs/efr32bg22_usart.h>
 #endif
 
-Uart::Uart(const Drv::Setup_t drvConfig, const Config config) : Drv(drvConfig)
+Uart::Uart(const Drv::setup_t drvConfig, const Config config) : Drv(drvConfig)
 {
 	mDev = config.dev;
 	mDmaChannelList = config.dmaChannelList;

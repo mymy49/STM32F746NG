@@ -25,7 +25,7 @@
 
 #include <drv/mcu.h>
 
-#if defined(STM32F4) || defined(STM32F0) || defined(STM32F7) || defined(GD32F1) || defined(STM32F1)
+#if defined(STM32F4) || defined(STM32F0) || defined(STM32F7) || defined(GD32F1) || defined(STM32F1) || defined(STM32G4)
 
 #include <stdint.h>
 #include <drv/peripheral.h>
@@ -34,18 +34,20 @@
 #include <yss/reg.h>
 #include <targets/st/bitfield.h>
 
-Spi::Spi(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
+Spi::Spi(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 {
 	mDev = setup.dev;
-	mTxDma = &setup.txDma;
 	mTxDmaInfo = setup.txDmaInfo;
-	mRxDma = &setup.rxDma;
 	mRxDmaInfo = setup.rxDmaInfo;
 	mLastSpec = 0;
 	mDataSize = 1;
+#if !defined(STM32G4)
+	mTxDma = &setup.txDma;
+	mRxDma = &setup.rxDma;
+#endif
 }
 
-error Spi::setSpecification(const Specification_t &spec)
+error Spi::setSpecification(const specification_t &spec)
 {
 #if defined(STM32F4) ||  defined(GD32F1) || defined(STM32F1)
 	uint32_t reg, buf;
@@ -126,7 +128,10 @@ error Spi::initializeAsMain(void)
 error Spi::initializeAsSub(void)
 {
 	mDev->CR1 = 0;
-//	mDev->CR1 |= SPI_CR1_SSI_Msk | SPI_CR1_SSM_Msk;
+
+#if defined(STM32G4)
+	mRxDma = getOccupancyDma();
+#endif
 
 	return error::ERROR_NONE;
 }
@@ -138,6 +143,35 @@ void Spi::enable(bool en)
 
 error Spi::send(void *src, int32_t  size)
 {
+#if defined(STM32G4)
+	error result;
+	Dma *dma;
+
+	if(size == 1)
+	{
+		send(*(int8_t*)src);
+		return error::ERROR_NONE;
+	}
+
+	dma = getIdleDma();
+	mDev->CR2 = SPI_CR2_TXDMAEN_Msk;
+	mThreadId = thread::getCurrentThreadId();
+
+	result = dma->transfer(mTxDmaInfo, src, size);
+	dma->unlock();
+	
+	if(mDev->SR & SPI_SR_BSY_Msk)
+	{
+		mDev->DR;
+		mDev->CR2 = SPI_CR2_RXNEIE_Msk;
+		while(mDev->SR & SPI_SR_BSY_Msk)
+			thread::yield();
+	}
+
+	mDev->DR;
+	
+	return result;
+#else
 	error result;
 
 	if(size == 1)
@@ -179,10 +213,43 @@ error Spi::send(void *src, int32_t  size)
 #endif
 	
 	return result;
+#endif
 }
 
 error Spi::exchange(void *des, int32_t  size)
 {
+#if defined(STM32G4)
+	error rt = error::ERROR_NONE;
+	Dma *rxDma, *txDma;
+
+	if(size == 1)
+	{
+		*(int8_t*)des = exchange(*(int8_t*)des);
+		return error::ERROR_NONE;
+	}
+
+	mDev->DR;
+
+	rxDma = getIdleDma();
+	txDma = getIdleDma();
+
+	rxDma->lock();
+	txDma->lock();
+
+	mDev->CR2 = SPI_CR2_TXDMAEN_Msk | SPI_CR2_RXDMAEN_Msk;
+	rxDma->ready(mRxDmaInfo, des, size);
+	rt = txDma->send(mTxDmaInfo, des, size);
+	
+	while(!rxDma->isComplete())
+		thread::yield();
+
+	mDev->CR2 = 0;
+	rxDma->stop();
+	rxDma->unlock();
+	txDma->unlock();
+
+	return rt;
+#endif
 	error rt = error::ERROR_NONE;
 
 	if(size == 1)
@@ -218,8 +285,7 @@ error Spi::exchange(void *des, int32_t  size)
 	mRxDma->unlock();
 	mTxDma->unlock();
 
-	return rt;
-}
+	return rt;}
 
 void Spi::receiveAsCircularMode(void *src, uint16_t count)
 {

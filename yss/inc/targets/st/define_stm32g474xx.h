@@ -1121,7 +1121,5 @@ namespace define
 	}
 }
 
-#define DMA_COUNT			16
-
 #endif
 

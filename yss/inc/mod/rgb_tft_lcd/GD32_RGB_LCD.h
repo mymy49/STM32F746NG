@@ -54,7 +54,7 @@ class GD32_RGB_LCD : public ILI9488, public RgbBusTftLcd
 	void setConfig(const Config &config);
 
 	error initialize(void); // virtual 0
-	const Ltdc::Specification* getSpecification(void); // virtual 0
+	const Ltdc::specification_t* getSpecification(void); // virtual 0
 
 protected :
 	void sendData(uint8_t data);

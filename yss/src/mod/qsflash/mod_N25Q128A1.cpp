@@ -62,7 +62,7 @@
 
 using namespace define::quadspi;
 
-static const Quadspi::Specification_t gSpec = 
+static const Quadspi::specification_t gSpec = 
 {
 	54000000,			//uint32_t maxFrequncy;
 	flashSize::MB16,	//uint32_t flashSize;
@@ -141,7 +141,7 @@ error_handler :
 	return result;
 }
 
-void N25Q128A1::setConfig(const Config_t &config)
+void N25Q128A1::setConfig(const config_t &config)
 {
 	mDev = &config.dev;
 	mBank = config.bank;

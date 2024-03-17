@@ -40,7 +40,7 @@ static void enableClock(bool en)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gDrvConfig
+static const Drv::setup_t gDrvConfig
 {
 	enableClock,		//void (*clockFunc)(bool en);
 	0,					//void (*nvicFunc)(bool en);

@@ -40,7 +40,7 @@
 #define FMODE_AUTO_POLLING		2
 #define FMODE_MEMEORY_MAPPED	3
 
-Quadspi::Quadspi(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
+Quadspi::Quadspi(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 {
 	mDev = setup.dev;
 	mTxDma = &setup.txDma;
@@ -60,7 +60,7 @@ error Quadspi::initialize(void)
 	return error::ERROR_NONE;
 }
 
-error Quadspi::setSpecification(const Specification_t &spec)
+error Quadspi::setSpecification(const specification_t &spec)
 {
 	// 장치가 활성화되어 있으면 에러
 	if(getBitData(mDev->CR, QUADSPI_CR_EN_Pos))
@@ -120,7 +120,7 @@ error Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t time
 	Timeout tout(timeout);
 
 	if(mRxDma == 0)
-		return error::DMA;
+		return error::DMA_ERROR;
 
 	if(size == 0)
 		return error::ERROR_NONE;
@@ -237,7 +237,7 @@ error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint3
 	error result;
 
 	if(mTxDma == 0)
-		return error::DMA;
+		return error::DMA_ERROR;
 
 	if(size == 0)
 		return error::ERROR_NONE;
@@ -278,7 +278,7 @@ error Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32
 	Timeout tout(timeout);
 
 	if(mRxDma == 0)
-		return error::DMA;
+		return error::DMA_ERROR;
 
 	if(size == 0)
 		return error::ERROR_NONE;

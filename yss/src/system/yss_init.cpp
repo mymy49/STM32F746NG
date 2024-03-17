@@ -64,7 +64,7 @@ void initializeCheap(void)
 
 void initializeYss(void)
 {
-#ifndef YSS_DRV_TIMER_UNSUPPORTED
+#if !defined(YSS_DRV_TIMER_UNSUPPORTED) || defined(YSS__RUNTIME_SUPPORT)
 	// 내장 시계 활성화
 	initializeSystemTime();
 #endif

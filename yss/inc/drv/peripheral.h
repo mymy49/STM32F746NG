@@ -80,6 +80,16 @@
 #include <targets/maxim/max32672/max32672.h>
 #include <targets/maxim/max32672/define_max32672.h>
 
+#elif defined(W7500)
+
+#include <targets/wiznet/w7500x.h>
+#include <targets/wiznet/define_w7500x.h>
+
+#elif defined(CPU_MIMXRT1011DAE5A)
+
+#include <targets/nxp/MIMXRT1011.h>
+//#include <targets/nxp/define_w7500x.h>
+
 #else
 
 typedef volatile int IRQn_Type;

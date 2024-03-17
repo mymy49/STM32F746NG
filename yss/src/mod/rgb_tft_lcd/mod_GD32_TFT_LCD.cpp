@@ -35,7 +35,7 @@
 #include <std_ext/stdlib.h>
 #include <yss/thread.h>
 
-static const Ltdc::Specification gLtdcSpec =
+static const Ltdc::specification_t gLtdcSpec =
 	{
 		320,                         // width
 		480,                         // height
@@ -185,7 +185,7 @@ void GD32_RGB_LCD::reset(void)
 
 }
 
-const Ltdc::Specification* GD32_RGB_LCD::getSpecification(void)
+const Ltdc::specification_t* GD32_RGB_LCD::getSpecification(void)
 {
 	return &gLtdcSpec;
 }

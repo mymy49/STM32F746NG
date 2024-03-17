@@ -51,7 +51,7 @@ public:
 		uint8_t data;				// HCLK * data
 		uint8_t addrHold;			// HCLK * addrHold
 		uint8_t addrSetup;			// HCLK * addrSetup
-	}Specification_t;
+	}specification_t;
 	
 	// Pbus 장치를 초기화 한다.
 	//
@@ -60,14 +60,14 @@ public:
 	error initialize(void);
 
 	// Pbus 장치의 전송 세부 사항을 설정한다. 
-	// 세부 설정 사항은 구조체 Specification_t를 사용한다.
+	// 세부 설정 사항은 구조체 specification_t를 사용한다.
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error setSpecification(const Specification_t &spec);
+	error setSpecification(const specification_t &spec);
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
-	Pbus(const Drv::Setup_t drvSetup);
+	Pbus(const Drv::setup_t drvSetup);
 
 private:
 };

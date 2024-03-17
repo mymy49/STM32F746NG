@@ -33,7 +33,7 @@
 class PCA9555A
 {
 public:
-	struct Config_t
+	struct config_t
 	{
 		I2c &dev;
 		uint8_t addr;
@@ -47,7 +47,7 @@ public:
 		ADDR2 = 0x8
 	};
 
-	error initialize(const Config_t config);
+	error initialize(const config_t config);
 
 	uint8_t read(uint8_t port);
 

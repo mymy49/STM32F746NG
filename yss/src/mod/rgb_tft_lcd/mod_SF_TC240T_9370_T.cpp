@@ -117,7 +117,7 @@ error SF_TC240T_9370_T::initialize(void)
 	return error::ERROR_NONE;
 }
 
-static const Ltdc::Specification gSpec =
+static const Ltdc::specification_t gSpec =
 	{
 		240,                         // width
 		320,                         // height
@@ -130,7 +130,7 @@ static const Ltdc::Specification gSpec =
 		define::ltdc::format::RGB565 // pixelFormat
 };
 
-const Ltdc::Specification* SF_TC240T_9370_T::getSpec(void)
+const Ltdc::specification_t* SF_TC240T_9370_T::getSpec(void)
 {
 	return &gSpec;
 }

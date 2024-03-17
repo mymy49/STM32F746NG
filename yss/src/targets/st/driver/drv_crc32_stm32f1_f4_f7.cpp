@@ -31,7 +31,7 @@
 #include <drv/Crc32.h>
 #include <targets/st/bitfield.h>
 
-Crc32::Crc32(YSS_CRC32_Dev *peri, const Drv::Setup_t drvConfig) : Drv(drvConfig)
+Crc32::Crc32(YSS_CRC32_Dev *peri, const Drv::setup_t drvConfig) : Drv(drvConfig)
 {
 	mPeri = peri;
 	reset();

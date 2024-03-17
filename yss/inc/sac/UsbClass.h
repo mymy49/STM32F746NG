@@ -29,6 +29,8 @@
 #include <stdint.h>
 #include <yss/error.h>
 
+class Usbd;
+
 class UsbClass
 {
 public:
@@ -70,7 +72,6 @@ public:
 		uint8_t bNumConfigurations;
 		uint8_t Reserved;
 	}__attribute__ ((__packed__));
-
 
 	struct ConfigurationDescriptor_t
 	{
@@ -118,6 +119,8 @@ public:
 	}__attribute__ ((__packed__));
 
 	error handleGetDeviceDescriptor(Request_t *request);
+
+	virtual error initialize(Usbd *usb) = 0;
 
 	virtual const DeviceDescriptor_t* getDeviceDescriptor(void) = 0;
 
