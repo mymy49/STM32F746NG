@@ -148,7 +148,7 @@ void initializeBoard(void)
 	ltdc.enableInterrupt();
 
 	// Quadspi Memory 초기화
-	const N25Q128A1::Config_t config = 
+	const N25Q128A1::config_t config = 
 	{
 		quadspi
 	};
