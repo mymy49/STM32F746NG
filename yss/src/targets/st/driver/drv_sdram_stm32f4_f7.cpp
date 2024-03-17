@@ -60,12 +60,12 @@ static void waitWhileBusy(void);
 static void setSdcr(uint8_t bank, Sdcr obj);
 static void setCmd(uint8_t bank, uint16_t mrd, uint8_t nrfs, uint8_t mode);
 
-Sdram::Sdram(const Drv::Setup_t drvConfig) : Drv(drvConfig)
+Sdram::Sdram(const Drv::setup_t drvConfig) : Drv(drvConfig)
 {
 	
 }
 
-bool Sdram::initialize(uint8_t bank, const Specification &spec, uint32_t freq)
+bool Sdram::initialize(uint8_t bank, const specification_t &spec, uint32_t freq)
 {
 	uint8_t sdclk = 0, rpipe;
 	uint32_t clk = freq, buf, t;

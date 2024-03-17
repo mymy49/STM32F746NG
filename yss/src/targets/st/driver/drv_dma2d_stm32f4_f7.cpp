@@ -31,7 +31,7 @@
 #include <yss/thread.h>
 #include <targets/st/bitfield.h>
 
-Dma2d::Dma2d(const Drv::Setup_t drvConfig, const Setup_t config) : Drv(drvConfig)
+Dma2d::Dma2d(const Drv::setup_t drvConfig, const setup_t config) : Drv(drvConfig)
 {
 	mPeri = (YSS_DMA2D_Peri*)config.peri;
 }

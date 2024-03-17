@@ -46,7 +46,7 @@ typedef QUADSPI_TypeDef		YSS_QUADSPI_Peri;
 class Quadspi : public Drv
 {
 public :
-	struct Specification_t
+	struct specification_t
 	{
 		uint32_t maxFrequncy;
 		uint32_t flashSize;
@@ -76,15 +76,15 @@ public :
 
 	// Quadspi 장치의 기본 사양을 설정한다. 
 	// 설정 전에 반드시 enable(false) 를 호출하여 장치를 먼저 비활성화 시키는게 필요하다.
-	// 세부 설정 사항은 구조체 Specification_t를 사용한다.
+	// 세부 설정 사항은 구조체 specification_t를 사용한다.
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error setSpecification(const Specification_t &spec);
+	error setSpecification(const specification_t &spec);
 
 	// Quadspi 장치의 전송 세부 사양을 설정한다.
 	// 설정 전에 반드시 enable(false) 를 호출하여 장치를 먼저 비활성화 시키는게 필요하다.
-	// 세부 설정 사항은 구조체 Specification_t를 사용한다.
+	// 세부 설정 사항은 구조체 specification_t를 사용한다.
 	// 
 	// 반환
 	//		에러를 반환한다.
@@ -118,7 +118,7 @@ public :
 	//void lock(void);
 	//void unlock(void);
 
-	struct Setup_t
+	struct setup_t
 	{
 		YSS_QUADSPI_Peri *dev;
 		Dma &txDma;
@@ -127,11 +127,11 @@ public :
 		Dma::DmaInfo rxDmaInfo;
 	};
 
-	Quadspi(const Drv::Setup_t drvSetup, const Setup_t setup);
+	Quadspi(const Drv::setup_t drvSetup, const setup_t setup);
 
 private :
 	YSS_QUADSPI_Peri *mDev;
-	const Specification_t *mSpec;
+	const specification_t *mSpec;
 	const Waveform_t *mWaveform;
 #if defined(STM32F7)
 	Dma *mTxDma, *mRxDma;

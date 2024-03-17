@@ -35,7 +35,7 @@
 class WizFi360_Uart  : public WizFi360
 {
 public:
-	struct Config_t
+	struct config_t
 	{
 		Uart &peri;
 		Gpio::Pin reset;
@@ -45,7 +45,7 @@ public:
 
 	~WizFi360_Uart(void);
 
-	error initialize(const Config_t config);
+	error initialize(const config_t config);
 
 protected:
 	virtual error send(void *src, uint32_t size);

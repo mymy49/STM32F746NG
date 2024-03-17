@@ -34,7 +34,7 @@
 class AT070TN90 : public RgbBusTftLcd
 {
   public:
-	const Ltdc::Specification* getSpecification(void); // virtual 0
+	const Ltdc::specification_t* getSpecification(void); // virtual 0
 };
 
 #endif

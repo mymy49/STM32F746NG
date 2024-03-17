@@ -32,7 +32,7 @@
 
 typedef volatile uint32_t	YSS_I2S_Peri;
 
-#elif defined(STM32F4) || defined(STM32F7)
+#elif defined(STM32F4) || defined(STM32F7) || defined(STM32G4)
 
 typedef SPI_TypeDef			YSS_I2S_Peri;
 
@@ -58,7 +58,7 @@ class I2s : public Drv
 		const Dma::DmaInfo &rxDmaInfo;
 	};
 
-	struct Specification
+	struct specification_t
 	{
 		uint8_t dataBit;
 		uint8_t chlen;
@@ -80,21 +80,21 @@ class I2s : public Drv
 		STD_PCM
 	};
 
-	I2s(const Drv::Setup_t drvSetup, const Config config);
+	I2s(const Drv::setup_t drvSetup, const Config config);
 	
 	// I2S 장치를 Main으로 초기화 한다.
 	//
 	// 반환
 	//		발생한 error를 반환한다.
-	error initializeTransmitterAsMain(const Specification &spec);
+	error initializeTransmitterAsMain(const specification_t &spec);
 
 	// I2S 장치를 Sub로 초기화 한다.
 	//
 	// 반환
 	//		발생한 error를 반환한다.
-	error initializeReceiverAsSub(const Specification &spec);
+	error initializeReceiverAsSub(const specification_t &spec);
 
-	error initializeTransmitterAsSub(const Specification &spec);
+	error initializeTransmitterAsSub(const specification_t &spec);
 
 	void enable(bool en = true);
 

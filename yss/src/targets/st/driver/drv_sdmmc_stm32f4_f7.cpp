@@ -51,7 +51,7 @@ enum
 
 void thread_taskSdmmc(void *var);
 
-Sdmmc::Sdmmc(const Drv::Setup_t &drvConfig, const Config &config) : Drv(drvConfig)
+Sdmmc::Sdmmc(const Drv::setup_t &drvConfig, const Config &config) : Drv(drvConfig)
 {
 	mPeri = config.peri;
 	mTxDma = &config.txDma;
@@ -254,7 +254,7 @@ error_handle :
 	else if(status & SDMMC_STA_RXOVERR_Msk)
 		return error::RX_OVERRUN;
 	else 
-		return error::DMA;
+		return error::DMA_ERROR;
 }
 
 error Sdmmc::waitUntilWriteComplete(void)
@@ -301,7 +301,7 @@ error_handle :
 	else if(status & SDMMC_STA_TXUNDERR_Msk)
 		return error::TX_UNDERRUN;
 	else 
-		return error::DMA;
+		return error::DMA_ERROR;
 }
 
 void Sdmmc::unlockRead(void)

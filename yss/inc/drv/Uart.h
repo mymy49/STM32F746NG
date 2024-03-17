@@ -193,7 +193,7 @@ class Uart : public Drv
 	void enable(bool en);
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
-	struct Setup_t
+	struct setup_t
 	{
 #if defined(GD32F1) || defined(STM32F1) || defined(GD32F4)  || defined(STM32F7) || defined(STM32F4) || defined(STM32F0)
 		YSS_USART_Typedef *dev;
@@ -208,7 +208,7 @@ class Uart : public Drv
 #endif
 	};
 
-	Uart(const Drv::Setup_t drvSetup, const Uart::Setup_t setup);
+	Uart(const Drv::setup_t drvSetup, const Uart::setup_t setup);
 
 	void push(int8_t data);
 

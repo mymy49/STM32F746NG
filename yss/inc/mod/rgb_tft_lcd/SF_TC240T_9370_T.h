@@ -36,7 +36,7 @@ class SF_TC240T_9370_T : public ILI9341_spi
 public :
 	SF_TC240T_9370_T(void);
 	error initialize(void); // virtual 0
-	const Ltdc::Specification* getSpec(void);
+	const Ltdc::specification_t* getSpec(void);
 
 	// TftLcdDriver
 	bool getReverseRgbOrder(void); // virtual 0

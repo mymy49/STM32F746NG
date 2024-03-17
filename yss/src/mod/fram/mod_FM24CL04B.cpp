@@ -34,7 +34,7 @@ FM24CL04B::FM24CL04B(void)
 	mPeri = nullptr;
 }
 
-error FM24CL04B::initialize(const Config_t config)
+error FM24CL04B::initialize(const config_t config)
 {
 	uint8_t data;
 	error result;

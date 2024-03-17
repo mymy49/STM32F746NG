@@ -36,7 +36,7 @@ PCA9555A::PCA9555A(void)
 	mAddr = ADDR;
 }
 
-error PCA9555A::initialize(const Config_t config)
+error PCA9555A::initialize(const config_t config)
 {
 	error result;
 	char data = 0;

@@ -120,14 +120,14 @@ void disableEndPoint(YSS_USB_TypeDef *dev, uint32_t num)
 
 //error initalizeFifo(
 
-Usbd::Usbd(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
+Usbd::Usbd(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 {
 	mGlobal = setup.global;
 	mDev = setup.dev;
 	mEndpointCount = setup.endpointCount;
 }
 
-error Usbd::initialize(void)
+error Usbd::initialize(const config_t confg)
 {
 	error result;
 	Timeout timeout;

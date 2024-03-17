@@ -24,12 +24,13 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 
 #include <config.h>
+#include <drv/Spi.h>
 
-#if USE_GUI == true
+#if USE_GUI && !defined(YSS_DRV_SPI_UNSUPPORTED)
 
 #include <mod/tft_lcd_driver/ILI9488_spi_with_Brush_RGB888.h>
 
-static const Spi::Specification_t gLcdSpec =
+static const Spi::specification_t gLcdSpec =
 {
 	define::spi::mode::MODE0,	//uint8_t mode;
 	40000000,					//uint32_t maxFreq;
@@ -98,7 +99,7 @@ void ILI9488_spi_with_Brush_RGB888::reset(void)
 	thread::delay(200);
 }
 
-void ILI9488_spi_with_Brush_RGB888::setSpiSpecification(const Spi::Specification_t &spec)
+void ILI9488_spi_with_Brush_RGB888::setSpiSpecification(const Spi::specification_t &spec)
 {
 	mSpec = &spec;
 }

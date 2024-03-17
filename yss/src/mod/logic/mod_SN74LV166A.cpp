@@ -28,7 +28,7 @@
 
 #if !(defined(YSS_DRV_SPI_UNSUPPORTED) || defined(YSS_DRV_GPIO_UNSUPPORTED))
 
-static const Spi::Specification_t gConfig =
+static const Spi::specification_t gConfig =
 {
 	define::spi::mode::MODE0,
 	35000000,

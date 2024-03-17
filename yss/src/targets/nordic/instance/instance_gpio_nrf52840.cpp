@@ -28,7 +28,7 @@
 #include <yss/instance.h>
 
 #if defined(NRF_P0)
-static Drv::Setup_t gDrvConfigGpioA =
+static Drv::setup_t gDrvConfigGpioA =
 {
 	0,	//void (*clockFunc)(bool en);
 	0,	//void (*nvicFunc)(bool en);
@@ -46,7 +46,7 @@ Gpio gpio0(gDrvConfigGpioA, gConfigGpioA);
 #endif
 
 #if defined(NRF_P1)
-static Drv::Setup_t gDrvConfigGpioB =
+static Drv::setup_t gDrvConfigGpioB =
 {
 	0,	//void (*clockFunc)(bool en);
 	0,	//void (*nvicFunc)(bool en);
