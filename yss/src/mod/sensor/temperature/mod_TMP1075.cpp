@@ -42,7 +42,7 @@ TMP1075::TMP1075(void)
 	mAddr = 0;
 }
 
-error TMP1075::initialize(const Config_t config)
+error TMP1075::initialize(const config_t config)
 {
 	uint8_t data[2] = {(uint8_t)REG::TEMP, };
 	error result;

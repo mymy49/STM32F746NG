@@ -41,7 +41,7 @@ public :
 		ADDR2 = 0x8
 	};
 
-	struct Config_t
+	struct config_t
 	{
 		I2c &peri;
 		Gpio::Pin writeProtectPin;
@@ -50,7 +50,7 @@ public :
 
 	FM24CL04B(void);
 
-	error initialize(const Config_t config);
+	error initialize(const config_t config);
 
 	error writeBytes(uint32_t addr, void *src, uint32_t size);
 

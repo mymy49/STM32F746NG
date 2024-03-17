@@ -30,6 +30,9 @@
 #include <drv/Spi.h>
 #include <yss/thread.h>
 #include <yss/reg.h>
+#include <drv/Spi.h>
+
+#if USE_GUI && !defined(YSS_DRV_SPI_UNSUPPORTED)
 
 uint32_t Spi::getRxCount(void)
 {
@@ -57,4 +60,6 @@ void Spi::flush(void)
 {
 	mTail = mRxDma->getCurrentTransferBufferCount();
 }
+
+#endif
 

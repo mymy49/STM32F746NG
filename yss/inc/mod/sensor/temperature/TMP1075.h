@@ -35,13 +35,13 @@
 class TMP1075 : public Temperature
 {
 public :
-	struct Config_t
+	struct config_t
 	{
 		I2c &peri;
 		uint8_t addr;
 	};
 
-	error initialize(const Config_t config);
+	error initialize(const config_t config);
 
 	virtual float getTemperature(void); // pure
 

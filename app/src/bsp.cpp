@@ -148,14 +148,14 @@ void initializeBoard(void)
 	ltdc.enableInterrupt();
 
 	// Quadspi Memory 초기화
-	const N25Q128A1::Config_t flashConfig = 
+	const N25Q128A1::config_t config = 
 	{
 		quadspi,
 		define::quadspi::bank::BANK1
 	};
 
 #if defined(MB1191_B_03)
-	memory.setConfig(flashConfig);
+	memory.setConfig(config);
 	memory.initialize();
 #endif
 

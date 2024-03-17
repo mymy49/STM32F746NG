@@ -61,7 +61,7 @@ public :
 		Dma::DmaInfo rxDmaInfo;
 	};
 
-	Sdmmc(const Drv::Setup_t &drvConfig, const Config &config);
+	Sdmmc(const Drv::setup_t &drvConfig, const Config &config);
 
 	error initialize(void);
 

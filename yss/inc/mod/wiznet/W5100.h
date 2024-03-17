@@ -47,7 +47,7 @@ class W5100 : public iEthernet
 	void readSocketRegister(uint8_t socketNumber, uint16_t addr, void *des, int32_t  len);
 
   public:
-	struct Config_t
+	struct config_t
 	{
 		Spi &peri;
 		Gpio::Pin RSTn;
@@ -73,7 +73,7 @@ class W5100 : public iEthernet
 
 	~W5100(void);
 
-	bool initialize(Config_t config);
+	bool initialize(config_t config);
 
 	error setIpConfig(const IpConfig &config);
 

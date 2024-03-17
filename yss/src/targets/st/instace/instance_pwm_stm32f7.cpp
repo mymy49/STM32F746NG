@@ -59,7 +59,7 @@ static void resetPwm1(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm1DrvSetup = 
+static const Drv::setup_t gPwm1DrvSetup = 
 {
 	setPwm1ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm1InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -97,7 +97,7 @@ static void resetPwm2(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm2DrvSetup = 
+static const Drv::setup_t gPwm2DrvSetup = 
 {
 	setPwm2ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm2InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -135,7 +135,7 @@ static void resetPwm3(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm3DrvSetup = 
+static const Drv::setup_t gPwm3DrvSetup = 
 {
 	setPwm3ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm3InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -173,7 +173,7 @@ static void resetPwm4(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm4DrvSetup = 
+static const Drv::setup_t gPwm4DrvSetup = 
 {
 	setPwm4ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm4InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -211,7 +211,7 @@ static void resetPwm5(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm5DrvSetup = 
+static const Drv::setup_t gPwm5DrvSetup = 
 {
 	setPwm5ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm5InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -249,7 +249,7 @@ static void resetPwm8(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm8DrvSetup = 
+static const Drv::setup_t gPwm8DrvSetup = 
 {
 	setPwm8ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm8InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -287,7 +287,7 @@ static void resetPwm9(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm9DrvSetup = 
+static const Drv::setup_t gPwm9DrvSetup = 
 {
 	setPwm9ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setPwm9InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -322,7 +322,7 @@ static void resetPwm10(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm10DrvSetup = 
+static const Drv::setup_t gPwm10DrvSetup = 
 {
 	setPwm10ClockEn,			//void (*clockFunc)(bool en) = 0;
 	setPwm10InterruptEn,		//void (*nvicFunc)(bool en) = 0;
@@ -357,7 +357,7 @@ static void resetPwm11(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm11DrvSetup = 
+static const Drv::setup_t gPwm11DrvSetup = 
 {
 	setPwm11ClockEn,			//void (*clockFunc)(bool en) = 0;
 	setPwm11InterruptEn,		//void (*nvicFunc)(bool en) = 0;
@@ -393,7 +393,7 @@ static void resetPwm12(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm12DrvSetup = 
+static const Drv::setup_t gPwm12DrvSetup = 
 {
 	setPwm12ClockEn,			//void (*clockFunc)(bool en) = 0;
 	setPwm12InterruptEn,		//void (*nvicFunc)(bool en) = 0;
@@ -429,7 +429,7 @@ static void resetPwm13(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm13DrvSetup = 
+static const Drv::setup_t gPwm13DrvSetup = 
 {
 	setPwm13ClockEn,			//void (*clockFunc)(bool en) = 0;
 	setPwm13InterruptEn,		//void (*nvicFunc)(bool en) = 0;
@@ -464,7 +464,7 @@ static void resetPwm14(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gPwm14DrvSetup = 
+static const Drv::setup_t gPwm14DrvSetup = 
 {
 	setPwm14ClockEn,			//void (*clockFunc)(bool en) = 0;
 	setPwm14InterruptEn,		//void (*nvicFunc)(bool en) = 0;

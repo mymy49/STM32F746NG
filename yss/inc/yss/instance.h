@@ -91,6 +91,10 @@ extern Nvic nvic;
 
 #include <targets/siliconlabs/instance_efr32bg22.h>
 
+#elif defined(W7500)
+
+#include <targets/wiznet/instance_w7500x.h>
+
 #endif
 
 #endif

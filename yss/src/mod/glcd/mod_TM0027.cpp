@@ -39,7 +39,7 @@ namespace mod
 {
 namespace glcd
 {
-const Spi::Specification_t gLcdConfig =
+const Spi::specification_t gLcdConfig =
 {
 	define::spi::mode::MODE3,
 	10000000,

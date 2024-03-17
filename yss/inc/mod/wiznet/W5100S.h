@@ -54,7 +54,7 @@ class W5100S : public W5100
 		SOCK_ESTABLISHED = 0x17,
 	};
 
-	struct Config_t
+	struct config_t
 	{
 		Spi &peri;
 		Gpio::Pin RSTn;
@@ -70,7 +70,7 @@ class W5100S : public W5100
 
 	W5100S(void);
 
-	bool initialize(Config_t config);
+	bool initialize(config_t config);
 
 	void setSocketDestinationIpAddress(uint8_t socketNumber, uint8_t *ip);
 

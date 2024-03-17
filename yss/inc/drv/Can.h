@@ -82,7 +82,7 @@ struct J1939Frame{};
 class Can : public Drv
 {
   public:
-	struct Config_t
+	struct config_t
 	{
 		uint32_t baudrate;		// 통신 보레이트
 		uint32_t rxBufferDepth;	// 수신 패킷 링버퍼의 크기
@@ -95,9 +95,9 @@ class Can : public Drv
 	// 
 	// 반환
 	//		에러를 반환한다.
-	// Config_t config
+	// config_t config
 	//		장치의 설정 값을 정의한 구조체이다.
-	error initialize(Config_t config);
+	error initialize(config_t config);
 	
 	// 설정된 인덱스의 수신 필터를 비활성화 한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -220,7 +220,7 @@ class Can : public Drv
 	void setIsrForEvent(void (*func)(error code));
 
 	// 아래 함수들은 시스템 함수로 사용자 호출을 금한다.
-	struct Setup_t
+	struct setup_t
 	{
 		YSS_CAN_TypeDef *dev;
 	};
@@ -231,7 +231,7 @@ class Can : public Drv
 	// 에러 관련 인터럽트 서비스 루틴
 	void isrEvent(void);
 
-	Can(const Drv::Setup_t drvSetup, const Setup_t setup);
+	Can(const Drv::setup_t drvSetup, const setup_t setup);
 
 private :
 	CanFrame_t *mCanFrame;
@@ -247,7 +247,7 @@ private :
 
 // ##### 초기화 방법 #####
 //		- GPIO의 setAsAltFunc()함수를 사용해 관련된 포트를 CAN 포트로 변경한다.
-//		- Can::Config_t 설정 구조체를 알맞게 설정한다.
+//		- Can::config_t 설정 구조체를 알맞게 설정한다.
 //		- enableClock() 함수를 사용해 장치가 동작할 수 있도록 클럭을 공급한다.
 //		- initialize() 함수를 사용해 장치를 초기화 한다.
 //		- enableInterrupt() 함수를 사용해 장치의 인터럽트를 활성화 한다.
@@ -255,7 +255,7 @@ private :
 
 // ##### 초기화 예시 #####
 /*
-	const Can::Config_t canConfig	// 설정 구조체 생성
+	const Can::config_t canConfig	// 설정 구조체 생성
 	{
 		250000,			//uint32_t baudrate;		// 통신 보레이트
 		128,			//uint32_t rxBufferDepth;	// 수신 패킷 링버퍼의 크기

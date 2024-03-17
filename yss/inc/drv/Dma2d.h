@@ -54,7 +54,7 @@ class Dma2d : public Drv
 
   public:
 	
-	struct Setup_t
+	struct setup_t
 	{
 		YSS_DMA2D_Peri *peri;
 	};
@@ -108,7 +108,7 @@ class Dma2d : public Drv
 		uint32_t color;
 	};
 
-	Dma2d(const Drv::Setup_t drvSetup, const Setup_t config);
+	Dma2d(const Drv::setup_t drvSetup, const setup_t config);
 	Dma2d(YSS_DMA2D_Peri *peri, void (*clockFunc)(bool en), void (*nvicFunc)(bool en));
 	void initialize(void);
 

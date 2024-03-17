@@ -30,7 +30,7 @@
 
 #ifndef YSS_DRV_SDRAM_UNSUPPORTED
 
-extern const Sdram::Specification MT48LC16M16A2_6A;
+extern const Sdram::specification_t MT48LC16M16A2_6A;
 
 #endif
 

@@ -40,6 +40,10 @@ typedef TIMER_TypeDef		YSS_TIMER_Dev;
 
 typedef TIM_TypeDef			YSS_TIMER_Dev;
 
+#elif defined(W7500)
+
+typedef PWM_TypeDef			YSS_TIMER_Dev;
+
 #else
 
 typedef volatile uint32_t YSS_TIMER_Dev;
@@ -53,32 +57,36 @@ typedef volatile uint32_t YSS_TIMER_Dev;
 class Timer : public Drv
 {
 public:
-	void initialize(uint32_t freq);
+	// 타이머를 주파수 기반으로 설정합니다.
+	//
+	// uint32_t freq
+	//		타이머의 동작 주파수를 설정합니다.
+	void initialize(uint32_t freq) __attribute__((optimize("-O1")));
 
-	void initialize(uint32_t psc, uint32_t arr);
+	void initialize(uint32_t psc, uint32_t arr) __attribute__((optimize("-O1")));
 
-	void initializeAsSystemRuntime(void);
+	void initializeAsSystemRuntime(void) __attribute__((optimize("-O1")));
 
-	void setUpdateIsr(void (*isr)(void));
+	void setUpdateIsr(void (*isr)(void)) __attribute__((optimize("-O1")));
 
-	void setOnePulse(bool en);
+	void setOnePulse(bool en) __attribute__((optimize("-O1")));
 
-	void start(void);
+	void start(void) __attribute__((optimize("-O1")));
 
-	void stop(void);
+	void stop(void) __attribute__((optimize("-O1")));
 
-	uint32_t getClockFreq(void);
+ 	uint32_t getClockFreq(void) __attribute__((optimize("-O1")));
 
-	void changeFrequency(uint32_t freq);
+	void changeFrequency(uint32_t freq) __attribute__((optimize("-O1")));
 
 	// usec 또는 msec 단위의 카운트 값을 얻는다.
 	// 시스템의 시계를 관리하기 위한 목적으로 만들어진 함수로 사용자 호출에 특별한 의미는 없다.
 	//
 	// 반환
 	//		usec 또는 msec 단위의 타이머 카운트 값
-	uint32_t getCounterValue(void);
+	uint32_t getCounterValue(void) __attribute__((optimize("-O1")));
 
-	uint32_t getOverFlowCount(void);
+	uint32_t getOverFlowCount(void) __attribute__((optimize("-O1")));
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
 	enum BIT
@@ -87,25 +95,33 @@ public:
 		BIT_32
 	};
 
-	struct Setup_t
+	struct setup_t
 	{
 		YSS_TIMER_Dev *dev;
+#if defined(STM32F1) || defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32F0)
 		uint8_t bit;
+#endif
+#if defined(W7500)
+		uint8_t index;
+#endif
 	};
 
-	Timer(YSS_TIMER_Dev *config, const Drv::Setup_t drvConfig);
+	Timer(YSS_TIMER_Dev *config, const Drv::setup_t drvConfig) __attribute__((optimize("-O1")));
 
-	Timer(const Drv::Setup_t drvSetup, const Setup_t setup);
+	Timer(const Drv::setup_t drvSetup, const setup_t setup) __attribute__((optimize("-O1")));
 
-	void isrUpdate(void);
+	void isrUpdate(void) __attribute__((optimize("-O1")));
 
 private :
 	YSS_TIMER_Dev *mDev;
-	uint8_t mBit;
-	uint64_t mTimeUpdateCnt;
 	void (*mIsrUpdate)(void);
 
-	void isrInputCapture(void);
+#if defined(STM32F1) || defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32F0)
+	uint8_t mBit;
+#endif
+#if defined(W7500)
+		uint8_t mIndex;
+#endif
 };
 
 #define setUpdateIntEn		enableInterrupt

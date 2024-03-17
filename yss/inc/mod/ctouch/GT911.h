@@ -34,7 +34,7 @@
 class GT911 : public sac::Touch
 {
 public :
-	struct Config_t
+	struct config_t
 	{
 		I2c &peri;
 		Gpio::Pin isrPin;
@@ -42,7 +42,7 @@ public :
 		Size_t size;
 	};
 
-	error initialize(const Config_t config);
+	error initialize(const config_t config);
 
 	int8_t getByte(uint16_t addr);
 
