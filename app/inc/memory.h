@@ -30,7 +30,7 @@
 
 #define VER_BUILD	4
 
-namespace Memory
+namespace memory
 {
 	void initialize(void);
 };
