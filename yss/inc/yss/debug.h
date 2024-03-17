@@ -28,10 +28,7 @@
 
 #include <stdint.h>
 
-#if defined(__SEGGER_LINKER)
-#include <stdint.h>
-int32_t  debug_printf(const char *fmt,...);
-#elif defined(ST_CUBE_IDE)
+#if defined(__SEGGER_LINKER) || defined(ST_CUBE_IDE)
 int32_t  debug_printf(const char *fmt,...);
 #else
 #include <__cross_studio_io.h>

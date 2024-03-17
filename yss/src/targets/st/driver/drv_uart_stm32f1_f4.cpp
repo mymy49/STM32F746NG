@@ -33,7 +33,7 @@
 #include <yss/reg.h>
 #include <targets/st/bitfield.h>
 
-Uart::Uart(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
+Uart::Uart(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 {
 	mTxDma = &setup.txDma;
 	mTxDmaInfo = setup.txDmaInfo;
@@ -97,7 +97,7 @@ error Uart::send(void *src, int32_t  size)
 		return error::ERROR_NONE;
 
 	if(mTxDma == 0)
-		return error::DMA;
+		return error::DMA_ERROR;
 
 	mTxDma->lock();
 

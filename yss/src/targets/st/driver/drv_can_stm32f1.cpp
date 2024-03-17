@@ -37,7 +37,7 @@
 #define CAN_MODE_INIT		0x01
 #define CAN_MODE_NORMAL		0X00
 
-Can::Can(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
+Can::Can(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 {
 	mDev = setup.dev;
 	mHead = 0;
@@ -45,7 +45,7 @@ Can::Can(const Drv::Setup_t drvSetup, const Setup_t setup) : Drv(drvSetup)
 	mRxBufferDepth = 0;
 }
 
-error Can::initialize(Config_t config)
+error Can::initialize(config_t config)
 {
 	uint32_t clk = getClockFrequency(), ts1, ts2, pres;
 	

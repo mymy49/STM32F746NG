@@ -36,7 +36,7 @@
 class N25Q128A1 : public MassStorage
 {
 public:
-	struct Config_t
+	struct config_t
 	{
 		Quadspi &dev;
 		uint8_t bank;
@@ -54,7 +54,7 @@ public:
 
 	virtual bool isConnected(void);	// pure
 
-	void setConfig(const Config_t &config);
+	void setConfig(const config_t &config);
 
 	error initialize(void);
 

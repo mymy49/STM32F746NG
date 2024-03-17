@@ -33,7 +33,7 @@
 
 #if defined(FMC_Bank1)
 
-Pbus::Pbus(const Drv::Setup_t drvSetup) : Drv(drvSetup)
+Pbus::Pbus(const Drv::setup_t drvSetup) : Drv(drvSetup)
 {
 	
 }
@@ -49,7 +49,7 @@ error Pbus::initialize(void)
 	return error::ERROR_NONE;
 }
 
-error Pbus::setSpecification(const Specification_t &spec)
+error Pbus::setSpecification(const specification_t &spec)
 {
 	for(uint8_t i = 0; i < 4; i++)
 	{

@@ -60,7 +60,7 @@ static void resetCapture1(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gCapture1DrvSetup = 
+static const Drv::setup_t gCapture1DrvSetup = 
 {
 	setCapture1ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture1InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -69,7 +69,7 @@ static const Drv::Setup_t gCapture1DrvSetup =
 };
 
 static uint64_t gCapture1UpdateCnt;
-static const Capture::Setup_t gCapture11Setup = 
+static const Capture::setup_t gCapture11Setup = 
 {
 	TIM1,				//YSS_PWM_Peri *peri;
 	&gCapture1UpdateCnt	//uint64_t *updateCnt;
@@ -179,7 +179,7 @@ static void resetCapture2(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gCapture2DrvSetup = 
+static const Drv::setup_t gCapture2DrvSetup = 
 {
 	setCapture2ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture2InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -188,7 +188,7 @@ static const Drv::Setup_t gCapture2DrvSetup =
 };
 
 static uint64_t gCapture2UpdateCnt;
-static const Capture::Setup_t gCapture2Setup = 
+static const Capture::setup_t gCapture2Setup = 
 {
 	TIM2,				//YSS_PWM_Peri *peri;
 	&gCapture2UpdateCnt	//uint64_t *updateCnt;
@@ -264,7 +264,7 @@ static void resetCapture5(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gCapture5DrvSetup = 
+static const Drv::setup_t gCapture5DrvSetup = 
 {
 	setCapture5ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture5InterruptEn,			//void (*nvicFunc)(bool en) = 0;
@@ -273,7 +273,7 @@ static const Drv::Setup_t gCapture5DrvSetup =
 };
 
 static uint64_t gCapture5UpdateCnt;
-static const Capture::Setup_t gCapture5Setup = 
+static const Capture::setup_t gCapture5Setup = 
 {
 	TIM5,				//YSS_PWM_Peri *peri;
 	&gCapture5UpdateCnt	//uint64_t *updateCnt;
@@ -349,7 +349,7 @@ static void resetCapture12(void)
 	clock.unlock();
 }
 
-static const Drv::Setup_t gCapture12DrvSetup = 
+static const Drv::setup_t gCapture12DrvSetup = 
 {
 	setCapture12ClockEn,				//void (*clockFunc)(bool en) = 0;
 	setCapture12InterruptEn,			//void (*nvicFunc)(bool en) = 0;

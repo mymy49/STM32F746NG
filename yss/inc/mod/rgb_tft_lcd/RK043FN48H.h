@@ -34,7 +34,7 @@
 class RK043FN48H : public RgbBusTftLcd
 {
   public:
-	const Ltdc::Specification* getSpecification(void); // virtual 0
+	const Ltdc::specification_t* getSpecification(void); // virtual 0
 };
 
 #endif

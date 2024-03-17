@@ -43,6 +43,8 @@
 #include <targets/nordic/define_clock_nrf52840.h>
 #elif defined(MAX32672)
 #define IncludeSubClassHeader	<targets/maxim/max32672/class_clock_max32672.h>
+#elif defined(W7500)
+#include <targets/wiznet/class_clock_w7500x.h>
 #else
 #define YSS_DRV_CLOCK_UNSUPPORTED
 
@@ -57,7 +59,7 @@ class Clock
 
 #ifndef YSS_DRV_CLOCK_UNSUPPORTED
 
-#if defined(STM32G4) || defined(STM32F7) || defined(STM32F4)
+#if defined(STM32G4) || defined(STM32F7) || defined(STM32F4) || defined(W7500)
 
 #else
 class ClockBase : public Mutex

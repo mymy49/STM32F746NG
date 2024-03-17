@@ -47,7 +47,7 @@ inline void setGpioMode(YSS_GPIO_Peri *port, uint8_t pin, uint8_t val)
 	setFieldData(reg[index], 0x3UL << pin, val, pin);
 }
 
-Gpio::Gpio(const Drv::Setup_t drvSetup, const Setup_t setup) : GpioBase(drvSetup)
+Gpio::Gpio(const Drv::setup_t drvSetup, const setup_t setup) : GpioBase(drvSetup)
 {
 	mDev = setup.dev;
 	mExti = setup.exti;
@@ -58,7 +58,7 @@ void Gpio::setExti(uint8_t pin)
 	uint8_t index = pin / 4;
 	volatile uint32_t *exticr = AFIO->EXTICR;
 	pin %= 4;
-	setFieldData(exticr[index], 0xfUL, mExti, pin * 4);
+	setFieldData(exticr[index], 0xfUL << pin * 4, mExti, pin * 4);
 }
 
 void Gpio::setPackageAsAltFunc(AltFunc *altport, uint8_t numOfPort, uint8_t ospeed, uint8_t otype)
