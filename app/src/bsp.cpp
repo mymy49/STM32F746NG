@@ -35,7 +35,7 @@ RK043FN48H lcd;
 FT5336 touch;
 
 #if defined(MB1191_B_03)
-N25Q128A1 memory;
+N25Q128A1 qflashMem;
 #endif
 
 void initializeBoard(void)
@@ -154,8 +154,8 @@ void initializeBoard(void)
 	};
 
 #if defined(MB1191_B_03)
-	memory.setConfig(config);
-	memory.initialize();
+	qflashMem.setConfig(config);
+	qflashMem.initialize();
 #endif
 
 	// LED 초기화
