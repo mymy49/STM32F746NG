@@ -36,7 +36,7 @@ int main(void)
 	initializeBoard();
 
 	// 설정 저장용 메모리 초기화
-	Memory::initilize();
+	memory::initilize();
 	
 	// fq1 동작 시작
 	fq1.start();
