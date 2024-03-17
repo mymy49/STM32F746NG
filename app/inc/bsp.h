@@ -33,7 +33,7 @@
 #if defined(MB1191_B_03)
 #include <mod/qsflash/N25Q128A1.h>
 
-extern N25Q128A1 memory;
+extern N25Q128A1 qflashMem;
 #endif
 
 void initializeBoard(void);
