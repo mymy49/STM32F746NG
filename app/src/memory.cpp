@@ -23,7 +23,7 @@
 
 #include <memory.h>
 
-namespace Memory
+namespace memory
 {
 	void initilize(void)
 	{

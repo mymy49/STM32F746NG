@@ -24,7 +24,9 @@
 #ifndef MEMORY__H_
 #define MEMORY__H_
 
-namespace Memory
+#include <stdint.h>
+
+namespace memory
 {
 	void initilize(void);
 };
