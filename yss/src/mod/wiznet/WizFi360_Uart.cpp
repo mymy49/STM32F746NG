@@ -41,7 +41,7 @@ WizFi360_Uart::~WizFi360_Uart(void)
 
 }
 
-error WizFi360_Uart::initialize(const config_t config)
+error_t WizFi360_Uart::initialize(const config_t config)
 {
 	mPeri = &config.peri;
 	mRst = config.reset;
@@ -56,12 +56,12 @@ error WizFi360_Uart::initialize(const config_t config)
 	return WizFi360::initialize();
 }
 
-error WizFi360_Uart::send(void *src, uint32_t size)
+error_t WizFi360_Uart::send(void *src, uint32_t size)
 {
-	error rt;
+	error_t rt;
 
 	if(mPeri == nullptr)
-		return error::NOT_INITIALIZED;
+		return error_t::NOT_INITIALIZED;
 	
 	mPeri->lock();
 	rt = mPeri->send(src, size);

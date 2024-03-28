@@ -45,10 +45,10 @@ public:
 
 	~WizFi360_Uart(void);
 
-	error initialize(const config_t config);
+	error_t initialize(const config_t config);
 
 protected:
-	virtual error send(void *src, uint32_t size);
+	virtual error_t send(void *src, uint32_t size);
 
 	virtual int16_t getRxByte(void);
 

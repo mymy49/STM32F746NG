@@ -42,17 +42,17 @@ public :
 		Size_t size;
 	};
 
-	error initialize(const config_t config);
+	error_t initialize(const config_t config);
 
 	int8_t getByte(uint16_t addr);
 
-	error setByte(uint16_t addr, uint8_t data);
+	error_t setByte(uint16_t addr, uint8_t data);
 
-	error getMultiByte(uint16_t addr, void *des, uint8_t size);
+	error_t getMultiByte(uint16_t addr, void *des, uint8_t size);
 
-	error setMultiByte(uint16_t addr, void *src, uint8_t size);
+	error_t setMultiByte(uint16_t addr, void *src, uint8_t size);
 
-	error setCommand(uint8_t cmd);
+	error_t setCommand(uint8_t cmd);
 
 	uint8_t getCommand(void);
 

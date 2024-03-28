@@ -47,8 +47,8 @@
  * CMSIS Peripheral Access Layer for MIMXRT1011
  */
 
-#ifndef _MIMXRT1011_H_
-#define _MIMXRT1011_H_                           /**< Symbol preventing repeated inclusion */
+#ifndef _BITFIELD_MIMXRT1011_H_
+#define _BITFIELD_MIMXRT1011_H_                           /**< Symbol preventing repeated inclusion */
 
 /* ----------------------------------------------------------------------------
    -- ADC Register Masks

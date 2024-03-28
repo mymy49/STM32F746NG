@@ -36,6 +36,11 @@ uint32_t getApb1TimerClockFrequency(void);
 uint32_t getApb2TimerClockFrequency(void);
 
 #if CAPTURE1_ENABLE && defined(TIM1)
+#if YSS_TIMER == RUNTIME_TIM1
+#error "현재 TIM1는 yss OS의 Runtime에서 사용하고 있습니다. 일반적인 사용이 불가능합니다."
+#elif (1 < TIM1_ENABLE + PWM1_ENABLE + QENCODER1_ENABLE + CAPTURE1_ENABLE)
+	#error "STM32에서는 같은 번호의 TIM, PWM, QENCODER, CAPTURE의 중복 사용을 금지합니다."	
+#endif
 static void setCapture1ClockEn(bool en)
 {
 	clock.lock();
@@ -156,6 +161,11 @@ void TIM1_CC_IRQHandler(void)
 
 
 #if CAPTURE2_ENABLE && defined(TIM2)
+#if YSS_TIMER == RUNTIME_TIM2
+#error "현재 TIM2는 yss OS의 Runtime에서 사용하고 있습니다. 일반적인 사용이 불가능합니다."
+#elif (1 < TIM2_ENABLE + PWM2_ENABLE + QENCODER2_ENABLE + CAPTURE2_ENABLE)
+	#error "STM32에서는 같은 번호의 TIM, PWM, QENCODER, CAPTURE의 중복 사용을 금지합니다."	
+#endif
 static void setCapture2ClockEn(bool en)
 {
 	clock.lock();
@@ -241,6 +251,11 @@ void TIM2_IRQHandler(void)
 
 
 #if CAPTURE5_ENABLE && defined(TIM5)
+#if YSS_TIMER == RUNTIME_TIM5
+#error "현재 TIM5는 yss OS의 Runtime에서 사용하고 있습니다. 일반적인 사용이 불가능합니다."
+#elif (1 < TIM5_ENABLE + PWM5_ENABLE + QENCODER5_ENABLE + CAPTURE5_ENABLE)
+	#error "STM32에서는 같은 번호의 TIM, PWM, QENCODER, CAPTURE의 중복 사용을 금지합니다."	
+#endif
 static void setCapture5ClockEn(bool en)
 {
 	clock.lock();
@@ -326,6 +341,11 @@ void TIM5_IRQHandler(void)
 
 
 #if CAPTURE12_ENABLE && defined(TIM12)
+#if YSS_TIMER == RUNTIME_TIM12
+#error "현재 TIM12는 yss OS의 Runtime에서 사용하고 있습니다. 일반적인 사용이 불가능합니다."
+#elif (1 < TIM12_ENABLE + PWM12_ENABLE + QENCODER12_ENABLE + CAPTURE12_ENABLE)
+	#error "STM32에서는 같은 번호의 TIM, PWM, QENCODER, CAPTURE의 중복 사용을 금지합니다."	
+#endif
 static void setCapture12ClockEn(bool en)
 {
 	clock.lock();

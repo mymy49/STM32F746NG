@@ -35,7 +35,7 @@
 class TftLcdDriver : public Mutex
 {
 public:
-	virtual error initialize(void) = 0;
+	virtual error_t initialize(void) = 0;
 
 	virtual void reset(void) = 0;
 

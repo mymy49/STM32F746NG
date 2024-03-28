@@ -57,7 +57,7 @@ class Adc : public Drv
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error initialize(void);
+	error_t initialize(void);
 
 	// ADC 입력 채널을 추가한다. 단일 ADC 입력 채널을 추가한다.
 	// 입력 채널의 해상도와 Low Pass Filter 레벨 설정이 가능하다.

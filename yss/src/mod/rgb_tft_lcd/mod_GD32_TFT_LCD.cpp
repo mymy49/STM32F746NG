@@ -52,7 +52,7 @@ GD32_RGB_LCD::GD32_RGB_LCD(void)
 {
 }
 
-error GD32_RGB_LCD::initialize(void)
+error_t GD32_RGB_LCD::initialize(void)
 {
 	if(mRstPin.port)
 	{
@@ -112,7 +112,7 @@ error GD32_RGB_LCD::initialize(void)
 
 	sendCmd(DISPLAY_ON);
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 void GD32_RGB_LCD::setConfig(const Config &config)

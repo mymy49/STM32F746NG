@@ -47,7 +47,7 @@ Spi::Spi(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetup)
 #endif
 }
 
-error Spi::setSpecification(const specification_t &spec)
+error_t Spi::setSpecification(const specification_t &spec)
 {
 #if defined(STM32F4) ||  defined(GD32F1) || defined(STM32F1)
 	uint32_t reg, buf;
@@ -56,7 +56,7 @@ error Spi::setSpecification(const specification_t &spec)
 #endif
 
 	if (mLastSpec == &spec)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	mLastSpec = &spec;
 
 	uint32_t div, clk = Drv::getClockFrequency();
@@ -82,7 +82,7 @@ error Spi::setSpecification(const specification_t &spec)
 	else if (div <= 256)
 		div = 7;
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 	
 #if defined(STM32F4) ||  defined(GD32F1) || defined(STM32F1)
 	using namespace define::spi;
@@ -96,7 +96,7 @@ error Spi::setSpecification(const specification_t &spec)
 		buf = 1;
 		break;
 	default :
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 	}
 
 	reg = mDev->CR1;
@@ -113,19 +113,19 @@ error Spi::setSpecification(const specification_t &spec)
 #endif
 	mDev->DR;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Spi::initializeAsMain(void)
+error_t Spi::initializeAsMain(void)
 {
 	setBitData(mDev->CR1, false, SPI_CR1_SPE_Pos);	// SPI 비활성화
 
 	mDev->CR1 |= SPI_CR1_SSI_Msk | SPI_CR1_SSM_Msk | SPI_CR1_MSTR_Msk;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Spi::initializeAsSub(void)
+error_t Spi::initializeAsSub(void)
 {
 	mDev->CR1 = 0;
 
@@ -133,7 +133,7 @@ error Spi::initializeAsSub(void)
 	mRxDma = getOccupancyDma();
 #endif
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 void Spi::enable(bool en)
@@ -141,16 +141,16 @@ void Spi::enable(bool en)
 	setBitData(mDev->CR1, en, 6);
 }
 
-error Spi::send(void *src, int32_t  size)
+error_t Spi::send(void *src, int32_t  size)
 {
 #if defined(STM32G4)
-	error result;
+	error_t result;
 	Dma *dma;
 
 	if(size == 1)
 	{
 		send(*(int8_t*)src);
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 
 	dma = getIdleDma();
@@ -172,12 +172,12 @@ error Spi::send(void *src, int32_t  size)
 	
 	return result;
 #else
-	error result;
+	error_t result;
 
 	if(size == 1)
 	{
 		send(*(int8_t*)src);
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 
 	mTxDma->lock();
@@ -216,16 +216,16 @@ error Spi::send(void *src, int32_t  size)
 #endif
 }
 
-error Spi::exchange(void *des, int32_t  size)
+error_t Spi::exchange(void *des, int32_t  size)
 {
 #if defined(STM32G4)
-	error rt = error::ERROR_NONE;
+	error_t rt = error_t::ERROR_NONE;
 	Dma *rxDma, *txDma;
 
 	if(size == 1)
 	{
 		*(int8_t*)des = exchange(*(int8_t*)des);
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 
 	mDev->DR;
@@ -250,12 +250,12 @@ error Spi::exchange(void *des, int32_t  size)
 
 	return rt;
 #endif
-	error rt = error::ERROR_NONE;
+	error_t rt = error_t::ERROR_NONE;
 
 	if(size == 1)
 	{
 		*(int8_t*)des = exchange(*(int8_t*)des);
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 
 	mDev->DR;

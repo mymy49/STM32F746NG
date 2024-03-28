@@ -144,7 +144,7 @@ error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
 	mPeri->CCR &= ~DMA_CCR_EN_Msk;
 
 	if(mErrorFlag)
-		return error::DMA;
+		return error::DMA_ERROR;
 	else
 		return error::ERROR_NONE;
 }
@@ -190,7 +190,7 @@ error Dma::receive(DmaInfo &dmaInfo, void *des, int32_t  size)
 	mPeri->CCR &= ~DMA_CCR_EN_Msk;
 
 	if (mErrorFlag)
-		return error::DMA;
+		return error::DMA_ERROR;
 	else
 		return error::ERROR_NONE;
 }

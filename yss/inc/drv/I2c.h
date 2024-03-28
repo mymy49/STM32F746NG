@@ -59,13 +59,13 @@ class I2c : public Drv
 		Dma::DmaInfo rxDmaInfo;
 	};
 
-	error initializeAsMain(uint8_t speed);
+	error_t initializeAsMain(uint8_t speed);
 
-	error initializeAsSub(void *rcvBuf, uint16_t rcvBufSize, uint8_t addr1, uint8_t addr2 = 0);
+	error_t initializeAsSub(void *rcvBuf, uint16_t rcvBufSize, uint8_t addr1, uint8_t addr2 = 0);
 
-	error send(uint8_t addr, void *src, uint32_t size, uint32_t timeout = 500);
+	error_t send(uint8_t addr, void *src, uint32_t size, uint32_t timeout = 500);
 
-	error receive(uint8_t addr, void *des, uint32_t size, uint32_t timeout = 500);
+	error_t receive(uint8_t addr, void *des, uint32_t size, uint32_t timeout = 500);
 
 	void stop(void);
 

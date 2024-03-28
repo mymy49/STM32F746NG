@@ -60,7 +60,7 @@ public:
 
 	Ltdc(const Drv::setup_t drvSetup);
 
-	error initialize(const Ltdc::specification_t *spec);
+	error_t initialize(const Ltdc::specification_t *spec);
 	void setFrameBuffer(void *frame);
 	//void setFrameBuffer(FrameBuffer &obj);
 	//void setFrameBuffer(FrameBuffer *obj);

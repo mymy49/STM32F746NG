@@ -85,16 +85,16 @@ class I2s : public Drv
 	// I2S 장치를 Main으로 초기화 한다.
 	//
 	// 반환
-	//		발생한 error를 반환한다.
-	error initializeTransmitterAsMain(const specification_t &spec);
+	//		발생한 error_t를 반환한다.
+	error_t initializeTransmitterAsMain(const specification_t &spec);
 
 	// I2S 장치를 Sub로 초기화 한다.
 	//
 	// 반환
-	//		발생한 error를 반환한다.
-	error initializeReceiverAsSub(const specification_t &spec);
+	//		발생한 error_t를 반환한다.
+	error_t initializeReceiverAsSub(const specification_t &spec);
 
-	error initializeTransmitterAsSub(const specification_t &spec);
+	error_t initializeTransmitterAsSub(const specification_t &spec);
 
 	void enable(bool en = true);
 

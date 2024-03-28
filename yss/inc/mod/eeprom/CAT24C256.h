@@ -61,8 +61,8 @@ class CAT24C256 : public Memory
 	};
 
 	bool init(const Config config);
-	error writeBytes(uint32_t addr, void *src, uint32_t size);
-	error readBytes(uint32_t addr, void *des, uint32_t size);
+	error_t writeBytes(uint32_t addr, void *src, uint32_t size);
+	error_t readBytes(uint32_t addr, void *des, uint32_t size);
 };
 
 #endif

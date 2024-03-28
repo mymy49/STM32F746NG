@@ -30,16 +30,16 @@
 
 #if !defined(YSS_DRV_UART_UNSUPPORTED)
 
-error Uart::initialize(int32_t  baud, int32_t  receiveBufferSize)
+error_t Uart::initialize(int32_t  baud, int32_t  receiveBufferSize)
 {
 	void *buf = new uint8_t[receiveBufferSize];
 	if (buf == 0)
-		return error::MALLOC_FAILED;
+		return error_t::MALLOC_FAILED;
 	
 	return initialize(baud, buf, receiveBufferSize);
 }
 
-error Uart::send(const void *src, int32_t  size)
+error_t Uart::send(const void *src, int32_t  size)
 {
 	return send((void*)src, size);
 }
