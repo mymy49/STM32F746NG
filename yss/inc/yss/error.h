@@ -108,6 +108,6 @@ typedef enum
 // GPIO 관련
 	PIN_INDEX_OVER,
 	THIS_PIN_DO_NOT_HAVE_GPIO_OUTPUT,
-}error;
+}error_t;
 
 #endif

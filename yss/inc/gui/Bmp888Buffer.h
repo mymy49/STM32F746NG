@@ -42,9 +42,9 @@ public :
 
 	~Bmp888Buffer(void);
 
-	virtual error setSize(uint16_t width, uint16_t height);
+	virtual error_t setSize(uint16_t width, uint16_t height);
 
-	virtual error setSize(Size_t size);
+	virtual error_t setSize(Size_t size);
 
 	Bitmap_t *getBitmap(void);
 

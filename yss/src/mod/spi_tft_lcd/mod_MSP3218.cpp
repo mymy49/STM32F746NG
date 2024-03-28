@@ -29,7 +29,7 @@
 
 #include <mod/spi_tft_lcd/MSP3218.h>
 
-error MSP3218::initialize(void)
+error_t MSP3218::initialize(void)
 {
 	enable();
 
@@ -99,7 +99,7 @@ error MSP3218::initialize(void)
 	
 	disable();
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 Size_t MSP3218::getLcdSize(void)

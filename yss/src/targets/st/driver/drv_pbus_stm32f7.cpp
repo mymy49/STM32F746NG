@@ -38,7 +38,7 @@ Pbus::Pbus(const Drv::setup_t drvSetup) : Drv(drvSetup)
 	
 }
 
-error Pbus::initialize(void)
+error_t Pbus::initialize(void)
 {
 	// 장치 활성화
 	for(uint8_t i = 0; i < 4; i++)
@@ -46,10 +46,10 @@ error Pbus::initialize(void)
 		FMC_Bank1->BTCR[i*2] |= FMC_BCR1_MBKEN_Msk;
 	}
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Pbus::setSpecification(const specification_t &spec)
+error_t Pbus::setSpecification(const specification_t &spec)
 {
 	for(uint8_t i = 0; i < 4; i++)
 	{
@@ -61,7 +61,7 @@ error Pbus::setSpecification(const specification_t &spec)
 								((spec.addrSetup) << FMC_BTR1_ADDSET_Pos & FMC_BTR1_ADDSET_Msk);
 	}
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 #endif

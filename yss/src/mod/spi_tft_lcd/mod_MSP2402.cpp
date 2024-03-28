@@ -29,7 +29,7 @@
 
 #include <mod/spi_tft_lcd/MSP2402.h>
 
-error MSP2402::initialize(void)
+error_t MSP2402::initialize(void)
 {
 	enable();
 
@@ -99,7 +99,7 @@ error MSP2402::initialize(void)
 	
 	disable();
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 Size_t MSP2402::getLcdSize(void)

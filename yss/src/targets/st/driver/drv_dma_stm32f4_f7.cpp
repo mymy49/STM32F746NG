@@ -47,7 +47,7 @@ void Dma::initialize(void)
 {
 }
 
-error Dma::ready(DmaInfo &dmaInfo, void *data, int32_t  size)
+error_t Dma::ready(DmaInfo &dmaInfo, void *data, int32_t  size)
 {
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -72,10 +72,10 @@ error Dma::ready(DmaInfo &dmaInfo, void *data, int32_t  size)
 	mPeri->FCR = dmaInfo.controlRegister2;
 	mPeri->CR= dmaInfo.controlRegister1;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Dma::transfer(DmaInfo &dmaInfo, void *data, int32_t  size)
+error_t Dma::transfer(DmaInfo &dmaInfo, void *data, int32_t  size)
 {
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -107,12 +107,12 @@ error Dma::transfer(DmaInfo &dmaInfo, void *data, int32_t  size)
 	mThreadId = -1;
 
 	if(mErrorFlag)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 	else
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 }					
 
-error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
+error_t Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
 {
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -144,12 +144,12 @@ error Dma::send(DmaInfo &dmaInfo, void *src, int32_t  size)
 	mThreadId = -1;
 
 	if(mErrorFlag)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 	else
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 }
 
-error Dma::receive(DmaInfo &dmaInfo, void *des, int32_t  size)
+error_t Dma::receive(DmaInfo &dmaInfo, void *des, int32_t  size)
 {
 	mCompleteFlag = false;
 	mErrorFlag = false;
@@ -178,9 +178,9 @@ error Dma::receive(DmaInfo &dmaInfo, void *des, int32_t  size)
 		thread::yield();
 
 	if (mErrorFlag)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 	else
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 }
 
 void Dma::transferAsCircularMode(const DmaInfo *dmaInfo, void *src, uint16_t  size)

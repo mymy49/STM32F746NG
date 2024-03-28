@@ -50,11 +50,11 @@ public :
 
 	FM24CL04B(void);
 
-	error initialize(const config_t config);
+	error_t initialize(const config_t config);
 
-	error writeBytes(uint32_t addr, void *src, uint32_t size);
+	error_t writeBytes(uint32_t addr, void *src, uint32_t size);
 
-	error readBytes(uint32_t addr, void *des, uint32_t size);
+	error_t readBytes(uint32_t addr, void *des, uint32_t size);
 
 protected :
 	uint32_t getSize(void);

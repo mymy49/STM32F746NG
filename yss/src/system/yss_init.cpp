@@ -82,7 +82,9 @@ void initializeYss(void)
 #endif
 
 	// DMA 활성화
+#if !defined(YSS_DRV_DMA_UNSUPPORTED)
 	initializeDma();
+#endif
 
 #if USE_GUI == true && !defined(YSS_DRV_DMA2D_UNSUPPORTED) && defined(DMA2D_ENABLE)
 	dma2d.enableClock(true);

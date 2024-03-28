@@ -35,7 +35,7 @@ Ltdc::Ltdc(const Drv::setup_t drvConfig) : Drv(drvConfig)
 {
 }
 
-error Ltdc::initialize(const Ltdc::specification_t *spec)
+error_t Ltdc::initialize(const Ltdc::specification_t *spec)
 {
 	unsigned short v, h, pitch;
 	unsigned char pixelFormat = spec->pixelFormat;
@@ -84,7 +84,7 @@ error Ltdc::initialize(const Ltdc::specification_t *spec)
 	color.setLittleEndian(true);
 	color.setReverseRgbOrder(true);
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 void Ltdc::setFrameBuffer(void *frame)

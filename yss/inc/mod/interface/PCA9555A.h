@@ -47,7 +47,7 @@ public:
 		ADDR2 = 0x8
 	};
 
-	error initialize(const config_t config);
+	error_t initialize(const config_t config);
 
 	uint8_t read(uint8_t port);
 

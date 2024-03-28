@@ -48,15 +48,15 @@ public:
 
 	virtual uint32_t getNumOfBlock(void);	// pure
 
-	virtual error write(uint32_t block, void *src);	// pure
+	virtual error_t write(uint32_t block, void *src);	// pure
 
-	virtual error read(uint32_t block, void *des);	// pure
+	virtual error_t read(uint32_t block, void *des);	// pure
 
 	virtual bool isConnected(void);	// pure
 
 	void setConfig(const config_t &config);
 
-	error initialize(void);
+	error_t initialize(void);
 
 private :
 	Quadspi *mDev;

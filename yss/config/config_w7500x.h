@@ -33,10 +33,10 @@
 // ####################### 외부 크리스탈 클럭 주파수 설정 #######################
 // 아래 HSE_CLOCK_FREQ가 정의 되어 있으면 HSE 클럭을 소스로 PLL 설정이 이뤄집니다.
 // 정의되어 있지 않으면 HSI 클럭을 소스로 PLL 설정이 이뤄집니다.
-// OSC 클럭은 8의 배수를 권장합니다.
-#define OSC_CLOCK_FREQ		8000001
+// OSC 클럭은 8MHz의 배수를 권장합니다.
+//#define OSC_CLOCK_FREQ		8000000
 
-#if	(48000000 % OSC_CLOCK_FREQ)
+#if defined(OSC_CLOCK_FREQ) && (48000000 % OSC_CLOCK_FREQ)
 #error "아래 사항을 따르세요."
 // 1. /yss/src/targets/wiznet/msp/msp_w7500x.cpp 파일에서 initializeSystem() 함수를 사용자의 소스코드 파일로 복사합니다.
 // 2. 사용자 코드로 복사한 initializeSystem() 함수에서 __WEAK 예약어를 없앱니다.
@@ -46,8 +46,8 @@
 
 // ####################### 스케줄러 설정 #######################
 
-// runtime 함수를 지원할 PWM 장치 설정 (PWM0 ~ PWM7)
-#define YSS_TIMER			PWM0
+// runtime 함수를 지원할 PWM 장치 설정 (RUNTIME_PWM0 ~ RUNTIME_PWM7)
+#define YSS_TIMER			RUNTIME_PWM0
 
 // 쓰레드당 할당 받는 Systick Clock의 수
 #define THREAD_GIVEN_CLOCK	20000
@@ -64,12 +64,38 @@
 
 // ####################### KEY 설정 #######################
 // 최대 KEY 생성 가능 갯수 설정 (0 ~ ), 0일 경우 기능 꺼짐
-#define NUM_OF_YSS_KEY		4
+#define NUM_OF_YSS_KEY		0
 
 // ###################### 주변 장치 활성화 ######################
 // 활성화 시킬 장치에 대해 false -> true로 변경하여 활성화합니다.
 //
 // 주의 
+// 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현합니다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못합니다.
+
+// PWM 활성화
+#define PWM0_ENABLE			false
+#define PWM1_ENABLE			false
+#define PWM2_ENABLE			false
+#define PWM3_ENABLE			false
+#define PWM4_ENABLE			false
+#define PWM5_ENABLE			false
+#define PWM6_ENABLE			false
+#define PWM7_ENABLE			false
+
+// TIMER 활성화
+#define TIMER0_ENABLE		false
+#define TIMER1_ENABLE		false
+#define TIMER2_ENABLE		false
+#define TIMER3_ENABLE		false
+#define TIMER4_ENABLE		false
+#define TIMER5_ENABLE		false
+#define TIMER6_ENABLE		false
+#define TIMER7_ENABLE		false
+
+// UART 활성화
+// 현재 W7500x에서는 UART2는 지원하지 않습니다.
+#define USART1_ENABLE		false	
+#define USART2_ENABLE		false
 
 
 

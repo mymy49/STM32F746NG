@@ -118,9 +118,9 @@ public:
 		uint8_t bInterval;
 	}__attribute__ ((__packed__));
 
-	error handleGetDeviceDescriptor(Request_t *request);
+	error_t handleGetDeviceDescriptor(Request_t *request);
 
-	virtual error initialize(Usbd *usb) = 0;
+	virtual error_t initialize(Usbd *usb) = 0;
 
 	virtual const DeviceDescriptor_t* getDeviceDescriptor(void) = 0;
 

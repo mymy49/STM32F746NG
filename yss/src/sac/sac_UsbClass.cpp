@@ -25,10 +25,10 @@
 
 #include <sac/UsbClass.h>
 
-error UsbClass::handleGetDeviceDescriptor(Request_t *request)
+error_t UsbClass::handleGetDeviceDescriptor(Request_t *request)
 {
 	(void)request;
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 //const UsbClass::DeviceDescriptor_t* UsbMscClass::getDeviceDescriptor(void)

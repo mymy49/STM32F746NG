@@ -35,7 +35,7 @@ public :
 
 	Directory(FileSystem *fileSystem);
 
-	error initialize(void);
+	error_t initialize(void);
 
 	uint32_t getDirectoryCount(void);
 
@@ -43,17 +43,17 @@ public :
 
 	uint32_t getCurrentDirectoryCluster(void);
 
-	error getFileName(uint32_t index, void* des, uint32_t size);
+	error_t getFileName(uint32_t index, void* des, uint32_t size);
 
-	error getDirectoryName(uint32_t index, void* des, uint32_t size);
+	error_t getDirectoryName(uint32_t index, void* des, uint32_t size);
 
-	error enterDirectory(uint32_t index);
+	error_t enterDirectory(uint32_t index);
 
-	error enterDirectory(const char *utfName);
+	error_t enterDirectory(const char *utfName);
 
-	error returnDirectory(void);
+	error_t returnDirectory(void);
 
-	error makeDirectory(const char *name);
+	error_t makeDirectory(const char *name);
 
 private :
 	FileSystem *mFileSystem;

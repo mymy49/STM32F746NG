@@ -75,7 +75,7 @@ class W5100 : public iEthernet
 
 	bool initialize(config_t config);
 
-	error setIpConfig(const IpConfig &config);
+	error_t setIpConfig(const IpConfig &config);
 
 	bool isLinkup(void);
 
@@ -103,7 +103,7 @@ class W5100 : public iEthernet
 
 	void process(void);
 
-	error sendSocketData(uint8_t socketNumber, void *src, uint16_t count);
+	error_t sendSocketData(uint8_t socketNumber, void *src, uint16_t count);
 
 	uint16_t getTxFreeBufferSize(uint8_t socketNumber);
 

@@ -148,9 +148,9 @@ struct Gt911config_t
 
 static void trigger_handler(void *peri);
 
-error GT911::initialize(const config_t config)
+error_t GT911::initialize(const config_t config)
 {
-	error result;
+	error_t result;
 	uint8_t data[4];
 	Gt911config_t *gt911Config = new Gt911config_t;
 	
@@ -172,19 +172,19 @@ error GT911::initialize(const config_t config)
 	thread::delay(200);
 	
 	result = getMultiByte(REG_PID, data, 4);
-	if(result != error::ERROR_NONE)
+	if(result != error_t::ERROR_NONE)
 	{
 		goto error_handler;
 	}
 	
 	if(data[0] != '9' || data[1] != '1' || data[2] != '1'|| data[3] != 0)
 	{
-		result = error::UNKNOWN_DEVICE;
+		result = error_t::UNKNOWN_DEVICE;
 		goto error_handler;
 	}
 
 	result = getMultiByte(REG_CFG, gt911Config, sizeof(Gt911config_t));
-	if(result != error::ERROR_NONE)
+	if(result != error_t::ERROR_NONE)
 	{
 		goto error_handler;
 	}
@@ -342,12 +342,12 @@ error GT911::initialize(const config_t config)
 
 	if(mTriggerId == 0)
 	{
-		result = error::FAILED_THREAD_ADDING;
+		result = error_t::FAILED_THREAD_ADDING;
 		goto error_handler;
 	}
 
 	result = exti.add(*mIsr.port, mIsr.pin, Exti::FALLING, mTriggerId);
-	if(result == error::ERROR_NONE)
+	if(result == error_t::ERROR_NONE)
 		exti.enable(mIsr.pin);
 
 error_handler :
@@ -380,10 +380,10 @@ int8_t GT911::getByte(uint16_t addr)
 	return addr;
 }
 
-error GT911::setCommand(uint8_t cmd)
+error_t GT911::setCommand(uint8_t cmd)
 {
 	uint8_t data[3] = {0x80, 0x40, cmd};
-	error result;
+	error_t result;
 
 	mPeri->lock();
 	result = mPeri->send(ADDR, data, 3, 100);
@@ -397,7 +397,7 @@ uint8_t GT911::getCommand(void)
 {
 	uint8_t data[2] = {0x80, 0x46};
 
-	if(mPeri->send(ADDR, data, 2, 100) == error::ERROR_NONE)
+	if(mPeri->send(ADDR, data, 2, 100) == error_t::ERROR_NONE)
 	{
 		thread::delay(1);
 		mPeri->receive(ADDR, data, 1, 100);
@@ -407,12 +407,12 @@ uint8_t GT911::getCommand(void)
 		return 0;
 }
 
-error GT911::getMultiByte(uint16_t addr, void *des, uint8_t size)
+error_t GT911::getMultiByte(uint16_t addr, void *des, uint8_t size)
 {
-	error rt = error::UNKNOWN;
+	error_t rt = error_t::UNKNOWN;
 
 	mPeri->lock();
-	if(mPeri->send(ADDR, &addr, 2, 100) == error::ERROR_NONE)
+	if(mPeri->send(ADDR, &addr, 2, 100) == error_t::ERROR_NONE)
 	{
 		thread::delay(1);
 		rt = mPeri->receive(ADDR, des, size, 100);
@@ -423,9 +423,9 @@ error GT911::getMultiByte(uint16_t addr, void *des, uint8_t size)
 	return rt;
 }
 
-error GT911::setMultiByte(uint16_t addr, void *src, uint8_t size)
+error_t GT911::setMultiByte(uint16_t addr, void *src, uint8_t size)
 {
-	error result = error::UNKNOWN;
+	error_t result = error_t::UNKNOWN;
 	uint8_t *data = new uint8_t[size + 2];
 
 	if(data != nullptr)
@@ -441,12 +441,12 @@ error GT911::setMultiByte(uint16_t addr, void *src, uint8_t size)
 		return result;
 	}
 	else
-		return error::MALLOC_FAILED;
+		return error_t::MALLOC_FAILED;
 }
 
-error GT911::setByte(uint16_t addr, uint8_t data)
+error_t GT911::setByte(uint16_t addr, uint8_t data)
 {
-	error result = error::UNKNOWN;
+	error_t result = error_t::UNKNOWN;
 	uint8_t buf[3] = {(uint8_t)(addr >> 8), (uint8_t)addr, data};
 
 	mPeri->lock();

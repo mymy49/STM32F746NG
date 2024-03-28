@@ -35,7 +35,7 @@ class SF_TC240T_9370_T : public ILI9341_spi
 {
 public :
 	SF_TC240T_9370_T(void);
-	error initialize(void); // virtual 0
+	error_t initialize(void); // virtual 0
 	const Ltdc::specification_t* getSpec(void);
 
 	// TftLcdDriver

@@ -63,14 +63,14 @@ class Spi : public Drv
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error initializeAsMain(void);
+	error_t initializeAsMain(void);
 
 	// SPI 장치를 서브로 초기화 한다. 초기화만 했을 뿐, 장치는 활성화 되어 있지 않다.
 	// 현재는 테스트 중인 기능으로 사용을 권장하지 않는다.
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error initializeAsSub(void);
+	error_t initializeAsSub(void);
 
 	// SPI 장치의 전송 세부 사항을 설정한다. 
 	// 설정 전에 반드시 enable(false) 를 호출하여 장치를 먼저 비활성화 시키는게 필요하다.
@@ -78,7 +78,7 @@ class Spi : public Drv
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error setSpecification(const specification_t &spec);
+	error_t setSpecification(const specification_t &spec);
 	
 	// SPI 장치를 활성화/비활성화 시킨다.
 	// 정상적인 전송을 위해 enable(true)를 하기 전에 setSpecification()를 사용하여 타겟 장치에 맞는 
@@ -104,7 +104,7 @@ class Spi : public Drv
 	//		전송할 데이터의 포인터를 설정한다.
 	// int32_t size
 	//		전송할 데이터의 전체 크기를 설정한다.
-	error send(void *src, int32_t  size);
+	error_t send(void *src, int32_t  size);
 
 	// 데이터 한 바이트를 교환한다.
 	// 한 바이트를 보내고 전달하는 동안 수신된 데이터를 반환한다.
@@ -124,7 +124,7 @@ class Spi : public Drv
 	//		교환이 일어날 데이터의 버퍼를 설정한다. 전송한 버퍼는 다시 수신한 데이터로 채워진다.
 	// int32_t size
 	//		교환할 데이터의 전체 크기를 설정한다.
-	error exchange(void *des, int32_t size);
+	error_t exchange(void *des, int32_t size);
 
 	// 설정된 전송 버퍼를 DMA로 시작부터 끝까지 전송한다. 버퍼를 순환 구조로 운영한다.
 	// 전송이 완료되면 처음으로 되돌아가 버퍼의 데이터를 다시 전송한다. stop() 함수를 통해 중단 할 때까지 계속 전송한다.

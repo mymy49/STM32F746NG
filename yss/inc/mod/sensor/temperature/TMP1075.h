@@ -41,7 +41,7 @@ public :
 		uint8_t addr;
 	};
 
-	error initialize(const config_t config);
+	error_t initialize(const config_t config);
 
 	virtual float getTemperature(void); // pure
 

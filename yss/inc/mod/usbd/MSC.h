@@ -32,7 +32,7 @@
 class Msc : public UsbClass
 {
 public :
-	error initialize(Usbd *usb);
+	error_t initialize(Usbd *usb);
 
 	virtual const DeviceDescriptor_t* getDeviceDescriptor(void);	// pure
 

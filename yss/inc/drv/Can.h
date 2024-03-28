@@ -97,7 +97,7 @@ class Can : public Drv
 	//		에러를 반환한다.
 	// config_t config
 	//		장치의 설정 값을 정의한 구조체이다.
-	error initialize(config_t config);
+	error_t initialize(config_t config);
 	
 	// 설정된 인덱스의 수신 필터를 비활성화 한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -106,7 +106,7 @@ class Can : public Drv
 	//		수신 필터를 정상적으로 비활성화 할 경우 true를 반환한다.
 	// uint8_t index
 	//		비활성화 할 필터의 번호를 설정한다.
-	error disableFilter(uint8_t index);
+	error_t disableFilter(uint8_t index);
 
 	// 설정된 인덱스의 수신 필터를 표준 CAN 전송 ID의 마스크 필터로 설정한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -119,7 +119,7 @@ class Can : public Drv
 	//		마스크할 패턴을 설정한다.
 	// uint16_t mask
 	//		id에 설정된 패턴을 수신 ID와 실제 비교할 비트의 마스킹을 설정한다.
-	error setStdMaskFilter(uint8_t index, uint16_t id, uint16_t mask);
+	error_t setStdMaskFilter(uint8_t index, uint16_t id, uint16_t mask);
 
 	// 설정된 인덱스의 수신 필터를 확장 CAN 전송 ID의 마스크 필터로 설정한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -132,7 +132,7 @@ class Can : public Drv
 	//		마스크할 패턴을 설정한다.
 	// uint16_t mask
 	//		id에 설정된 패턴을 수신 ID와 실제 비교할 비트의 마스킹을 설정한다.
-	error setExtMaskFilter(uint8_t index, uint32_t id, uint32_t mask);
+	error_t setExtMaskFilter(uint8_t index, uint32_t id, uint32_t mask);
 
 	// 설정된 인덱스의 수신 필터를 표준 CAN 전송의 ID 매치 필터로 설정한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -143,7 +143,7 @@ class Can : public Drv
 	//		설정을 적용할 필터의 번호를 설정한다.
 	// uint16_t id
 	//		수신할 ID를 설정한다.
-	error setStdMatchFilter(uint8_t index, uint16_t id);
+	error_t setStdMatchFilter(uint8_t index, uint16_t id);
 
 	// 설정된 인덱스의 수신 필터를 확장 CAN 전송의 ID 매치 필터로 설정한다.
 	// 수신 필터의 개수는 MCU마다 다르다.
@@ -154,7 +154,7 @@ class Can : public Drv
 	//		설정을 적용할 필터의 번호를 설정한다.
 	// uint16_t id
 	//		수신할 ID를 설정한다.
-	error setExtMatchFilter(uint8_t index, uint32_t id);
+	error_t setExtMatchFilter(uint8_t index, uint32_t id);
 	
 	// 데이터를 전송한다.
 	// 
@@ -162,7 +162,7 @@ class Can : public Drv
 	//		전송에 성공하면 true를 반환한다.
 	// CanFrame packet
 	//		전송할 데이터를 설정한다.
-	error send(CanFrame_t packet);
+	error_t send(CanFrame_t packet);
 
 	// 데이터를 전송한다.
 	// 
@@ -170,7 +170,7 @@ class Can : public Drv
 	//		전송에 성공하면 true를 반환한다.
 	// J1939Frame packet
 	//		전송할 데이터를 설정한다.
-	error send(J1939Frame_t packet);
+	error_t send(J1939Frame_t packet);
 	
 	// 발생한 전송 에러의 카운트를 얻는다.
 	//
@@ -217,7 +217,7 @@ class Can : public Drv
 	//
 	// void (*func)(void)
 	//		ISR 함수를 설정한다.
-	void setIsrForEvent(void (*func)(error code));
+	void setIsrForEvent(void (*func)(error_t code));
 
 	// 아래 함수들은 시스템 함수로 사용자 호출을 금한다.
 	struct setup_t
@@ -238,7 +238,7 @@ private :
 	uint32_t mHead, mTail, mRxBufferDepth;
 	YSS_CAN_TypeDef *mDev;
 
-	void (*mIsrForEvent)(error code);
+	void (*mIsrForEvent)(error_t code);
 
 	void push(CanFrame_t *frame);
 };

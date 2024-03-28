@@ -63,7 +63,7 @@ public :
 
 	Sdmmc(const Drv::setup_t &drvConfig, const Config &config);
 
-	error initialize(void);
+	error_t initialize(void);
 
 	void lock(void);
 
@@ -77,7 +77,7 @@ private :
 	uint8_t mBlockSize;
 
 protected:
-	virtual error sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
+	virtual error_t sendCmd(uint8_t cmd, uint32_t arg, uint8_t responseType);
 
 	virtual uint32_t getShortResponse(void);
 
@@ -97,9 +97,9 @@ protected:
 
 	virtual void setDataBlockSize(uint8_t blockSize);
 
-	virtual error waitUntilReadComplete(void);
+	virtual error_t waitUntilReadComplete(void);
 
-	virtual error waitUntilWriteComplete(void);
+	virtual error_t waitUntilWriteComplete(void);
 
 	virtual bool setBusWidth(uint8_t width);
 

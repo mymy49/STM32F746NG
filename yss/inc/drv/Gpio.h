@@ -64,7 +64,7 @@ typedef GPIO_TypeDef			YSS_GPIO_Peri;
 
 #elif defined(CPU_MIMXRT1011DAE5A)
 
-typedef GPIO_TypeDef			YSS_GPIO_Peri;
+typedef GPIO_Type				YSS_GPIO_Peri;
 #define GpioTargetHeaderFile	<targets/nxp/class_gpio_mimxrt.h>
 
 #else
