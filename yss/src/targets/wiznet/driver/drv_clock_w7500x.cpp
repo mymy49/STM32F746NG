@@ -33,13 +33,13 @@
 
 static uint32_t gHseFreq __attribute__((section(".non_init")));
 
-error Clock::enableOsc(uint32_t hseHz)
+error_t Clock::enableOsc(uint32_t hseHz)
 {
 	gHseFreq = hseHz;
 
 	CRG->OSC_PDR &= ~CRG_OSC_PDR_OSCPD;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 uint32_t Clock::getRclkFrequency(void)
@@ -100,12 +100,12 @@ uint32_t Clock::getFclkFrequency(void)
 	return clk >> (CRG->FCLK_PVSR & CRG_FCLK_PVSR_FCKPRE);
 }
 
-error Clock::setPllFrequency(pllSrc_t src, uint8_t m, uint8_t n, uint8_t od)
+error_t Clock::setPllFrequency(pllSrc_t src, uint8_t m, uint8_t n, uint8_t od)
 {
 	uint32_t clk, odVal;
 
 	if(2 > m || m > 63 || 1 > n || n > 63 || od > 3)
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 	
 	switch(src)
 	{
@@ -118,20 +118,20 @@ error Clock::setPllFrequency(pllSrc_t src, uint8_t m, uint8_t n, uint8_t od)
 		break;
 	
 	default :
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 	}
 
 	odVal = 1 << od;
 	clk = clk * m / n / odVal;
 
 	if(clk > 48000000)
-		return error::WRONG_CLOCK_FREQUENCY;
+		return error_t::WRONG_CLOCK_FREQUENCY;
 	
 	CRG->PLL_FCR = 2 << CRG_PLL_FCR_M_Pos | 2 << CRG_PLL_FCR_N_Pos | 0 << CRG_PLL_FCR_M_Pos;
 	CRG->PLL_IFSR = src;
 	CRG->PLL_FCR = m << CRG_PLL_FCR_M_Pos | n << CRG_PLL_FCR_N_Pos | od << CRG_PLL_FCR_M_Pos;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 #endif

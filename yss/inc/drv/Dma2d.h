@@ -118,7 +118,7 @@ class Dma2d : public Drv
 	void copyWithBlending(CopyConfig &config);
 	void drawCharacter(DrawCharConfig &config);
 
-	error waitUntilComplete(void);
+	error_t waitUntilComplete(void);
 
 	void isr(void);
 };

@@ -48,10 +48,10 @@ void Timer::initializeAsSystemRuntime(void)
 #endif
 }
 
-void Timer::initialize(uint32_t psc, uint32_t arr)
+void Timer::initialize(uint32_t psc, uint32_t top)
 {
 	mDev->PSC = (uint16_t)psc;
-	mDev->ARR = (uint16_t)arr;
+	mDev->ARR = (uint16_t)top;
 	setBitData(mDev->DIER, true, TIM_DIER_UIE_Pos);	// Update Interrupt Enable
 }
 

@@ -48,26 +48,26 @@ Bmp888Buffer::~Bmp888Buffer(void)
 		delete mFrameBuffer;
 }
 
-error Bmp888Buffer::setSize(uint16_t width, uint16_t height)
+error_t Bmp888Buffer::setSize(uint16_t width, uint16_t height)
 {
 	if (mBufferSize < width * height * 3)
-		return error::OVERSIZE;
+		return error_t::OVERSIZE;
 
 	mOkFlag = true;
 	mBmp888.width = width;
 	mBmp888.height = height;
 	mSize = Size_t{width, height};
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Bmp888Buffer::setSize(Size_t size)
+error_t Bmp888Buffer::setSize(Size_t size)
 {
 	mBmp888.width = size.width;
 	mBmp888.height = size.height;
 	mSize = size;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 Bitmap_t *Bmp888Buffer::getBitmap(void)

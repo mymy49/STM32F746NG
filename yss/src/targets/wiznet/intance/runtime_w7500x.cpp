@@ -23,13 +23,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
+#if defined(W7500)
+
 #include <config.h>
 #include <yss/instance.h>
 #include <util/runtime.h>
 #include <drv/peripheral.h>
 #include <targets/wiznet/bitfield_w7500x.h>
-
-#if defined(W7500)
 
 #define TOP				0xFFFFFFFF
 
@@ -139,7 +139,7 @@ void initializeSystemTime(void)
 	RUNTIME_DEV->PDMR = PWM_CHn_PDMR_PDM;
 	RUNTIME_DEV->MR = TOP/2;
 	RUNTIME_DEV->LR = TOP;
-	RUNTIME_DEV->PR = clk / 1000000;
+	RUNTIME_DEV->PR = clk / 1000000 - 1;
 	RUNTIME_DEV->IER = PWM_CHn_IER_MIE | PWM_CHn_IER_OIE;
 
 	PWM->SSR |= 1 << YSS_TIMER;

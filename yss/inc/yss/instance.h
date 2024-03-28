@@ -95,6 +95,10 @@ extern Nvic nvic;
 
 #include <targets/wiznet/instance_w7500x.h>
 
+#elif defined(CPU_MIMXRT1011DAE5A)
+
+#include <targets/nxp/instance_mimxrt1011.h>
+
 #endif
 
 #endif

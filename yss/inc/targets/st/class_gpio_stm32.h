@@ -40,11 +40,11 @@ public:
 	//		출력으로 변경할 핀의 번호를 설정한다.
 	// uint8_t otype
 	//		출력핀의 출력 타입을 설정한다. enum OTYPE을 사용한다.
-	error setAsOutput(uint8_t pin, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
+	error_t setAsOutput(uint8_t pin, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
 
 	void setPackageAsAltFunc(AltFunc *altport, uint8_t numOfPort, uint8_t ospeed, uint8_t otype);
 
-	error setAsAltFunc(uint8_t pin, uint16_t altFunc, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
+	error_t setAsAltFunc(uint8_t pin, uint16_t altFunc, uint8_t ospeed = define::gpio::ospeed::MID, uint8_t otype = define::gpio::otype::PUSH_PULL);
 
 	void setAsInput(uint8_t pin, uint8_t pullUpDown = define::gpio::pupd::NONE);
 

@@ -41,15 +41,15 @@ void Dma2d::initialize(void)
 
 }
 
-error Dma2d::waitUntilComplete(void)
+error_t Dma2d::waitUntilComplete(void)
 {
 	while(!mCompleteFlag && !mErrorFlag)
 		thread::yield();
 
 	if(mCompleteFlag)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
 void Dma2d::fill(FillConfig &config)

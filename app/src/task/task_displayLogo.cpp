@@ -66,7 +66,7 @@ private :
 
 namespace Task
 {
-	error displayLogo(FunctionQueue *obj)
+	error_t displayLogo(FunctionQueue *obj)
 	{
 		(void)obj;
 		
@@ -89,7 +89,7 @@ namespace Task
 		
 		unlock();
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 }
 

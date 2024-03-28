@@ -65,7 +65,7 @@ namespace Task
 	//
 	// 반환
 	//		발생한 에러를 반환한다.
-	error displayLogo(FunctionQueue *obj);
+	error_t displayLogo(FunctionQueue *obj);
 
 // task_hadleMainPage.cpp
 	
@@ -73,7 +73,7 @@ namespace Task
 	//
 	// 반환
 	//		발생한 에러를 반환한다.
-	error handleMainPage(FunctionQueue *obj);
+	error_t handleMainPage(FunctionQueue *obj);
 
 // task_handleInfoPage.cpp
 	
@@ -81,7 +81,7 @@ namespace Task
 	//
 	// 반환
 	//		발생한 에러를 반환한다.
-	error handleInfoPage(FunctionQueue *obj);
+	error_t handleInfoPage(FunctionQueue *obj);
 
 // task_handleImagePage.cpp
 
@@ -89,7 +89,7 @@ namespace Task
 	//
 	// 반환
 	//		발생한 에러를 반환한다.
-	error handleImagePage(FunctionQueue *obj);
+	error_t handleImagePage(FunctionQueue *obj);
 }
 
 #endif

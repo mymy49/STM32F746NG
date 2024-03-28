@@ -43,10 +43,10 @@ void Gpio::setExti(uint8_t pin)
 	setFieldData(SYSCFG->EXTICR[pin / 4], 0xF << field, mExti, field);
 }
 
-error Gpio::setAsAltFunc(uint8_t pin, uint16_t altFunc, uint8_t ospeed, uint8_t otype)
+error_t Gpio::setAsAltFunc(uint8_t pin, uint16_t altFunc, uint8_t ospeed, uint8_t otype)
 {
 	if(pin > 15)
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 
 	uint8_t pinOffset = pin * 2;
 
@@ -56,7 +56,7 @@ error Gpio::setAsAltFunc(uint8_t pin, uint16_t altFunc, uint8_t ospeed, uint8_t 
 	pinOffset = (pin % 0x8) * 4;
 	setFieldData(mDev->AFR[pin / 8], 0xF << pinOffset, altFunc, pinOffset);
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 void Gpio::setAsInput(uint8_t pin, uint8_t pullUpDown)
@@ -87,10 +87,10 @@ void Gpio::setPackageAsAltFunc(AltFunc *altport, uint8_t numOfPort, uint8_t ospe
 	}
 }
 
-error Gpio::setAsOutput(uint8_t pin, uint8_t ospeed, uint8_t otype)
+error_t Gpio::setAsOutput(uint8_t pin, uint8_t ospeed, uint8_t otype)
 {
 	if(pin > 15)
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 
 	uint8_t pinOffset = pin * 2;
 
@@ -98,7 +98,7 @@ error Gpio::setAsOutput(uint8_t pin, uint8_t ospeed, uint8_t otype)
 	setBitData(mDev->OTYPER, otype, pin);
 	setFieldData(mDev->OSPEEDR, 0x3 << pinOffset, ospeed, pinOffset);
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 void Gpio::setOutput(uint8_t pin, bool data)

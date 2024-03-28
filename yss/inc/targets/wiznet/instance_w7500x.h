@@ -31,28 +31,30 @@
 extern Clock clock;
 
 extern Gpio gpioA;
-
 extern Gpio gpioB;
-
 extern Gpio gpioC;
-
 extern Gpio gpioD;
 
+extern PwmCh1 pwm0;
+extern PwmCh1 pwm1;
+extern PwmCh1 pwm2;
+extern PwmCh1 pwm3;
+extern PwmCh1 pwm4;
+extern PwmCh1 pwm5;
+extern PwmCh1 pwm6;
+extern PwmCh1 pwm7;
+
 extern Timer timer0;
-
 extern Timer timer1;
-
 extern Timer timer2;
-
 extern Timer timer3;
-
 extern Timer timer4;
-
 extern Timer timer5;
-
 extern Timer timer6;
-
 extern Timer timer7;
+
+extern Uart uart0;
+extern Uart uart1;
 
 #endif
 

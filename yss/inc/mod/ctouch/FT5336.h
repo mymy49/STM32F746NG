@@ -41,11 +41,11 @@ public :
 		Gpio::Pin resetPin;
 	};
 
-	error initialize(const Config config);
+	error_t initialize(const Config config);
 
 	int8_t getByte(int8_t addr);
 
-	error getMultiByte(int8_t addr, uint8_t *des, uint8_t size);
+	error_t getMultiByte(int8_t addr, uint8_t *des, uint8_t size);
 
 	void isr(void);
 

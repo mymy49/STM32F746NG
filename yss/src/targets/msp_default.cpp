@@ -44,9 +44,13 @@ extern uint32_t gApb2ClockFrequency;
 
 extern "C"
 {
+#if defined(CPU_MIMXRT1011DAE5A)
+	void SystemInitHook(void)
+#else
 	void SystemInit(void)
+#endif
 	{
-		// STM32 Cube IDE에서 FPU 초기화에 사용된다.
+		// STM32 Cube IDE에서 FPU 초기화에 사용됩니다.
 #if defined(ST_CUBE_IDE) && (__FPU_PRESENT == 1) && (__FPU_USED == 1)
 		SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
 #endif

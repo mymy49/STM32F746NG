@@ -45,6 +45,8 @@
 #define IncludeSubClassHeader	<targets/maxim/max32672/class_clock_max32672.h>
 #elif defined(W7500)
 #include <targets/wiznet/class_clock_w7500x.h>
+#elif defined(CPU_MIMXRT1011DAE5A)
+#include <targets/nxp/class_clock_mimxrt.h>
 #else
 #define YSS_DRV_CLOCK_UNSUPPORTED
 
@@ -59,7 +61,7 @@ class Clock
 
 #ifndef YSS_DRV_CLOCK_UNSUPPORTED
 
-#if defined(STM32G4) || defined(STM32F7) || defined(STM32F4) || defined(W7500)
+#if defined(STM32G4) || defined(STM32F7) || defined(STM32F4) || defined(W7500) || defined(CPU_MIMXRT1011DAE5A)
 
 #else
 class ClockBase : public Mutex

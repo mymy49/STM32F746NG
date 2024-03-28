@@ -31,7 +31,7 @@ SF_TC240T_9370_T::SF_TC240T_9370_T(void)
 {
 }
 
-error SF_TC240T_9370_T::initialize(void)
+error_t SF_TC240T_9370_T::initialize(void)
 {
 	enable();
 
@@ -114,7 +114,7 @@ error SF_TC240T_9370_T::initialize(void)
 
 	disable();
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
 static const Ltdc::specification_t gSpec =

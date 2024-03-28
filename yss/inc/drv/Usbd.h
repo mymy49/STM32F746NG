@@ -50,7 +50,7 @@ public :
 		uint16_t ep0RxBuffSize;
 	};
 
-	error initialize(const config_t confg);
+	error_t initialize(const config_t confg);
 
 	struct setup_t
 	{

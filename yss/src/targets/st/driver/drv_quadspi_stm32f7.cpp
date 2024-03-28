@@ -52,27 +52,27 @@ Quadspi::Quadspi(const Drv::setup_t drvSetup, const setup_t setup) : Drv(drvSetu
 	mWaveform = 0;
 }
 
-error Quadspi::initialize(void)
+error_t Quadspi::initialize(void)
 {
 	setBitData(mDev->CR, true, QUADSPI_CR_DMAEN_Pos);
 	setBitData(mDev->CR, true, QUADSPI_CR_APMS_Pos);
 	
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Quadspi::setSpecification(const specification_t &spec)
+error_t Quadspi::setSpecification(const specification_t &spec)
 {
 	// 장치가 활성화되어 있으면 에러
 	if(getBitData(mDev->CR, QUADSPI_CR_EN_Pos))
-		return error::BUSY;
+		return error_t::BUSY;
 	
 	// 이전 사양과 같으면 바꿀 필요 없음
 	if(mSpec == &spec)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 
 	uint32_t prescaler = getClockFrequency() / spec.maxFrequncy;
 	if(prescaler > 255)
-		return error::WRONG_CLOCK_FREQUENCY;
+		return error_t::WRONG_CLOCK_FREQUENCY;
 
 	setFieldData(mDev->CR, QUADSPI_CR_PRESCALER_Msk, prescaler, QUADSPI_CR_PRESCALER_Pos);
 	setBitData(mDev->CR, spec.sampleShift, QUADSPI_CR_SSHIFT_Pos);
@@ -82,10 +82,10 @@ error Quadspi::setSpecification(const specification_t &spec)
 	
 	mSpec = &spec;
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Quadspi::setWaveform(const Waveform_t &waveform)
+error_t Quadspi::setWaveform(const Waveform_t &waveform)
 {
 	if(&waveform != mWaveform)
 	{
@@ -100,30 +100,30 @@ error Quadspi::setWaveform(const Waveform_t &waveform)
 				(waveform.dataMode << QUADSPI_CCR_DMODE_Pos);
 	}
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Quadspi::setBank(uint8_t bank)
+error_t Quadspi::setBank(uint8_t bank)
 {
 	// 장치가 활성화되어 있으면 에러
 	if(getBitData(mDev->CR, QUADSPI_CR_EN_Pos))
-		return error::BUSY;
+		return error_t::BUSY;
 	
 	setBitData(mDev->CR, (bool)bank, QUADSPI_CR_FSEL_Pos);
 
-	return error::ERROR_NONE;
+	return error_t::ERROR_NONE;
 }
 
-error Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t timeout)
+error_t Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t timeout)
 {
-	error result;
+	error_t result;
 	Timeout tout(timeout);
 
 	if(mRxDma == 0)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 
 	if(size == 0)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 
 	if(mWaveform && mSpec)
 	{
@@ -136,24 +136,24 @@ error Quadspi::readRegister(uint8_t cmd, void *des, uint32_t size, uint32_t time
 		result = mRxDma->transfer(mRxDmaInfo, des, size);
 		mRxDma->unlock();
 
-		if(result != error::ERROR_NONE)
+		if(result != error_t::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
 		{
 			if(tout.isTimeout())
-				return error::TIMEOUT;
+				return error_t::TIMEOUT;
 
 			thread::yield();
 		}
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
-error Quadspi::writeCommand(unsigned char cmd)
+error_t Quadspi::writeCommand(unsigned char cmd)
 {
 	if(mWaveform && mSpec)
 	{
@@ -166,18 +166,18 @@ error Quadspi::writeCommand(unsigned char cmd)
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
 			thread::yield();
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
-error Quadspi::wait(uint8_t cmd, uint32_t mask, uint32_t status, uint8_t size, uint8_t pollingMatchMode, uint32_t timeOut)
+error_t Quadspi::wait(uint8_t cmd, uint32_t mask, uint32_t status, uint8_t size, uint8_t pollingMatchMode, uint32_t timeOut)
 {
 	Timeout timeout(timeOut);
 
 	if(size == 0 || size >= 4)
-		return error::WRONG_SIZE;
+		return error_t::WRONG_SIZE;
 
 	if(mWaveform && mSpec)
 	{
@@ -194,25 +194,25 @@ error Quadspi::wait(uint8_t cmd, uint32_t mask, uint32_t status, uint8_t size, u
 		while(!getBitData(mDev->SR, QUADSPI_SR_SMF_Pos))
 		{
 			if(timeout.isTimeout())
-				return error::TIMEOUT;
+				return error_t::TIMEOUT;
 
 			thread::yield();
 		}
 
 		if(getBitData(mDev->SR, QUADSPI_SR_SMF_Pos))
-			return error::ERROR_NONE;
+			return error_t::ERROR_NONE;
 		else
 		{
 			enable(false);
 			enable(true);
-			return error::TIMEOUT;
+			return error_t::TIMEOUT;
 		}
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
-error Quadspi::writeAddress(uint8_t cmd, uint32_t addr)
+error_t Quadspi::writeAddress(uint8_t cmd, uint32_t addr)
 {
 	if(mWaveform && mSpec)
 	{
@@ -225,22 +225,22 @@ error Quadspi::writeAddress(uint8_t cmd, uint32_t addr)
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
 			thread::yield();
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
-error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint32_t timeout)
+error_t Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint32_t timeout)
 {
 	Timeout tout(timeout);
-	error result;
+	error_t result;
 
 	if(mTxDma == 0)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 
 	if(size == 0)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 
 	if(mWaveform && mSpec)
 	{
@@ -255,33 +255,33 @@ error Quadspi::write(uint8_t cmd, uint32_t addr, void *src, uint32_t size, uint3
 		result = mTxDma->transfer(mTxDmaInfo, src, size);
 		mTxDma->unlock();
 
-		if(result != error::ERROR_NONE)
+		if(result != error_t::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
 		{
 			if(tout.isTimeout())
-				return error::TIMEOUT;
+				return error_t::TIMEOUT;
 
 			thread::yield();
 		}
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
-error Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32_t timeout)
+error_t Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32_t timeout)
 {
-	error result;
+	error_t result;
 	Timeout tout(timeout);
 
 	if(mRxDma == 0)
-		return error::DMA_ERROR;
+		return error_t::DMA_ERROR;
 
 	if(size == 0)
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 
 	if(mWaveform && mSpec)
 	{
@@ -296,21 +296,21 @@ error Quadspi::read(uint8_t cmd, uint32_t addr, void *des, uint32_t size, uint32
 		result = mTxDma->transfer(mTxDmaInfo, des, size);
 		mTxDma->unlock();
 
-		if(result != error::ERROR_NONE)
+		if(result != error_t::ERROR_NONE)
 			return result;
 
 		while(getBitData(mDev->SR, QUADSPI_SR_BUSY_Pos))
 		{
 			if(tout.isTimeout())
-				return error::TIMEOUT;
+				return error_t::TIMEOUT;
 
 			thread::yield();
 		}
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 	else
-		return error::WRONG_CONFIG;
+		return error_t::WRONG_CONFIG;
 }
 
 void Quadspi::enable(bool en)

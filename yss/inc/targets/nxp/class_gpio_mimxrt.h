@@ -81,19 +81,19 @@ public:
 	// 아래 함수들은 시스템 함수로 사용자 호출을 금한다.
 	struct setup_t
 	{
-		YSS_GPIO_Peri *dev;
-		PORTX_TypeDef *afc;
-		PORTX_TypeDef *padcon;
-		const int8_t *outputAf;
+		//YSS_GPIO_Peri *dev;
+		//PORTX_TypeDef *afc;
+		//PORTX_TypeDef *padcon;
+		//const int8_t *outputAf;
 	};
 
 	Gpio(const Drv::setup_t drvSetup, const setup_t setup);
 
 private:
 	YSS_GPIO_Peri *mDev;
-	PORTX_TypeDef *mAfc;
-	PORTX_TypeDef *mPadcon;
-	const int8_t *mOutputAf;
+	//PORTX_TypeDef *mAfc;
+	//PORTX_TypeDef *mPadcon;
+	//const int8_t *mOutputAf;
 };
 
 #endif

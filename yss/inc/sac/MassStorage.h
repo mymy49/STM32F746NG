@@ -37,9 +37,9 @@ public :
 
 	virtual uint32_t getNumOfBlock(void) = 0;
 
-	virtual error write(uint32_t block, void *src) = 0;
+	virtual error_t write(uint32_t block, void *src) = 0;
 
-	virtual error read(uint32_t block, void *des) = 0;
+	virtual error_t read(uint32_t block, void *des) = 0;
 
 	virtual bool isConnected(void) = 0;
 };

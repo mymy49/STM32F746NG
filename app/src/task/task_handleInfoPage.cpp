@@ -86,7 +86,7 @@ namespace Task
 		fq.unlock();
 	}
 
-	error handleInfoPage(FunctionQueue *obj)
+	error_t handleInfoPage(FunctionQueue *obj)
 	{
 		(void)obj;
 
@@ -107,7 +107,7 @@ namespace Task
 
 		unlock();	// 외부에서 강제로 종료가 가능하다.
 
-		return error::ERROR_NONE;
+		return error_t::ERROR_NONE;
 	}
 }
 

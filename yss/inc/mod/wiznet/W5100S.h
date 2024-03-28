@@ -88,9 +88,9 @@ class W5100S : public W5100
 
 	bool setSocketInterruptEnable(uint8_t socketNumber, bool enable);
 
-	error sendSocketData(uint8_t socketNumber, void *src, uint16_t count);
+	error_t sendSocketData(uint8_t socketNumber, void *src, uint16_t count);
 
-	error receiveSocketData(uint8_t socketNumber, void *des, uint16_t count);
+	error_t receiveSocketData(uint8_t socketNumber, void *des, uint16_t count);
 
 	uint16_t getTxFreeBufferSize(uint8_t socketNumber);
 

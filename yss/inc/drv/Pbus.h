@@ -57,14 +57,14 @@ public:
 	//
 	// 반환
 	//		에러를 반환한다.
-	error initialize(void);
+	error_t initialize(void);
 
 	// Pbus 장치의 전송 세부 사항을 설정한다. 
 	// 세부 설정 사항은 구조체 specification_t를 사용한다.
 	// 
 	// 반환
 	//		에러를 반환한다.
-	error setSpecification(const specification_t &spec);
+	error_t setSpecification(const specification_t &spec);
 
 	// 아래 함수는 시스템 함수로 사용자 호출을 금한다.
 	Pbus(const Drv::setup_t drvSetup);
